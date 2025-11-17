@@ -1,0 +1,2174 @@
+{
+  "timestamp": "2025-11-17T09:22:03.576130",
+  "duration_seconds": 82.777654,
+  "total_labs": 14,
+  "total_tests": 76,
+  "total_passed": 50,
+  "total_failed": 26,
+  "overall_pass_rate": 65.78947368421053,
+  "lab_results": [
+    {
+      "lab_number": 1,
+      "lab_name": "Review of Search Basics",
+      "total_tests": 19,
+      "passed": 16,
+      "failed": 3,
+      "pass_rate": 84.21052631578947,
+      "results": [
+        {
+          "test_name": "Simple keyword search (error)",
+          "lab_number": 1,
+          "passed": false,
+          "error_message": "Expected at least 1 results, got 0",
+          "query": "error",
+          "result_count": 0,
+          "execution_time": 1.063938856124878,
+          "details": {}
+        },
+        {
+          "test_name": "Wildcard search (error*)",
+          "lab_number": 1,
+          "passed": false,
+          "error_message": "Expected at least 1 results, got 0",
+          "query": "error*",
+          "result_count": 0,
+          "execution_time": 1.0426030158996582,
+          "details": {}
+        },
+        {
+          "test_name": "Boolean AND (error AND failed)",
+          "lab_number": 1,
+          "passed": true,
+          "error_message": null,
+          "query": "error AND failed",
+          "result_count": 0,
+          "execution_time": 1.0342631340026855,
+          "details": {
+            "result_count": 0,
+            "execution_time": 1.0342631340026855,
+            "sample_results": []
+          }
+        },
+        {
+          "test_name": "Boolean OR (error OR failed)",
+          "lab_number": 1,
+          "passed": false,
+          "error_message": "Expected at least 1 results, got 0",
+          "query": "error OR failed",
+          "result_count": 0,
+          "execution_time": 1.0279719829559326,
+          "details": {}
+        },
+        {
+          "test_name": "Boolean NOT (error NOT warning)",
+          "lab_number": 1,
+          "passed": true,
+          "error_message": null,
+          "query": "error NOT warning",
+          "result_count": 0,
+          "execution_time": 1.026224136352539,
+          "details": {
+            "result_count": 0,
+            "execution_time": 1.026224136352539,
+            "sample_results": []
+          }
+        },
+        {
+          "test_name": "Fields command",
+          "lab_number": 1,
+          "passed": true,
+          "error_message": null,
+          "query": "index=web | fields host, source, sourcetype | head 10",
+          "result_count": 10,
+          "execution_time": 1.0394299030303955,
+          "details": {
+            "result_count": 10,
+            "execution_time": 1.0394299030303955,
+            "sample_results": [
+              {
+                "host": "course-data",
+                "source": "http:course_hec",
+                "sourcetype": "access_combined",
+                "_bkt": "web~0~DB1CB23B-E985-4F83-8890-F22566C5CD49",
+                "_cd": "0:641838",
+                "_indextime": "1763367687",
+                "_raw": "{\"src_ip\": \"95.141.118.142\", \"user\": \"user0324\", \"method\": \"DELETE\", \"url\": \"/about\", \"status\": 200, \"bytes\": 39081, \"referer\": null, \"user_agent\": \"Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36\", \"response_time\": 357}",
+                "_serial": "0",
+                "_si": [
+                  "362edf7a7e2a",
+                  "web"
+                ],
+                "_sourcetype": "access_combined",
+                "_time": "2025-10-18T20:02:11.000+00:00"
+              },
+              {
+                "host": "course-data",
+                "source": "http:course_hec",
+                "sourcetype": "access_combined",
+                "_bkt": "web~0~DB1CB23B-E985-4F83-8890-F22566C5CD49",
+                "_cd": "0:467183",
+                "_indextime": "1763367687",
+                "_raw": "{\"src_ip\": \"128.44.47.118\", \"user\": \"user0150\", \"method\": \"DELETE\", \"url\": \"/api/products\", \"status\": 404, \"bytes\": 25194, \"referer\": null, \"user_agent\": \"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36\", \"response_time\": 1332}",
+                "_serial": "1",
+                "_si": [
+                  "362edf7a7e2a",
+                  "web"
+                ],
+                "_sourcetype": "access_combined",
+                "_time": "2025-10-18T20:02:11.000+00:00"
+              },
+              {
+                "host": "course-data",
+                "source": "http:course_hec",
+                "sourcetype": "access_combined",
+                "_bkt": "web~0~DB1CB23B-E985-4F83-8890-F22566C5CD49",
+                "_cd": "0:282895",
+                "_indextime": "1763367686",
+                "_raw": "{\"src_ip\": \"67.106.227.32\", \"user\": null, \"method\": \"PUT\", \"url\": \"/api/reports\", \"status\": 200, \"bytes\": 6596, \"referer\": null, \"user_agent\": \"Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36\", \"response_time\": 308}",
+                "_serial": "2",
+                "_si": [
+                  "362edf7a7e2a",
+                  "web"
+                ],
+                "_sourcetype": "access_combined",
+                "_time": "2025-10-18T20:02:10.000+00:00"
+              }
+            ]
+          }
+        },
+        {
+          "test_name": "Filter by field value (status=404)",
+          "lab_number": 1,
+          "passed": true,
+          "error_message": null,
+          "query": "index=web status=404 | head 10",
+          "result_count": 10,
+          "execution_time": 1.0286178588867188,
+          "details": {
+            "result_count": 10,
+            "execution_time": 1.0286178588867188,
+            "sample_results": [
+              {
+                "_bkt": "web~0~DB1CB23B-E985-4F83-8890-F22566C5CD49",
+                "_cd": "0:467183",
+                "_indextime": "1763367687",
+                "_raw": "{\"src_ip\": \"128.44.47.118\", \"user\": \"user0150\", \"method\": \"DELETE\", \"url\": \"/api/products\", \"status\": 404, \"bytes\": 25194, \"referer\": null, \"user_agent\": \"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36\", \"response_time\": 1332}",
+                "_serial": "0",
+                "_si": [
+                  "362edf7a7e2a",
+                  "web"
+                ],
+                "_sourcetype": "access_combined",
+                "_time": "2025-10-18T20:02:11.000+00:00",
+                "host": "course-data",
+                "index": "web",
+                "linecount": "1",
+                "source": "http:course_hec",
+                "sourcetype": "access_combined",
+                "splunk_server": "362edf7a7e2a",
+                "status": "404"
+              },
+              {
+                "_bkt": "web~0~DB1CB23B-E985-4F83-8890-F22566C5CD49",
+                "_cd": "0:288144",
+                "_indextime": "1763367686",
+                "_raw": "{\"src_ip\": \"1.253.18.104\", \"user\": null, \"method\": \"GET\", \"url\": \"/products\", \"status\": 404, \"bytes\": 47557, \"referer\": null, \"user_agent\": \"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36\", \"response_time\": 325}",
+                "_serial": "1",
+                "_si": [
+                  "362edf7a7e2a",
+                  "web"
+                ],
+                "_sourcetype": "access_combined",
+                "_time": "2025-10-18T20:01:55.000+00:00",
+                "host": "course-data",
+                "index": "web",
+                "linecount": "1",
+                "source": "http:course_hec",
+                "sourcetype": "access_combined",
+                "splunk_server": "362edf7a7e2a",
+                "status": "404"
+              },
+              {
+                "_bkt": "web~0~DB1CB23B-E985-4F83-8890-F22566C5CD49",
+                "_cd": "0:278761",
+                "_indextime": "1763367686",
+                "_raw": "{\"src_ip\": \"244.45.240.89\", \"user\": \"user0168\", \"method\": \"PUT\", \"url\": \"/api/settings\", \"status\": 404, \"bytes\": 4257, \"referer\": null, \"user_agent\": \"Mozilla/5.0 (iPhone; CPU iPhone OS 14_0 like Mac OS X) AppleWebKit/605.1.15\", \"response_time\": 339}",
+                "_serial": "2",
+                "_si": [
+                  "362edf7a7e2a",
+                  "web"
+                ],
+                "_sourcetype": "access_combined",
+                "_time": "2025-10-18T20:01:46.000+00:00",
+                "host": "course-data",
+                "index": "web",
+                "linecount": "1",
+                "source": "http:course_hec",
+                "sourcetype": "access_combined",
+                "splunk_server": "362edf7a7e2a",
+                "status": "404"
+              }
+            ]
+          }
+        },
+        {
+          "test_name": "Field range filter (status>=400 status<500)",
+          "lab_number": 1,
+          "passed": true,
+          "error_message": null,
+          "query": "index=web status>=400 status<500 | head 10",
+          "result_count": 10,
+          "execution_time": 1.0295920372009277,
+          "details": {
+            "result_count": 10,
+            "execution_time": 1.0295920372009277,
+            "sample_results": [
+              {
+                "_bkt": "web~0~DB1CB23B-E985-4F83-8890-F22566C5CD49",
+                "_cd": "0:467183",
+                "_indextime": "1763367687",
+                "_raw": "{\"src_ip\": \"128.44.47.118\", \"user\": \"user0150\", \"method\": \"DELETE\", \"url\": \"/api/products\", \"status\": 404, \"bytes\": 25194, \"referer\": null, \"user_agent\": \"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36\", \"response_time\": 1332}",
+                "_serial": "0",
+                "_si": [
+                  "362edf7a7e2a",
+                  "web"
+                ],
+                "_sourcetype": "access_combined",
+                "_time": "2025-10-18T20:02:11.000+00:00",
+                "host": "course-data",
+                "index": "web",
+                "linecount": "1",
+                "source": "http:course_hec",
+                "sourcetype": "access_combined",
+                "splunk_server": "362edf7a7e2a",
+                "status": "404"
+              },
+              {
+                "_bkt": "web~0~DB1CB23B-E985-4F83-8890-F22566C5CD49",
+                "_cd": "0:202781",
+                "_indextime": "1763367686",
+                "_raw": "{\"src_ip\": \"229.16.2.61\", \"user\": \"user0400\", \"method\": \"PATCH\", \"url\": \"/api/analytics\", \"status\": 400, \"bytes\": 20775, \"referer\": null, \"user_agent\": \"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36\", \"response_time\": 1477}",
+                "_serial": "1",
+                "_si": [
+                  "362edf7a7e2a",
+                  "web"
+                ],
+                "_sourcetype": "access_combined",
+                "_time": "2025-10-18T20:02:09.000+00:00",
+                "host": "course-data",
+                "index": "web",
+                "linecount": "1",
+                "source": "http:course_hec",
+                "sourcetype": "access_combined",
+                "splunk_server": "362edf7a7e2a",
+                "status": "400"
+              },
+              {
+                "_bkt": "web~0~DB1CB23B-E985-4F83-8890-F22566C5CD49",
+                "_cd": "0:347826",
+                "_indextime": "1763367686",
+                "_raw": "{\"src_ip\": \"69.32.190.163\", \"user\": null, \"method\": \"POST\", \"url\": \"/api/products\", \"status\": 401, \"bytes\": 36441, \"referer\": null, \"user_agent\": \"Mozilla/5.0 (iPhone; CPU iPhone OS 14_0 like Mac OS X) AppleWebKit/605.1.15\", \"response_time\": 355}",
+                "_serial": "2",
+                "_si": [
+                  "362edf7a7e2a",
+                  "web"
+                ],
+                "_sourcetype": "access_combined",
+                "_time": "2025-10-18T20:02:02.000+00:00",
+                "host": "course-data",
+                "index": "web",
+                "linecount": "1",
+                "source": "http:course_hec",
+                "sourcetype": "access_combined",
+                "splunk_server": "362edf7a7e2a",
+                "status": "401"
+              }
+            ]
+          }
+        },
+        {
+          "test_name": "Where command (status=404)",
+          "lab_number": 1,
+          "passed": true,
+          "error_message": null,
+          "query": "index=web | where status=404 | head 10",
+          "result_count": 10,
+          "execution_time": 1.0202569961547852,
+          "details": {
+            "result_count": 10,
+            "execution_time": 1.0202569961547852,
+            "sample_results": [
+              {
+                "_bkt": "web~0~DB1CB23B-E985-4F83-8890-F22566C5CD49",
+                "_cd": "0:467183",
+                "_indextime": "1763367687",
+                "_raw": "{\"src_ip\": \"128.44.47.118\", \"user\": \"user0150\", \"method\": \"DELETE\", \"url\": \"/api/products\", \"status\": 404, \"bytes\": 25194, \"referer\": null, \"user_agent\": \"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36\", \"response_time\": 1332}",
+                "_serial": "1",
+                "_si": [
+                  "362edf7a7e2a",
+                  "web"
+                ],
+                "_sourcetype": "access_combined",
+                "_time": "2025-10-18T20:02:11.000+00:00",
+                "host": "course-data",
+                "index": "web",
+                "linecount": "1",
+                "source": "http:course_hec",
+                "sourcetype": "access_combined",
+                "splunk_server": "362edf7a7e2a",
+                "status": "404"
+              },
+              {
+                "_bkt": "web~0~DB1CB23B-E985-4F83-8890-F22566C5CD49",
+                "_cd": "0:288144",
+                "_indextime": "1763367686",
+                "_raw": "{\"src_ip\": \"1.253.18.104\", \"user\": null, \"method\": \"GET\", \"url\": \"/products\", \"status\": 404, \"bytes\": 47557, \"referer\": null, \"user_agent\": \"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36\", \"response_time\": 325}",
+                "_serial": "24",
+                "_si": [
+                  "362edf7a7e2a",
+                  "web"
+                ],
+                "_sourcetype": "access_combined",
+                "_time": "2025-10-18T20:01:55.000+00:00",
+                "host": "course-data",
+                "index": "web",
+                "linecount": "1",
+                "source": "http:course_hec",
+                "sourcetype": "access_combined",
+                "splunk_server": "362edf7a7e2a",
+                "status": "404"
+              },
+              {
+                "_bkt": "web~0~DB1CB23B-E985-4F83-8890-F22566C5CD49",
+                "_cd": "0:278761",
+                "_indextime": "1763367686",
+                "_raw": "{\"src_ip\": \"244.45.240.89\", \"user\": \"user0168\", \"method\": \"PUT\", \"url\": \"/api/settings\", \"status\": 404, \"bytes\": 4257, \"referer\": null, \"user_agent\": \"Mozilla/5.0 (iPhone; CPU iPhone OS 14_0 like Mac OS X) AppleWebKit/605.1.15\", \"response_time\": 339}",
+                "_serial": "39",
+                "_si": [
+                  "362edf7a7e2a",
+                  "web"
+                ],
+                "_sourcetype": "access_combined",
+                "_time": "2025-10-18T20:01:46.000+00:00",
+                "host": "course-data",
+                "index": "web",
+                "linecount": "1",
+                "source": "http:course_hec",
+                "sourcetype": "access_combined",
+                "splunk_server": "362edf7a7e2a",
+                "status": "404"
+              }
+            ]
+          }
+        },
+        {
+          "test_name": "Where with AND logic",
+          "lab_number": 1,
+          "passed": true,
+          "error_message": null,
+          "query": "index=web | where status > 400 AND status < 500 | head 10",
+          "result_count": 10,
+          "execution_time": 1.0278911590576172,
+          "details": {
+            "result_count": 10,
+            "execution_time": 1.0278911590576172,
+            "sample_results": [
+              {
+                "_bkt": "web~0~DB1CB23B-E985-4F83-8890-F22566C5CD49",
+                "_cd": "0:467183",
+                "_indextime": "1763367687",
+                "_raw": "{\"src_ip\": \"128.44.47.118\", \"user\": \"user0150\", \"method\": \"DELETE\", \"url\": \"/api/products\", \"status\": 404, \"bytes\": 25194, \"referer\": null, \"user_agent\": \"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36\", \"response_time\": 1332}",
+                "_serial": "1",
+                "_si": [
+                  "362edf7a7e2a",
+                  "web"
+                ],
+                "_sourcetype": "access_combined",
+                "_time": "2025-10-18T20:02:11.000+00:00",
+                "host": "course-data",
+                "index": "web",
+                "linecount": "1",
+                "source": "http:course_hec",
+                "sourcetype": "access_combined",
+                "splunk_server": "362edf7a7e2a",
+                "status": "404"
+              },
+              {
+                "_bkt": "web~0~DB1CB23B-E985-4F83-8890-F22566C5CD49",
+                "_cd": "0:347826",
+                "_indextime": "1763367686",
+                "_raw": "{\"src_ip\": \"69.32.190.163\", \"user\": null, \"method\": \"POST\", \"url\": \"/api/products\", \"status\": 401, \"bytes\": 36441, \"referer\": null, \"user_agent\": \"Mozilla/5.0 (iPhone; CPU iPhone OS 14_0 like Mac OS X) AppleWebKit/605.1.15\", \"response_time\": 355}",
+                "_serial": "12",
+                "_si": [
+                  "362edf7a7e2a",
+                  "web"
+                ],
+                "_sourcetype": "access_combined",
+                "_time": "2025-10-18T20:02:02.000+00:00",
+                "host": "course-data",
+                "index": "web",
+                "linecount": "1",
+                "source": "http:course_hec",
+                "sourcetype": "access_combined",
+                "splunk_server": "362edf7a7e2a",
+                "status": "401"
+              },
+              {
+                "_bkt": "web~0~DB1CB23B-E985-4F83-8890-F22566C5CD49",
+                "_cd": "0:791344",
+                "_indextime": "1763367687",
+                "_raw": "{\"src_ip\": \"102.143.50.113\", \"user\": \"user0234\", \"method\": \"PUT\", \"url\": \"/contact\", \"status\": 403, \"bytes\": 47438, \"referer\": null, \"user_agent\": \"Mozilla/5.0 (iPhone; CPU iPhone OS 14_0 like Mac OS X) AppleWebKit/605.1.15\", \"response_time\": 1762}",
+                "_serial": "20",
+                "_si": [
+                  "362edf7a7e2a",
+                  "web"
+                ],
+                "_sourcetype": "access_combined",
+                "_time": "2025-10-18T20:01:57.000+00:00",
+                "host": "course-data",
+                "index": "web",
+                "linecount": "1",
+                "source": "http:course_hec",
+                "sourcetype": "access_combined",
+                "splunk_server": "362edf7a7e2a",
+                "status": "403"
+              }
+            ]
+          }
+        },
+        {
+          "test_name": "Where isnotnull(user_id)",
+          "lab_number": 1,
+          "passed": true,
+          "error_message": null,
+          "query": "index=web | where isnotnull(user_id) | head 10",
+          "result_count": 0,
+          "execution_time": 1.020669937133789,
+          "details": {
+            "result_count": 0,
+            "execution_time": 1.020669937133789,
+            "sample_results": []
+          }
+        },
+        {
+          "test_name": "Stats count",
+          "lab_number": 1,
+          "passed": true,
+          "error_message": null,
+          "query": "index=web | stats count",
+          "result_count": 1,
+          "execution_time": 1.0240468978881836,
+          "details": {
+            "result_count": 1,
+            "execution_time": 1.0240468978881836,
+            "sample_results": [
+              {
+                "count": "48667"
+              }
+            ]
+          }
+        },
+        {
+          "test_name": "Stats count by status",
+          "lab_number": 1,
+          "passed": true,
+          "error_message": null,
+          "query": "index=web | stats count by status",
+          "result_count": 12,
+          "execution_time": 1.0301611423492432,
+          "details": {
+            "result_count": 12,
+            "execution_time": 1.0301611423492432,
+            "sample_results": [
+              {
+                "status": "200",
+                "count": "34068"
+              },
+              {
+                "status": "301",
+                "count": "2422"
+              },
+              {
+                "status": "302",
+                "count": "2382"
+              }
+            ]
+          }
+        },
+        {
+          "test_name": "Multiple stats (count, avg, max)",
+          "lab_number": 1,
+          "passed": true,
+          "error_message": null,
+          "query": "index=web | stats count, avg(response_time) as avg_time, max(response_time) as max_time by host",
+          "result_count": 1,
+          "execution_time": 1.0408833026885986,
+          "details": {
+            "result_count": 1,
+            "execution_time": 1.0408833026885986,
+            "sample_results": [
+              {
+                "host": "course-data",
+                "count": "48663",
+                "avg_time": "399.36226702011794",
+                "max_time": "2000"
+              }
+            ]
+          }
+        },
+        {
+          "test_name": "Top command (top 10 user)",
+          "lab_number": 1,
+          "passed": true,
+          "error_message": null,
+          "query": "index=web | top limit=10 user",
+          "result_count": 10,
+          "execution_time": 1.0391061305999756,
+          "details": {
+            "result_count": 10,
+            "execution_time": 1.0391061305999756,
+            "sample_results": [
+              {
+                "user": "null",
+                "count": "14680",
+                "percent": "30.167276",
+                "_tc": "48662"
+              },
+              {
+                "user": "user0461",
+                "count": "95",
+                "percent": "0.195224",
+                "_tc": "48662"
+              },
+              {
+                "user": "user0442",
+                "count": "93",
+                "percent": "0.191114",
+                "_tc": "48662"
+              }
+            ]
+          }
+        },
+        {
+          "test_name": "Rare command (rare 10 source)",
+          "lab_number": 1,
+          "passed": true,
+          "error_message": null,
+          "query": "index=web | rare limit=10 source",
+          "result_count": 1,
+          "execution_time": 1.0364739894866943,
+          "details": {
+            "result_count": 1,
+            "execution_time": 1.0364739894866943,
+            "sample_results": [
+              {
+                "source": "http:course_hec",
+                "count": "48662",
+                "percent": "100.000000",
+                "_tc": "48662"
+              }
+            ]
+          }
+        },
+        {
+          "test_name": "Challenge 1: Authentication failures",
+          "lab_number": 1,
+          "passed": true,
+          "error_message": null,
+          "query": "index=auth action=login_failed | fields _time, user, src_ip | sort -_time | head 10",
+          "result_count": 10,
+          "execution_time": 1.0454249382019043,
+          "details": {
+            "result_count": 10,
+            "execution_time": 1.0454249382019043,
+            "sample_results": [
+              {
+                "_time": "2025-10-18T18:02:06.000+00:00",
+                "user": "user0412",
+                "src_ip": "124.65.88.160",
+                "_bkt": "auth~0~DB1CB23B-E985-4F83-8890-F22566C5CD49",
+                "_cd": "0:161244",
+                "_indextime": "1763367690",
+                "_raw": "{\"action\": \"login_failed\", \"user\": \"user0412\", \"src_ip\": \"124.65.88.160\", \"status\": \"failure\", \"session_id\": \"sess_5407786\", \"reason\": \"Account locked\"}",
+                "_serial": "0",
+                "_si": [
+                  "362edf7a7e2a",
+                  "auth"
+                ],
+                "_sourcetype": "linux_secure"
+              },
+              {
+                "_time": "2025-10-18T18:02:02.000+00:00",
+                "user": "user0491",
+                "src_ip": "226.158.129.251",
+                "_bkt": "auth~0~DB1CB23B-E985-4F83-8890-F22566C5CD49",
+                "_cd": "0:68847",
+                "_indextime": "1763367689",
+                "_raw": "{\"action\": \"login_failed\", \"user\": \"user0491\", \"src_ip\": \"226.158.129.251\", \"status\": \"failure\", \"session_id\": \"sess_9134963\", \"reason\": \"User not found\"}",
+                "_serial": "1",
+                "_si": [
+                  "362edf7a7e2a",
+                  "auth"
+                ],
+                "_sourcetype": "linux_secure"
+              },
+              {
+                "_time": "2025-10-18T18:02:01.000+00:00",
+                "user": "user0463",
+                "src_ip": "202.242.95.59",
+                "_bkt": "auth~0~DB1CB23B-E985-4F83-8890-F22566C5CD49",
+                "_cd": "0:106639",
+                "_indextime": "1763367689",
+                "_raw": "{\"action\": \"login_failed\", \"user\": \"user0463\", \"src_ip\": \"202.242.95.59\", \"status\": \"failure\", \"session_id\": \"sess_5077575\", \"reason\": \"User not found\"}",
+                "_serial": "2",
+                "_si": [
+                  "362edf7a7e2a",
+                  "auth"
+                ],
+                "_sourcetype": "linux_secure"
+              }
+            ]
+          }
+        },
+        {
+          "test_name": "Challenge 2: Error count by sourcetype",
+          "lab_number": 1,
+          "passed": true,
+          "error_message": null,
+          "query": "index=app level=ERROR | stats count by sourcetype | sort -count",
+          "result_count": 1,
+          "execution_time": 1.0444490909576416,
+          "details": {
+            "result_count": 1,
+            "execution_time": 1.0444490909576416,
+            "sample_results": [
+              {
+                "sourcetype": "syslog",
+                "count": "2962"
+              }
+            ]
+          }
+        },
+        {
+          "test_name": "Challenge 3: Response time stats by status",
+          "lab_number": 1,
+          "passed": true,
+          "error_message": null,
+          "query": "index=web | stats avg(response_time) as avg_time, min(response_time) as min_time, max(response_time) as max_time by status | sort -avg_time",
+          "result_count": 12,
+          "execution_time": 1.0383658409118652,
+          "details": {
+            "result_count": 12,
+            "execution_time": 1.0383658409118652,
+            "sample_results": [
+              {
+                "status": "500",
+                "avg_time": "1115.4563106796118",
+                "min_time": "203",
+                "max_time": "1998"
+              },
+              {
+                "status": "400",
+                "avg_time": "1110.4896496815286",
+                "min_time": "201",
+                "max_time": "1997"
+              },
+              {
+                "status": "504",
+                "avg_time": "1103.18398637138",
+                "min_time": "207",
+                "max_time": "1998"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "lab_number": 2,
+      "lab_name": "Subsearches and Macros",
+      "total_tests": 11,
+      "passed": 11,
+      "failed": 0,
+      "pass_rate": 100.0,
+      "results": [
+        {
+          "test_name": "Basic subsearch (IPs with 404 errors)",
+          "lab_number": 2,
+          "passed": true,
+          "error_message": null,
+          "query": "index=web status=200 [search index=web status=404 | fields src_ip | dedup src_ip | head 10]",
+          "result_count": 0,
+          "execution_time": 1.0375969409942627,
+          "details": {
+            "result_count": 0,
+            "execution_time": 1.0375969409942627,
+            "sample_results": []
+          }
+        },
+        {
+          "test_name": "Subsearch with return command",
+          "lab_number": 2,
+          "passed": true,
+          "error_message": null,
+          "query": "index=web [search index=auth action=login status=success | fields user | dedup user | head 10 | return 1000 $user]",
+          "result_count": 645,
+          "execution_time": 1.0478169918060303,
+          "details": {
+            "result_count": 645,
+            "execution_time": 1.0478169918060303,
+            "sample_results": [
+              {
+                "_bkt": "web~0~DB1CB23B-E985-4F83-8890-F22566C5CD49",
+                "_cd": "0:278761",
+                "_indextime": "1763367686",
+                "_raw": "{\"src_ip\": \"244.45.240.89\", \"user\": \"user0168\", \"method\": \"PUT\", \"url\": \"/api/settings\", \"status\": 404, \"bytes\": 4257, \"referer\": null, \"user_agent\": \"Mozilla/5.0 (iPhone; CPU iPhone OS 14_0 like Mac OS X) AppleWebKit/605.1.15\", \"response_time\": 339}",
+                "_serial": "0",
+                "_si": [
+                  "362edf7a7e2a",
+                  "web"
+                ],
+                "_sourcetype": "access_combined",
+                "_time": "2025-10-18T20:01:46.000+00:00",
+                "host": "course-data",
+                "index": "web",
+                "linecount": "1",
+                "source": "http:course_hec",
+                "sourcetype": "access_combined",
+                "splunk_server": "362edf7a7e2a"
+              },
+              {
+                "_bkt": "web~0~DB1CB23B-E985-4F83-8890-F22566C5CD49",
+                "_cd": "0:99592",
+                "_indextime": "1763367686",
+                "_raw": "{\"src_ip\": \"141.43.177.81\", \"user\": \"user0158\", \"method\": \"DELETE\", \"url\": \"/api/settings\", \"status\": 200, \"bytes\": 36198, \"referer\": null, \"user_agent\": \"Mozilla/5.0 (iPhone; CPU iPhone OS 14_0 like Mac OS X) AppleWebKit/605.1.15\", \"response_time\": 274}",
+                "_serial": "1",
+                "_si": [
+                  "362edf7a7e2a",
+                  "web"
+                ],
+                "_sourcetype": "access_combined",
+                "_time": "2025-10-18T20:01:15.000+00:00",
+                "host": "course-data",
+                "index": "web",
+                "linecount": "1",
+                "source": "http:course_hec",
+                "sourcetype": "access_combined",
+                "splunk_server": "362edf7a7e2a"
+              },
+              {
+                "_bkt": "web~0~DB1CB23B-E985-4F83-8890-F22566C5CD49",
+                "_cd": "0:699700",
+                "_indextime": "1763367687",
+                "_raw": "{\"src_ip\": \"191.188.72.19\", \"user\": \"user0144\", \"method\": \"DELETE\", \"url\": \"/api/reports\", \"status\": 200, \"bytes\": 46010, \"referer\": null, \"user_agent\": \"Mozilla/5.0 (iPhone; CPU iPhone OS 14_0 like Mac OS X) AppleWebKit/605.1.15\", \"response_time\": 441}",
+                "_serial": "2",
+                "_si": [
+                  "362edf7a7e2a",
+                  "web"
+                ],
+                "_sourcetype": "access_combined",
+                "_time": "2025-10-18T19:57:55.000+00:00",
+                "host": "course-data",
+                "index": "web",
+                "linecount": "1",
+                "source": "http:course_hec",
+                "sourcetype": "access_combined",
+                "splunk_server": "362edf7a7e2a"
+              }
+            ]
+          }
+        },
+        {
+          "test_name": "Subsearch with format command",
+          "lab_number": 2,
+          "passed": true,
+          "error_message": null,
+          "query": "index=web [search index=app level=ERROR | fields host | format] | head 10",
+          "result_count": 10,
+          "execution_time": 1.0376603603363037,
+          "details": {
+            "result_count": 10,
+            "execution_time": 1.0376603603363037,
+            "sample_results": [
+              {
+                "_bkt": "web~0~DB1CB23B-E985-4F83-8890-F22566C5CD49",
+                "_cd": "0:641838",
+                "_indextime": "1763367687",
+                "_raw": "{\"src_ip\": \"95.141.118.142\", \"user\": \"user0324\", \"method\": \"DELETE\", \"url\": \"/about\", \"status\": 200, \"bytes\": 39081, \"referer\": null, \"user_agent\": \"Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36\", \"response_time\": 357}",
+                "_serial": "0",
+                "_si": [
+                  "362edf7a7e2a",
+                  "web"
+                ],
+                "_sourcetype": "access_combined",
+                "_time": "2025-10-18T20:02:11.000+00:00",
+                "host": "course-data",
+                "index": "web",
+                "linecount": "1",
+                "source": "http:course_hec",
+                "sourcetype": "access_combined",
+                "splunk_server": "362edf7a7e2a"
+              },
+              {
+                "_bkt": "web~0~DB1CB23B-E985-4F83-8890-F22566C5CD49",
+                "_cd": "0:467183",
+                "_indextime": "1763367687",
+                "_raw": "{\"src_ip\": \"128.44.47.118\", \"user\": \"user0150\", \"method\": \"DELETE\", \"url\": \"/api/products\", \"status\": 404, \"bytes\": 25194, \"referer\": null, \"user_agent\": \"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36\", \"response_time\": 1332}",
+                "_serial": "1",
+                "_si": [
+                  "362edf7a7e2a",
+                  "web"
+                ],
+                "_sourcetype": "access_combined",
+                "_time": "2025-10-18T20:02:11.000+00:00",
+                "host": "course-data",
+                "index": "web",
+                "linecount": "1",
+                "source": "http:course_hec",
+                "sourcetype": "access_combined",
+                "splunk_server": "362edf7a7e2a"
+              },
+              {
+                "_bkt": "web~0~DB1CB23B-E985-4F83-8890-F22566C5CD49",
+                "_cd": "0:282895",
+                "_indextime": "1763367686",
+                "_raw": "{\"src_ip\": \"67.106.227.32\", \"user\": null, \"method\": \"PUT\", \"url\": \"/api/reports\", \"status\": 200, \"bytes\": 6596, \"referer\": null, \"user_agent\": \"Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36\", \"response_time\": 308}",
+                "_serial": "2",
+                "_si": [
+                  "362edf7a7e2a",
+                  "web"
+                ],
+                "_sourcetype": "access_combined",
+                "_time": "2025-10-18T20:02:10.000+00:00",
+                "host": "course-data",
+                "index": "web",
+                "linecount": "1",
+                "source": "http:course_hec",
+                "sourcetype": "access_combined",
+                "splunk_server": "362edf7a7e2a"
+              }
+            ]
+          }
+        },
+        {
+          "test_name": "Related events subsearch",
+          "lab_number": 2,
+          "passed": true,
+          "error_message": null,
+          "query": "index=web [search index=web status>=500 | head 10 | fields src_ip] | stats count by user, src_ip",
+          "result_count": 10,
+          "execution_time": 1.0332798957824707,
+          "details": {
+            "result_count": 10,
+            "execution_time": 1.0332798957824707,
+            "sample_results": [
+              {
+                "user": "null",
+                "src_ip": "78.172.141.149",
+                "count": "1"
+              },
+              {
+                "user": "null",
+                "src_ip": "88.189.83.163",
+                "count": "1"
+              },
+              {
+                "user": "user0010",
+                "src_ip": "197.80.2.88",
+                "count": "1"
+              }
+            ]
+          }
+        },
+        {
+          "test_name": "NOT with subsearch",
+          "lab_number": 2,
+          "passed": true,
+          "error_message": null,
+          "query": "index=web NOT [search index=web status=200 | fields session_id | head 100] | head 10",
+          "result_count": 10,
+          "execution_time": 1.0382721424102783,
+          "details": {
+            "result_count": 10,
+            "execution_time": 1.0382721424102783,
+            "sample_results": [
+              {
+                "_bkt": "web~0~DB1CB23B-E985-4F83-8890-F22566C5CD49",
+                "_cd": "0:641838",
+                "_indextime": "1763367687",
+                "_raw": "{\"src_ip\": \"95.141.118.142\", \"user\": \"user0324\", \"method\": \"DELETE\", \"url\": \"/about\", \"status\": 200, \"bytes\": 39081, \"referer\": null, \"user_agent\": \"Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36\", \"response_time\": 357}",
+                "_serial": "0",
+                "_si": [
+                  "362edf7a7e2a",
+                  "web"
+                ],
+                "_sourcetype": "access_combined",
+                "_time": "2025-10-18T20:02:11.000+00:00",
+                "host": "course-data",
+                "index": "web",
+                "linecount": "1",
+                "source": "http:course_hec",
+                "sourcetype": "access_combined",
+                "splunk_server": "362edf7a7e2a"
+              },
+              {
+                "_bkt": "web~0~DB1CB23B-E985-4F83-8890-F22566C5CD49",
+                "_cd": "0:467183",
+                "_indextime": "1763367687",
+                "_raw": "{\"src_ip\": \"128.44.47.118\", \"user\": \"user0150\", \"method\": \"DELETE\", \"url\": \"/api/products\", \"status\": 404, \"bytes\": 25194, \"referer\": null, \"user_agent\": \"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36\", \"response_time\": 1332}",
+                "_serial": "1",
+                "_si": [
+                  "362edf7a7e2a",
+                  "web"
+                ],
+                "_sourcetype": "access_combined",
+                "_time": "2025-10-18T20:02:11.000+00:00",
+                "host": "course-data",
+                "index": "web",
+                "linecount": "1",
+                "source": "http:course_hec",
+                "sourcetype": "access_combined",
+                "splunk_server": "362edf7a7e2a"
+              },
+              {
+                "_bkt": "web~0~DB1CB23B-E985-4F83-8890-F22566C5CD49",
+                "_cd": "0:282895",
+                "_indextime": "1763367686",
+                "_raw": "{\"src_ip\": \"67.106.227.32\", \"user\": null, \"method\": \"PUT\", \"url\": \"/api/reports\", \"status\": 200, \"bytes\": 6596, \"referer\": null, \"user_agent\": \"Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36\", \"response_time\": 308}",
+                "_serial": "2",
+                "_si": [
+                  "362edf7a7e2a",
+                  "web"
+                ],
+                "_sourcetype": "access_combined",
+                "_time": "2025-10-18T20:02:10.000+00:00",
+                "host": "course-data",
+                "index": "web",
+                "linecount": "1",
+                "source": "http:course_hec",
+                "sourcetype": "access_combined",
+                "splunk_server": "362edf7a7e2a"
+              }
+            ]
+          }
+        },
+        {
+          "test_name": "Multiple subsearches with OR",
+          "lab_number": 2,
+          "passed": true,
+          "error_message": null,
+          "query": "index=web [search index=web status>=500 | fields src_ip | head 10] OR [search index=auth action=login_failed | fields src_ip | head 10] | head 10",
+          "result_count": 10,
+          "execution_time": 1.026322841644287,
+          "details": {
+            "result_count": 10,
+            "execution_time": 1.026322841644287,
+            "sample_results": [
+              {
+                "_bkt": "web~0~DB1CB23B-E985-4F83-8890-F22566C5CD49",
+                "_cd": "0:154758",
+                "_indextime": "1763367686",
+                "_raw": "{\"src_ip\": \"52.4.119.233\", \"user\": \"user0084\", \"method\": \"PATCH\", \"url\": \"/api/settings\", \"status\": 500, \"bytes\": 34078, \"referer\": null, \"user_agent\": \"Mozilla/5.0 (iPhone; CPU iPhone OS 14_0 like Mac OS X) AppleWebKit/605.1.15\", \"response_time\": 1549}",
+                "_serial": "0",
+                "_si": [
+                  "362edf7a7e2a",
+                  "web"
+                ],
+                "_sourcetype": "access_combined",
+                "_time": "2025-10-18T20:01:56.000+00:00",
+                "host": "course-data",
+                "index": "web",
+                "linecount": "1",
+                "source": "http:course_hec",
+                "sourcetype": "access_combined",
+                "splunk_server": "362edf7a7e2a",
+                "src_ip": "52.4.119.233"
+              },
+              {
+                "_bkt": "web~0~DB1CB23B-E985-4F83-8890-F22566C5CD49",
+                "_cd": "0:697581",
+                "_indextime": "1763367687",
+                "_raw": "{\"src_ip\": \"53.23.114.43\", \"user\": \"user0193\", \"method\": \"PATCH\", \"url\": \"/api/auth/login\", \"status\": 500, \"bytes\": 45400, \"referer\": null, \"user_agent\": \"Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36\", \"response_time\": 1979}",
+                "_serial": "1",
+                "_si": [
+                  "362edf7a7e2a",
+                  "web"
+                ],
+                "_sourcetype": "access_combined",
+                "_time": "2025-10-18T20:01:13.000+00:00",
+                "host": "course-data",
+                "index": "web",
+                "linecount": "1",
+                "source": "http:course_hec",
+                "sourcetype": "access_combined",
+                "splunk_server": "362edf7a7e2a",
+                "src_ip": "53.23.114.43"
+              },
+              {
+                "_bkt": "web~0~DB1CB23B-E985-4F83-8890-F22566C5CD49",
+                "_cd": "0:839626",
+                "_indextime": "1763367687",
+                "_raw": "{\"src_ip\": \"88.189.83.163\", \"user\": null, \"method\": \"GET\", \"url\": \"/checkout\", \"status\": 502, \"bytes\": 10891, \"referer\": null, \"user_agent\": \"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36\", \"response_time\": 844}",
+                "_serial": "2",
+                "_si": [
+                  "362edf7a7e2a",
+                  "web"
+                ],
+                "_sourcetype": "access_combined",
+                "_time": "2025-10-18T20:01:08.000+00:00",
+                "host": "course-data",
+                "index": "web",
+                "linecount": "1",
+                "source": "http:course_hec",
+                "sourcetype": "access_combined",
+                "splunk_server": "362edf7a7e2a",
+                "src_ip": "88.189.83.163"
+              }
+            ]
+          }
+        },
+        {
+          "test_name": "Simple macro usage (get_errors)",
+          "lab_number": 2,
+          "passed": true,
+          "error_message": null,
+          "query": "index=web status>=400 status<600 | stats count by status",
+          "result_count": 8,
+          "execution_time": 1.0268800258636475,
+          "details": {
+            "result_count": 8,
+            "execution_time": 1.0268800258636475,
+            "sample_results": [
+              {
+                "status": "400",
+                "count": "1256"
+              },
+              {
+                "status": "401",
+                "count": "1195"
+              },
+              {
+                "status": "403",
+                "count": "1219"
+              }
+            ]
+          }
+        },
+        {
+          "test_name": "Time range pattern",
+          "lab_number": 2,
+          "passed": true,
+          "error_message": null,
+          "query": "index=web earliest=-24h | stats count",
+          "result_count": 1,
+          "execution_time": 1.0305912494659424,
+          "details": {
+            "result_count": 1,
+            "execution_time": 1.0305912494659424,
+            "sample_results": [
+              {
+                "count": "0"
+              }
+            ]
+          }
+        },
+        {
+          "test_name": "Aggregation pattern (top users)",
+          "lab_number": 2,
+          "passed": true,
+          "error_message": null,
+          "query": "index=web | stats count by user | sort -count | head 10",
+          "result_count": 10,
+          "execution_time": 1.0334718227386475,
+          "details": {
+            "result_count": 10,
+            "execution_time": 1.0334718227386475,
+            "sample_results": [
+              {
+                "user": "null",
+                "count": "14677"
+              },
+              {
+                "user": "user0461",
+                "count": "95"
+              },
+              {
+                "user": "user0442",
+                "count": "93"
+              }
+            ]
+          }
+        },
+        {
+          "test_name": "Challenge 1: New location login detection",
+          "lab_number": 2,
+          "passed": true,
+          "error_message": null,
+          "query": "index=auth action=login earliest=-1d NOT [search index=auth action=login earliest=-30d latest=-1d | fields user, src_ip] | stats count by user, src_ip | sort -count | head 10",
+          "result_count": 0,
+          "execution_time": 5.150033950805664,
+          "details": {
+            "result_count": 0,
+            "execution_time": 5.150033950805664,
+            "sample_results": []
+          }
+        },
+        {
+          "test_name": "Challenge 2: Active users analysis",
+          "lab_number": 2,
+          "passed": true,
+          "error_message": null,
+          "query": "index=web [search index=web earliest=-24h | stats count by user | sort -count | head 10 | fields user] | stats count as total by user | sort -total",
+          "result_count": 0,
+          "execution_time": 1.0315709114074707,
+          "details": {
+            "result_count": 0,
+            "execution_time": 1.0315709114074707,
+            "sample_results": []
+          }
+        }
+      ]
+    },
+    {
+      "lab_number": 3,
+      "lab_name": "Statistical Commands",
+      "total_tests": 9,
+      "passed": 6,
+      "failed": 3,
+      "pass_rate": 66.66666666666666,
+      "results": [
+        {
+          "test_name": "Stats with multiple aggregations",
+          "lab_number": 3,
+          "passed": true,
+          "error_message": null,
+          "query": "index=web | stats count, avg(response_time) as avg_time, max(response_time) as max_time, min(response_time) as min_time by status",
+          "result_count": 12,
+          "execution_time": 1.0282669067382812,
+          "details": {
+            "result_count": 12,
+            "execution_time": 1.0282669067382812,
+            "sample_results": [
+              {
+                "status": "200",
+                "count": "34055",
+                "avg_time": "274.8353252092204",
+                "max_time": "500",
+                "min_time": "50"
+              },
+              {
+                "status": "301",
+                "count": "2420",
+                "avg_time": "278.5082644628099",
+                "max_time": "500",
+                "min_time": "50"
+              },
+              {
+                "status": "302",
+                "count": "2382",
+                "avg_time": "271.8190596137699",
+                "max_time": "500",
+                "min_time": "50"
+              }
+            ]
+          }
+        },
+        {
+          "test_name": "Stats with eval calculations",
+          "lab_number": 3,
+          "passed": true,
+          "error_message": null,
+          "query": "index=web | stats sum(bytes) as total_bytes by host | eval total_mb = round(total_bytes/1024/1024, 2)",
+          "result_count": 1,
+          "execution_time": 1.0278339385986328,
+          "details": {
+            "result_count": 1,
+            "execution_time": 1.0278339385986328,
+            "sample_results": [
+              {
+                "host": "course-data",
+                "total_bytes": "1223654057",
+                "total_mb": "1166.97"
+              }
+            ]
+          }
+        },
+        {
+          "test_name": "Stats with distinct count (dc)",
+          "lab_number": 3,
+          "passed": true,
+          "error_message": null,
+          "query": "index=web | stats dc(user) as unique_users, count as total_requests by host",
+          "result_count": 1,
+          "execution_time": 1.0361781120300293,
+          "details": {
+            "result_count": 1,
+            "execution_time": 1.0361781120300293,
+            "sample_results": [
+              {
+                "host": "course-data",
+                "unique_users": "501",
+                "total_requests": "48645"
+              }
+            ]
+          }
+        },
+        {
+          "test_name": "Stats with values() function",
+          "lab_number": 3,
+          "passed": true,
+          "error_message": null,
+          "query": "index=web | stats values(status) as status_codes, count by host",
+          "result_count": 1,
+          "execution_time": 1.0328500270843506,
+          "details": {
+            "result_count": 1,
+            "execution_time": 1.0328500270843506,
+            "sample_results": [
+              {
+                "host": "course-data",
+                "status_codes": [
+                  "200",
+                  "301",
+                  "302",
+                  "304",
+                  "400",
+                  "401",
+                  "403",
+                  "404",
+                  "500",
+                  "502",
+                  "503",
+                  "504"
+                ],
+                "count": "48644"
+              }
+            ]
+          }
+        },
+        {
+          "test_name": "Chart count over host by status",
+          "lab_number": 3,
+          "passed": true,
+          "error_message": null,
+          "query": "index=web | chart count over host by status",
+          "result_count": 1,
+          "execution_time": 1.043828010559082,
+          "details": {
+            "result_count": 1,
+            "execution_time": 1.043828010559082,
+            "sample_results": [
+              {
+                "host": "course-data",
+                "200": "34051",
+                "301": "2420",
+                "302": "2382",
+                "304": "2435",
+                "400": "1256",
+                "401": "1195",
+                "403": "1219",
+                "404": "1228",
+                "502": "621",
+                "503": "631",
+                "OTHER": "1205"
+              }
+            ]
+          }
+        },
+        {
+          "test_name": "Chart with useother and limit",
+          "lab_number": 3,
+          "passed": true,
+          "error_message": null,
+          "query": "index=web | chart count over status by host limit=5",
+          "result_count": 12,
+          "execution_time": 1.0368340015411377,
+          "details": {
+            "result_count": 12,
+            "execution_time": 1.0368340015411377,
+            "sample_results": [
+              {
+                "status": "200",
+                "course-data": "34049"
+              },
+              {
+                "status": "301",
+                "course-data": "2420"
+              },
+              {
+                "status": "302",
+                "course-data": "2382"
+              }
+            ]
+          }
+        },
+        {
+          "test_name": "Timechart span=1h avg response time",
+          "lab_number": 3,
+          "passed": false,
+          "error_message": "Expected at least 1 results, got 0",
+          "query": "index=web | timechart span=1h avg(response_time) as avg_time",
+          "result_count": 0,
+          "execution_time": 1.0354948043823242,
+          "details": {}
+        },
+        {
+          "test_name": "Timechart count by status",
+          "lab_number": 3,
+          "passed": false,
+          "error_message": "Expected at least 1 results, got 0",
+          "query": "index=web | timechart span=1h count by status",
+          "result_count": 0,
+          "execution_time": 1.0446968078613281,
+          "details": {}
+        },
+        {
+          "test_name": "Timechart multiple statistics",
+          "lab_number": 3,
+          "passed": false,
+          "error_message": "Expected at least 1 results, got 0",
+          "query": "index=web | timechart span=1h avg(response_time) as avg_time, max(response_time) as max_time, count",
+          "result_count": 0,
+          "execution_time": 1.0412132740020752,
+          "details": {}
+        }
+      ]
+    },
+    {
+      "lab_number": 4,
+      "lab_name": "Join Command and Multi-Index Searches",
+      "total_tests": 4,
+      "passed": 2,
+      "failed": 2,
+      "pass_rate": 50.0,
+      "results": [
+        {
+          "test_name": "Basic join operation",
+          "lab_number": 4,
+          "passed": true,
+          "error_message": null,
+          "query": "index=web | join type=inner user [search index=auth action=login | fields user, src_ip] | head 10",
+          "result_count": 10,
+          "execution_time": 1.0491371154785156,
+          "details": {
+            "result_count": 10,
+            "execution_time": 1.0491371154785156,
+            "sample_results": [
+              {
+                "_bkt": "web~0~DB1CB23B-E985-4F83-8890-F22566C5CD49",
+                "_cd": "0:641838",
+                "_indextime": "1763367687",
+                "_raw": "{\"src_ip\": \"95.141.118.142\", \"user\": \"user0324\", \"method\": \"DELETE\", \"url\": \"/about\", \"status\": 200, \"bytes\": 39081, \"referer\": null, \"user_agent\": \"Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36\", \"response_time\": 357}",
+                "_serial": "0",
+                "_si": [
+                  "362edf7a7e2a",
+                  "web"
+                ],
+                "_sourcetype": "access_combined",
+                "_time": "2025-10-18T20:02:11.000+00:00",
+                "bytes": "39081",
+                "host": "course-data",
+                "index": "web",
+                "linecount": "1",
+                "method": "DELETE",
+                "punct": "{\"\":_\"...\",_\"\":_\"\",_\"\":_\"\",_\"\":_\"/\",_\"\":_,_\"\":_,_\"",
+                "referer": "null",
+                "response_time": "357",
+                "source": "http:course_hec",
+                "sourcetype": "access_combined",
+                "splunk_server": "362edf7a7e2a",
+                "src_ip": "233.35.126.111",
+                "status": "200",
+                "url": "/about",
+                "user": "user0324",
+                "user_agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36"
+              },
+              {
+                "_bkt": "web~0~DB1CB23B-E985-4F83-8890-F22566C5CD49",
+                "_cd": "0:467183",
+                "_indextime": "1763367687",
+                "_raw": "{\"src_ip\": \"128.44.47.118\", \"user\": \"user0150\", \"method\": \"DELETE\", \"url\": \"/api/products\", \"status\": 404, \"bytes\": 25194, \"referer\": null, \"user_agent\": \"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36\", \"response_time\": 1332}",
+                "_serial": "1",
+                "_si": [
+                  "362edf7a7e2a",
+                  "web"
+                ],
+                "_sourcetype": "access_combined",
+                "_time": "2025-10-18T20:02:11.000+00:00",
+                "bytes": "25194",
+                "host": "course-data",
+                "index": "web",
+                "linecount": "1",
+                "method": "DELETE",
+                "punct": "{\"\":_\"...\",_\"\":_\"\",_\"\":_\"\",_\"\":_\"//\",_\"\":_,_\"\":_,_",
+                "referer": "null",
+                "response_time": "1332",
+                "source": "http:course_hec",
+                "sourcetype": "access_combined",
+                "splunk_server": "362edf7a7e2a",
+                "src_ip": "120.142.221.151",
+                "status": "404",
+                "url": "/api/products",
+                "user": "user0150",
+                "user_agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36"
+              },
+              {
+                "_bkt": "web~0~DB1CB23B-E985-4F83-8890-F22566C5CD49",
+                "_cd": "0:202781",
+                "_indextime": "1763367686",
+                "_raw": "{\"src_ip\": \"229.16.2.61\", \"user\": \"user0400\", \"method\": \"PATCH\", \"url\": \"/api/analytics\", \"status\": 400, \"bytes\": 20775, \"referer\": null, \"user_agent\": \"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36\", \"response_time\": 1477}",
+                "_serial": "3",
+                "_si": [
+                  "362edf7a7e2a",
+                  "web"
+                ],
+                "_sourcetype": "access_combined",
+                "_time": "2025-10-18T20:02:09.000+00:00",
+                "bytes": "20775",
+                "host": "course-data",
+                "index": "web",
+                "linecount": "1",
+                "method": "PATCH",
+                "punct": "{\"\":_\"...\",_\"\":_\"\",_\"\":_\"\",_\"\":_\"//\",_\"\":_,_\"\":_,_",
+                "referer": "null",
+                "response_time": "1477",
+                "source": "http:course_hec",
+                "sourcetype": "access_combined",
+                "splunk_server": "362edf7a7e2a",
+                "src_ip": "1.36.77.32",
+                "status": "400",
+                "url": "/api/analytics",
+                "user": "user0400",
+                "user_agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36"
+              }
+            ]
+          }
+        },
+        {
+          "test_name": "Left join operation",
+          "lab_number": 4,
+          "passed": true,
+          "error_message": null,
+          "query": "index=web | join type=left user [search index=auth | fields user, action] | head 10",
+          "result_count": 10,
+          "execution_time": 1.0433449745178223,
+          "details": {
+            "result_count": 10,
+            "execution_time": 1.0433449745178223,
+            "sample_results": [
+              {
+                "_bkt": "web~0~DB1CB23B-E985-4F83-8890-F22566C5CD49",
+                "_cd": "0:641838",
+                "_indextime": "1763367687",
+                "_raw": "{\"src_ip\": \"95.141.118.142\", \"user\": \"user0324\", \"method\": \"DELETE\", \"url\": \"/about\", \"status\": 200, \"bytes\": 39081, \"referer\": null, \"user_agent\": \"Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36\", \"response_time\": 357}",
+                "_serial": "0",
+                "_si": [
+                  "362edf7a7e2a",
+                  "web"
+                ],
+                "_sourcetype": "access_combined",
+                "_time": "2025-10-18T20:02:11.000+00:00",
+                "action": "login_failed",
+                "bytes": "39081",
+                "host": "course-data",
+                "index": "web",
+                "linecount": "1",
+                "method": "DELETE",
+                "punct": "{\"\":_\"...\",_\"\":_\"\",_\"\":_\"\",_\"\":_\"/\",_\"\":_,_\"\":_,_\"",
+                "referer": "null",
+                "response_time": "357",
+                "source": "http:course_hec",
+                "sourcetype": "access_combined",
+                "splunk_server": "362edf7a7e2a",
+                "src_ip": "95.141.118.142",
+                "status": "200",
+                "url": "/about",
+                "user": "user0324",
+                "user_agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36"
+              },
+              {
+                "_bkt": "web~0~DB1CB23B-E985-4F83-8890-F22566C5CD49",
+                "_cd": "0:467183",
+                "_indextime": "1763367687",
+                "_raw": "{\"src_ip\": \"128.44.47.118\", \"user\": \"user0150\", \"method\": \"DELETE\", \"url\": \"/api/products\", \"status\": 404, \"bytes\": 25194, \"referer\": null, \"user_agent\": \"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36\", \"response_time\": 1332}",
+                "_serial": "1",
+                "_si": [
+                  "362edf7a7e2a",
+                  "web"
+                ],
+                "_sourcetype": "access_combined",
+                "_time": "2025-10-18T20:02:11.000+00:00",
+                "action": "logout",
+                "bytes": "25194",
+                "host": "course-data",
+                "index": "web",
+                "linecount": "1",
+                "method": "DELETE",
+                "punct": "{\"\":_\"...\",_\"\":_\"\",_\"\":_\"\",_\"\":_\"//\",_\"\":_,_\"\":_,_",
+                "referer": "null",
+                "response_time": "1332",
+                "source": "http:course_hec",
+                "sourcetype": "access_combined",
+                "splunk_server": "362edf7a7e2a",
+                "src_ip": "128.44.47.118",
+                "status": "404",
+                "url": "/api/products",
+                "user": "user0150",
+                "user_agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36"
+              },
+              {
+                "_bkt": "web~0~DB1CB23B-E985-4F83-8890-F22566C5CD49",
+                "_cd": "0:282895",
+                "_indextime": "1763367686",
+                "_raw": "{\"src_ip\": \"67.106.227.32\", \"user\": null, \"method\": \"PUT\", \"url\": \"/api/reports\", \"status\": 200, \"bytes\": 6596, \"referer\": null, \"user_agent\": \"Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36\", \"response_time\": 308}",
+                "_serial": "2",
+                "_si": [
+                  "362edf7a7e2a",
+                  "web"
+                ],
+                "_sourcetype": "access_combined",
+                "_time": "2025-10-18T20:02:10.000+00:00",
+                "bytes": "6596",
+                "host": "course-data",
+                "index": "web",
+                "linecount": "1",
+                "method": "PUT",
+                "punct": "{\"\":_\"...\",_\"\":_,_\"\":_\"\",_\"\":_\"//\",_\"\":_,_\"\":_,_\"\"",
+                "referer": "null",
+                "response_time": "308",
+                "source": "http:course_hec",
+                "sourcetype": "access_combined",
+                "splunk_server": "362edf7a7e2a",
+                "src_ip": "67.106.227.32",
+                "status": "200",
+                "url": "/api/reports",
+                "user": "null",
+                "user_agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36"
+              }
+            ]
+          }
+        },
+        {
+          "test_name": "Append command",
+          "lab_number": 4,
+          "passed": false,
+          "error_message": "Expected at least 1 results, got 0",
+          "query": "index=web earliest=-1h | append [search index=app earliest=-1h] | head 20",
+          "result_count": 0,
+          "execution_time": 1.0353667736053467,
+          "details": {}
+        },
+        {
+          "test_name": "Multi-index search",
+          "lab_number": 4,
+          "passed": false,
+          "error_message": "Expected at least 1 results, got 0",
+          "query": "(index=web OR index=app) earliest=-1h | stats count by index",
+          "result_count": 0,
+          "execution_time": 1.030066967010498,
+          "details": {}
+        }
+      ]
+    },
+    {
+      "lab_number": 5,
+      "lab_name": "Time-Based Searches",
+      "total_tests": 4,
+      "passed": 2,
+      "failed": 2,
+      "pass_rate": 50.0,
+      "results": [
+        {
+          "test_name": "Time range with earliest/latest",
+          "lab_number": 5,
+          "passed": true,
+          "error_message": null,
+          "query": "index=web earliest=-24h latest=-1h | stats count",
+          "result_count": 1,
+          "execution_time": 1.03786301612854,
+          "details": {
+            "result_count": 1,
+            "execution_time": 1.03786301612854,
+            "sample_results": [
+              {
+                "count": "0"
+              }
+            ]
+          }
+        },
+        {
+          "test_name": "Timechart with span",
+          "lab_number": 5,
+          "passed": false,
+          "error_message": "Expected at least 1 results, got 0",
+          "query": "index=web | timechart span=1h count by status",
+          "result_count": 0,
+          "execution_time": 1.025512933731079,
+          "details": {}
+        },
+        {
+          "test_name": "Bucket command for time grouping",
+          "lab_number": 5,
+          "passed": false,
+          "error_message": "Expected at least 1 results, got 0",
+          "query": "index=web | bucket _time span=15m | stats count by _time, host | head 20",
+          "result_count": 0,
+          "execution_time": 1.0334818363189697,
+          "details": {}
+        },
+        {
+          "test_name": "Timechart for prediction",
+          "lab_number": 5,
+          "passed": true,
+          "error_message": null,
+          "query": "index=web | timechart span=1d count as daily_count",
+          "result_count": 31,
+          "execution_time": 1.0430080890655518,
+          "details": {
+            "result_count": 31,
+            "execution_time": 1.0430080890655518,
+            "sample_results": [
+              {
+                "_time": "2025-10-18T00:00:00.000+00:00",
+                "daily_count": "48629",
+                "_span": "86400",
+                "_spandays": "1"
+              },
+              {
+                "_time": "2025-10-19T00:00:00.000+00:00",
+                "daily_count": "0",
+                "_span": "86400",
+                "_spandays": "1"
+              },
+              {
+                "_time": "2025-10-20T00:00:00.000+00:00",
+                "daily_count": "0",
+                "_span": "86400",
+                "_spandays": "1"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "lab_number": 6,
+      "lab_name": "Custom Dashboards and Visualizations",
+      "total_tests": 4,
+      "passed": 0,
+      "failed": 4,
+      "pass_rate": 0.0,
+      "results": [
+        {
+          "test_name": "Line chart data (timechart)",
+          "lab_number": 6,
+          "passed": false,
+          "error_message": "Expected at least 1 results, got 0",
+          "query": "index=web | timechart span=1h avg(response_time) as avg_response",
+          "result_count": 0,
+          "execution_time": 1.0289232730865479,
+          "details": {}
+        },
+        {
+          "test_name": "Bar chart data (stats by category)",
+          "lab_number": 6,
+          "passed": false,
+          "error_message": "Expected at least 1 results, got 0",
+          "query": "index=web | stats count by status | sort -count",
+          "result_count": 0,
+          "execution_time": 1.0367069244384766,
+          "details": {}
+        },
+        {
+          "test_name": "Pie chart data (distribution)",
+          "lab_number": 6,
+          "passed": false,
+          "error_message": "Expected at least 1 results, got 0",
+          "query": "index=web | stats count by host",
+          "result_count": 0,
+          "execution_time": 1.0328969955444336,
+          "details": {}
+        },
+        {
+          "test_name": "Single value KPI",
+          "lab_number": 6,
+          "passed": false,
+          "error_message": "Expected at least 1 results, got 0",
+          "query": "index=web | stats avg(response_time) as avg_response_time",
+          "result_count": 0,
+          "execution_time": 1.0262079238891602,
+          "details": {}
+        }
+      ]
+    },
+    {
+      "lab_number": 7,
+      "lab_name": "Search Optimization",
+      "total_tests": 3,
+      "passed": 1,
+      "failed": 2,
+      "pass_rate": 33.33333333333333,
+      "results": [
+        {
+          "test_name": "Optimized search (specific index and time)",
+          "lab_number": 7,
+          "passed": true,
+          "error_message": null,
+          "query": "index=web earliest=-1h sourcetype=* status>=500 | stats count by host",
+          "result_count": 0,
+          "execution_time": 1.0296671390533447,
+          "details": {
+            "result_count": 0,
+            "execution_time": 1.0296671390533447,
+            "sample_results": []
+          }
+        },
+        {
+          "test_name": "Early field extraction",
+          "lab_number": 7,
+          "passed": false,
+          "error_message": "Expected at least 1 results, got 0",
+          "query": "index=web | fields status, response_time, host | stats avg(response_time) by status",
+          "result_count": 0,
+          "execution_time": 1.0381810665130615,
+          "details": {}
+        },
+        {
+          "test_name": "Stats-based aggregation",
+          "lab_number": 7,
+          "passed": false,
+          "error_message": "Expected at least 1 results, got 0",
+          "query": "index=web | stats count, values(status) as statuses by src_ip | head 100",
+          "result_count": 0,
+          "execution_time": 1.0365087985992432,
+          "details": {}
+        }
+      ]
+    },
+    {
+      "lab_number": 8,
+      "lab_name": "Eval Command and Data Manipulation",
+      "total_tests": 6,
+      "passed": 0,
+      "failed": 6,
+      "pass_rate": 0.0,
+      "results": [
+        {
+          "test_name": "Eval basic calculation",
+          "lab_number": 8,
+          "passed": false,
+          "error_message": "Expected at least 1 results, got 0",
+          "query": "index=web | eval response_time_sec = response_time / 1000 | head 10",
+          "result_count": 0,
+          "execution_time": 1.0380380153656006,
+          "details": {}
+        },
+        {
+          "test_name": "Eval if statement",
+          "lab_number": 8,
+          "passed": false,
+          "error_message": "Expected at least 1 results, got 0",
+          "query": "index=web | eval status_category = if(status < 400, \"Success\", \"Error\") | stats count by status_category",
+          "result_count": 0,
+          "execution_time": 1.042841911315918,
+          "details": {}
+        },
+        {
+          "test_name": "Eval case statement",
+          "lab_number": 8,
+          "passed": false,
+          "error_message": "Expected at least 1 results, got 0",
+          "query": "index=web | eval status_type = case(status >= 200 AND status < 300, \"Success\", status >= 300 AND status < 400, \"Redirect\", status >= 400 AND status < 500, \"Client Error\", status >= 500, \"Server Error\", 1=1, \"Unknown\") | stats count by status_type",
+          "result_count": 0,
+          "execution_time": 1.0368611812591553,
+          "details": {}
+        },
+        {
+          "test_name": "Eval coalesce",
+          "lab_number": 8,
+          "passed": false,
+          "error_message": "Expected at least 1 results, got 0",
+          "query": "index=web | eval user_field = coalesce(user, \"anonymous\") | stats count by user_field",
+          "result_count": 0,
+          "execution_time": 1.0381579399108887,
+          "details": {}
+        },
+        {
+          "test_name": "Eval string functions",
+          "lab_number": 8,
+          "passed": false,
+          "error_message": "Expected at least 1 results, got 0",
+          "query": "index=web | eval url_length = len(url), url_upper = upper(url) | head 10",
+          "result_count": 0,
+          "execution_time": 1.0329060554504395,
+          "details": {}
+        },
+        {
+          "test_name": "Eval date/time functions",
+          "lab_number": 8,
+          "passed": false,
+          "error_message": "Expected at least 1 results, got 0",
+          "query": "index=web | eval hour = strftime(_time, \"%H\"), day_of_week = strftime(_time, \"%A\") | stats count by hour",
+          "result_count": 0,
+          "execution_time": 1.0282728672027588,
+          "details": {}
+        }
+      ]
+    },
+    {
+      "lab_number": 9,
+      "lab_name": "Regular Expressions with Rex",
+      "total_tests": 3,
+      "passed": 2,
+      "failed": 1,
+      "pass_rate": 66.66666666666666,
+      "results": [
+        {
+          "test_name": "Rex basic field extraction",
+          "lab_number": 9,
+          "passed": false,
+          "error_message": "Expected at least 1 results, got 0",
+          "query": "index=web | rex field=url \"/(?<endpoint>[^/]+)$\" | stats count by endpoint | head 10",
+          "result_count": 0,
+          "execution_time": 1.0277130603790283,
+          "details": {}
+        },
+        {
+          "test_name": "Rex multiple fields",
+          "lab_number": 9,
+          "passed": true,
+          "error_message": null,
+          "query": "index=app | rex \"user=(?<username>\\w+).*level=(?<log_level>\\w+)\" | stats count by log_level | head 10",
+          "result_count": 0,
+          "execution_time": 1.032580852508545,
+          "details": {
+            "result_count": 0,
+            "execution_time": 1.032580852508545,
+            "sample_results": []
+          }
+        },
+        {
+          "test_name": "Rex named capture groups",
+          "lab_number": 9,
+          "passed": true,
+          "error_message": null,
+          "query": "index=web | rex field=_raw \"(?<ip_addr>\\d+\\.\\d+\\.\\d+\\.\\d+)\" | stats dc(ip_addr) as unique_ips",
+          "result_count": 1,
+          "execution_time": 1.0269780158996582,
+          "details": {
+            "result_count": 1,
+            "execution_time": 1.0269780158996582,
+            "sample_results": [
+              {
+                "unique_ips": "0"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "lab_number": 10,
+      "lab_name": "Lookups and Data Enrichment",
+      "total_tests": 3,
+      "passed": 2,
+      "failed": 1,
+      "pass_rate": 66.66666666666666,
+      "results": [
+        {
+          "test_name": "Inputlookup users.csv",
+          "lab_number": 10,
+          "passed": false,
+          "error_message": "Expected at least 1 results, got 0",
+          "query": "| inputlookup users.csv | head 10",
+          "result_count": 0,
+          "execution_time": 1.028106927871704,
+          "details": {}
+        },
+        {
+          "test_name": "Lookup enrichment",
+          "lab_number": 10,
+          "passed": true,
+          "error_message": null,
+          "query": "index=web | lookup users.csv user_id OUTPUT email, department | head 10",
+          "result_count": 0,
+          "execution_time": 1.0468428134918213,
+          "details": {
+            "result_count": 0,
+            "execution_time": 1.0468428134918213,
+            "sample_results": []
+          }
+        },
+        {
+          "test_name": "Stats with lookup fields",
+          "lab_number": 10,
+          "passed": true,
+          "error_message": null,
+          "query": "index=web | lookup users.csv user_id OUTPUT department | stats count by department",
+          "result_count": 0,
+          "execution_time": 1.0422070026397705,
+          "details": {
+            "result_count": 0,
+            "execution_time": 1.0422070026397705,
+            "sample_results": []
+          }
+        }
+      ]
+    },
+    {
+      "lab_number": 11,
+      "lab_name": "Machine Learning Toolkit Introduction",
+      "total_tests": 2,
+      "passed": 2,
+      "failed": 0,
+      "pass_rate": 100.0,
+      "results": [
+        {
+          "test_name": "Prepare data for ML (timechart)",
+          "lab_number": 11,
+          "passed": true,
+          "error_message": null,
+          "query": "index=web | timechart span=1h avg(response_time) as avg_time",
+          "result_count": 721,
+          "execution_time": 1.043316125869751,
+          "details": {
+            "result_count": 721,
+            "execution_time": 1.043316125869751,
+            "sample_results": [
+              {
+                "_time": "2025-10-18T08:00:00.000+00:00",
+                "avg_time": "405.3639646869984",
+                "_span": "3600"
+              },
+              {
+                "_time": "2025-10-18T09:00:00.000+00:00",
+                "avg_time": "396.8547767642823",
+                "_span": "3600"
+              },
+              {
+                "_time": "2025-10-18T10:00:00.000+00:00",
+                "avg_time": "402.88686390532547",
+                "_span": "3600"
+              }
+            ]
+          }
+        },
+        {
+          "test_name": "Statistical baseline calculation",
+          "lab_number": 11,
+          "passed": true,
+          "error_message": null,
+          "query": "index=web | stats avg(response_time) as avg_response, stdev(response_time) as stdev_response by host",
+          "result_count": 1,
+          "execution_time": 1.0337328910827637,
+          "details": {
+            "result_count": 1,
+            "execution_time": 1.0337328910827637,
+            "sample_results": [
+              {
+                "host": "course-data",
+                "avg_response": "399.3025733857199",
+                "stdev_response": "376.76445264658514"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "lab_number": 12,
+      "lab_name": "Time Series Analysis",
+      "total_tests": 2,
+      "passed": 2,
+      "failed": 0,
+      "pass_rate": 100.0,
+      "results": [
+        {
+          "test_name": "Time series data (daily aggregation)",
+          "lab_number": 12,
+          "passed": true,
+          "error_message": null,
+          "query": "index=sales | timechart span=1d sum(final_amount) as daily_revenue",
+          "result_count": 31,
+          "execution_time": 1.02909517288208,
+          "details": {
+            "result_count": 31,
+            "execution_time": 1.02909517288208,
+            "sample_results": [
+              {
+                "_time": "2025-10-18T00:00:00.000+00:00",
+                "daily_revenue": "26818072.06",
+                "_span": "86400",
+                "_spandays": "1"
+              },
+              {
+                "_time": "2025-10-19T00:00:00.000+00:00",
+                "_span": "86400",
+                "_spandays": "1"
+              },
+              {
+                "_time": "2025-10-20T00:00:00.000+00:00",
+                "_span": "86400",
+                "_spandays": "1"
+              }
+            ]
+          }
+        },
+        {
+          "test_name": "Trend analysis with trendline",
+          "lab_number": 12,
+          "passed": true,
+          "error_message": null,
+          "query": "index=sales | timechart span=1d sum(final_amount) as revenue | trendline sma3(revenue) as trend",
+          "result_count": 31,
+          "execution_time": 1.0402460098266602,
+          "details": {
+            "result_count": 31,
+            "execution_time": 1.0402460098266602,
+            "sample_results": [
+              {
+                "_time": "2025-10-18T00:00:00.000+00:00",
+                "revenue": "26815238.36",
+                "_span": "86400",
+                "_spandays": "1"
+              },
+              {
+                "_time": "2025-10-19T00:00:00.000+00:00",
+                "_span": "86400",
+                "_spandays": "1"
+              },
+              {
+                "_time": "2025-10-20T00:00:00.000+00:00",
+                "_span": "86400",
+                "_spandays": "1"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "lab_number": 13,
+      "lab_name": "User and Role Management",
+      "total_tests": 2,
+      "passed": 2,
+      "failed": 0,
+      "pass_rate": 100.0,
+      "results": [
+        {
+          "test_name": "User activity in internal logs",
+          "lab_number": 13,
+          "passed": true,
+          "error_message": null,
+          "query": "index=_audit action=login | stats count by user | head 10",
+          "result_count": 0,
+          "execution_time": 1.0299830436706543,
+          "details": {
+            "result_count": 0,
+            "execution_time": 1.0299830436706543,
+            "sample_results": []
+          }
+        },
+        {
+          "test_name": "Search activity audit",
+          "lab_number": 13,
+          "passed": true,
+          "error_message": null,
+          "query": "index=_audit action=search | stats count by user | head 10",
+          "result_count": 2,
+          "execution_time": 1.0337650775909424,
+          "details": {
+            "result_count": 2,
+            "execution_time": 1.0337650775909424,
+            "sample_results": [
+              {
+                "user": "admin",
+                "count": "429"
+              },
+              {
+                "user": "splunk-system-user",
+                "count": "5"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "lab_number": 14,
+      "lab_name": "System Administration and Monitoring",
+      "total_tests": 4,
+      "passed": 2,
+      "failed": 2,
+      "pass_rate": 50.0,
+      "results": [
+        {
+          "test_name": "Index event counts",
+          "lab_number": 14,
+          "passed": false,
+          "error_message": "Expected at least 1 results, got 0",
+          "query": "index=* | stats count by index",
+          "result_count": 0,
+          "execution_time": 1.0316760540008545,
+          "details": {}
+        },
+        {
+          "test_name": "Sourcetype distribution",
+          "lab_number": 14,
+          "passed": false,
+          "error_message": "Expected at least 1 results, got 0",
+          "query": "index=* | stats count by sourcetype | sort -count",
+          "result_count": 0,
+          "execution_time": 1.0357768535614014,
+          "details": {}
+        },
+        {
+          "test_name": "Splunk internal metrics",
+          "lab_number": 14,
+          "passed": true,
+          "error_message": null,
+          "query": "index=_internal source=*metrics.log | stats count by source",
+          "result_count": 1,
+          "execution_time": 1.0382542610168457,
+          "details": {
+            "result_count": 1,
+            "execution_time": 1.0382542610168457,
+            "sample_results": [
+              {
+                "source": "/opt/splunk/var/log/splunk/metrics.log",
+                "count": "738"
+              }
+            ]
+          }
+        },
+        {
+          "test_name": "License usage check",
+          "lab_number": 14,
+          "passed": true,
+          "error_message": null,
+          "query": "index=_internal source=*license_usage.log | stats sum(b) as bytes_indexed by idx",
+          "result_count": 6,
+          "execution_time": 1.0304539203643799,
+          "details": {
+            "result_count": 6,
+            "execution_time": 1.0304539203643799,
+            "sample_results": [
+              {
+                "idx": "api",
+                "bytes_indexed": "12903536"
+              },
+              {
+                "idx": "app",
+                "bytes_indexed": "10147400"
+              },
+              {
+                "idx": "auth",
+                "bytes_indexed": "5144370"
+              }
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}

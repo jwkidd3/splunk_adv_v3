@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Splunk Advanced - Introduction & Search Review</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/reveal.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/theme/white.min.css">
+    <style>
+        .reveal .slides section {
+            text-align: left;
+            font-size: 0.75em !important;
+            line-height: 1.3;
+            max-height: 90vh !important;
+            overflow-y: auto !important;
+            padding: 0.5em 1em !important;
+        }
+        .reveal h1 {
+            font-size: 1.8em !important;
+            margin: 0.3em 0 !important;
+        }
+        .reveal h2 {
+            font-size: 1.4em !important;
+            margin: 0.3em 0 !important;
+        }
+        .reveal h3 {
+            font-size: 1.2em !important;
+            margin: 0.3em 0 !important;
+        }
+        .reveal h1, .reveal h2, .reveal h3 {
+            color: #2c3e50;
+            text-align: center;
+        }
+        .reveal p {
+            margin: 0.3em 0 !important;
+        }
+        .reveal ul, .reveal ol {
+            margin: 0.5em 0 !important;
+        }
+        .reveal li {
+            margin: 0.2em 0 !important;
+        }
+        .title-block {
+            background: linear-gradient(135deg, #f05e23 0%, #e31c00 100%);
+            color: white !important;
+            padding: 1.5em;
+            border-radius: 10px;
+            text-align: center;
+        }
+        .session-header {
+            background: #f8f9fa;
+            color: #2c3e50 !important;
+            padding: 0.6em;
+            border-left: 5px solid #f05e23;
+            margin-bottom: 0.5em;
+        }
+        .code-block {
+            background: #2c3e50;
+            color: #ecf0f1;
+            border: 2px solid #34495e;
+            border-radius: 5px;
+            padding: 0.5em;
+            font-family: 'Courier New', monospace;
+            font-size: 0.6em;
+            margin: 0.3em 0;
+            line-height: 1.2;
+            overflow-x: auto;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+        .highlight-box {
+            background: #e8f5e8;
+            border-left: 4px solid #27ae60;
+            padding: 0.5em;
+            margin: 0.3em 0;
+        }
+        .lab-callout {
+            background: linear-gradient(45deg, #f05e23, #e31c00);
+            color: white !important;
+            padding: 0.8em;
+            border-radius: 8px;
+            text-align: center;
+            font-size: 0.9em;
+            margin: 0.5em 0;
+        }
+        .warning-box {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            border-radius: 4px;
+            padding: 0.5em;
+            margin: 0.3em 0;
+        }
+        .info {
+            background: #e3f2fd;
+            border: 1px solid #bbdefb;
+            border-radius: 4px;
+            padding: 0.5em;
+            margin: 0.3em 0;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="reveal">
+        <div class="slides">
+
+            <!-- Title Slide -->
+            <section>
+                <div class="title-block">
+                    <h1>Splunk Advanced Course</h1>
+                    <h3>Introduction & Search Review</h3>
+                    <p><strong>Session 1 - Day 1</strong></p>
+                    <p>Level 2: Beyond Fundamentals</p>
+                </div>
+            </section>
+
+            <!-- Learning Objectives -->
+            <section>
+                <div class="session-header">
+                    <h2>Learning Objectives</h2>
+                </div>
+                <ul>
+                    <li>Review fundamental Splunk search concepts</li>
+                    <li>Master search operators and wildcards</li>
+                    <li>Understand field extraction techniques</li>
+                    <li>Learn search best practices and optimization</li>
+                    <li>Prepare for advanced search techniques</li>
+                </ul>
+            </section>
+
+            <!-- Course Overview -->
+            <section>
+                <div class="session-header">
+                    <h2>Course Overview</h2>
+                </div>
+                <p><strong>Day 1: Advanced Searching and Reporting</strong></p>
+                <ul>
+                    <li>Search basics review and advanced techniques</li>
+                    <li>Subsearches, macros, and statistical commands</li>
+                    <li>Multi-index searches and joins</li>
+                    <li>Custom dashboards and visualizations</li>
+                    <li>Search optimization strategies</li>
+                </ul>
+                <p><strong>Day 2: Data Transformation, Analytics & Administration</strong></p>
+                <ul>
+                    <li>Data manipulation with eval and rex</li>
+                    <li>Lookups and data enrichment</li>
+                    <li>Machine Learning Toolkit introduction</li>
+                    <li>User management and system administration</li>
+                </ul>
+            </section>
+
+            <!-- Search Basics Review -->
+            <section>
+                <div class="session-header">
+                    <h2>Search Basics Review</h2>
+                </div>
+                <p><strong>Basic Search Syntax:</strong></p>
+                <div class="code-block">index=main error</div>
+                <ul>
+                    <li><strong>Keywords:</strong> Simple text search (case-insensitive)</li>
+                    <li><strong>Index:</strong> Specifies which index to search</li>
+                    <li><strong>Time Range:</strong> Defaults to last 24 hours</li>
+                    <li><strong>Pipe (|):</strong> Chains commands together</li>
+                </ul>
+            </section>
+
+            <!-- Boolean Operators -->
+            <section>
+                <div class="session-header">
+                    <h2>Boolean Operators</h2>
+                </div>
+                <p><strong>AND (implicit and explicit):</strong></p>
+                <div class="code-block">error failed
+error AND failed</div>
+                <p><strong>OR:</strong></p>
+                <div class="code-block">error OR warning OR critical</div>
+                <p><strong>NOT:</strong></p>
+                <div class="code-block">error NOT warning</div>
+                <div class="info">
+                    <strong>Note:</strong> Boolean operators must be UPPERCASE. Order of precedence: NOT, AND, OR
+                </div>
+            </section>
+
+            <!-- Wildcards -->
+            <section>
+                <div class="session-header">
+                    <h2>Wildcards</h2>
+                </div>
+                <p><strong>Asterisk (*) - matches any number of characters:</strong></p>
+                <div class="code-block">fail*
+*error
+error*message</div>
+                <div class="warning-box">
+                    <strong>Warning:</strong> Leading wildcards (*error) are slow! Avoid when possible.
+                </div>
+                <p><strong>Best Practices:</strong></p>
+                <ul>
+                    <li>Use wildcards at the end of terms</li>
+                    <li>Be as specific as possible</li>
+                    <li>Consider using field filters instead</li>
+                </ul>
+            </section>
+
+            <!-- Field Extraction -->
+            <section>
+                <div class="session-header">
+                    <h2>Field Extraction</h2>
+                </div>
+                <p><strong>Automatic Fields:</strong></p>
+                <ul>
+                    <li>host, source, sourcetype</li>
+                    <li>_time, _raw, _indextime</li>
+                    <li>Extracted at search time based on sourcetype</li>
+                </ul>
+                <p><strong>Field Filtering:</strong></p>
+                <div class="code-block">index=web status=404
+index=web status>=400 status<500
+index=web user=admin OR user=root</div>
+            </section>
+
+            <!-- Fields Command -->
+            <section>
+                <div class="session-header">
+                    <h2>Fields Command</h2>
+                </div>
+                <p><strong>Display specific fields:</strong></p>
+                <div class="code-block">index=web | fields host, source, status, response_time</div>
+                <p><strong>Remove fields from display:</strong></p>
+                <div class="code-block">index=web | fields - _raw, _indextime</div>
+                <div class="highlight-box">
+                    <strong>Tip:</strong> Use fields early to reduce data volume and improve performance
+                </div>
+            </section>
+
+            <!-- Where Command -->
+            <section>
+                <div class="session-header">
+                    <h2>Where Command</h2>
+                </div>
+                <p><strong>Filter results with boolean logic:</strong></p>
+                <div class="code-block">index=web | where status=404
+index=web | where status > 400 AND status < 500
+index=web | where isnotnull(user_id)</div>
+                <p><strong>where vs field=value:</strong></p>
+                <ul>
+                    <li><strong>field=value:</strong> Earlier in pipeline, index-time filtering</li>
+                    <li><strong>where:</strong> After pipe, search-time filtering with complex logic</li>
+                </ul>
+            </section>
+
+            <!-- Stats Command Introduction -->
+            <section>
+                <div class="session-header">
+                    <h2>Stats Command Introduction</h2>
+                </div>
+                <p><strong>Basic aggregation:</strong></p>
+                <div class="code-block">index=web | stats count
+index=web | stats count by status
+index=web | stats count, avg(response_time) by host</div>
+                <p><strong>Common statistical functions:</strong></p>
+                <ul>
+                    <li>count, sum, avg, min, max</li>
+                    <li>distinct_count (dc)</li>
+                    <li>values (unique values)</li>
+                    <li>list (all values)</li>
+                </ul>
+            </section>
+
+            <!-- Top and Rare Commands -->
+            <section>
+                <div class="session-header">
+                    <h2>Top and Rare Commands</h2>
+                </div>
+                <p><strong>Top command - most common values:</strong></p>
+                <div class="code-block">index=web | top limit=10 user
+index=web | top status, host</div>
+                <p><strong>Rare command - least common values:</strong></p>
+                <div class="code-block">index=web | rare limit=10 src_ip
+index=web | rare user, action</div>
+            </section>
+
+            <!-- Search Best Practices -->
+            <section>
+                <div class="session-header">
+                    <h2>Search Best Practices</h2>
+                </div>
+                <ol>
+                    <li><strong>Be Specific:</strong> Use index, sourcetype, host filters</li>
+                    <li><strong>Time Range:</strong> Limit to necessary time window</li>
+                    <li><strong>Filter Early:</strong> Use field filters before pipes</li>
+                    <li><strong>Avoid Leading Wildcards:</strong> Don't use *error</li>
+                    <li><strong>Use Fields Command:</strong> Reduce data volume early</li>
+                    <li><strong>Leverage Field Filters:</strong> field=value is faster than keywords</li>
+                </ol>
+            </section>
+
+            <!-- Search Performance Tips -->
+            <section>
+                <div class="session-header">
+                    <h2>Search Performance Tips</h2>
+                </div>
+                <div class="code-block">
+# Bad: Broad search
+error
+
+# Better: More specific
+index=main error
+
+# Best: Very specific with time range
+index=main earliest=-1h sourcetype=access_combined status=500
+                </div>
+                <div class="warning-box">
+                    <strong>Remember:</strong> Every character matters for search performance!
+                </div>
+            </section>
+
+            <!-- SPL Search Pipeline -->
+            <section>
+                <div class="session-header">
+                    <h2>SPL Search Pipeline</h2>
+                </div>
+                <p><strong>Search pipeline flows left to right:</strong></p>
+                <div class="code-block">index=web status>=400
+| stats count by status
+| where count > 100
+| sort -count</div>
+                <p><strong>Pipeline stages:</strong></p>
+                <ol>
+                    <li><strong>Retrieve:</strong> Get events from index</li>
+                    <li><strong>Process:</strong> Transform with commands</li>
+                    <li><strong>Display:</strong> Present results</li>
+                </ol>
+            </section>
+
+            <!-- Common Commands Reference -->
+            <section>
+                <div class="session-header">
+                    <h2>Common Commands Quick Reference</h2>
+                </div>
+                <table style="font-size: 0.65em; width: 100%;">
+                    <tr>
+                        <th style="background: #f05e23; color: white; padding: 8px;">Command</th>
+                        <th style="background: #f05e23; color: white; padding: 8px;">Purpose</th>
+                        <th style="background: #f05e23; color: white; padding: 8px;">Example</th>
+                    </tr>
+                    <tr>
+                        <td style="padding: 6px; border: 1px solid #ddd;">fields</td>
+                        <td style="padding: 6px; border: 1px solid #ddd;">Select/remove fields</td>
+                        <td style="padding: 6px; border: 1px solid #ddd;">fields host, status</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 6px; border: 1px solid #ddd;">where</td>
+                        <td style="padding: 6px; border: 1px solid #ddd;">Filter with boolean</td>
+                        <td style="padding: 6px; border: 1px solid #ddd;">where status=200</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 6px; border: 1px solid #ddd;">stats</td>
+                        <td style="padding: 6px; border: 1px solid #ddd;">Calculate statistics</td>
+                        <td style="padding: 6px; border: 1px solid #ddd;">stats count by host</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 6px; border: 1px solid #ddd;">sort</td>
+                        <td style="padding: 6px; border: 1px solid #ddd;">Order results</td>
+                        <td style="padding: 6px; border: 1px solid #ddd;">sort -count</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 6px; border: 1px solid #ddd;">top</td>
+                        <td style="padding: 6px; border: 1px solid #ddd;">Most common values</td>
+                        <td style="padding: 6px; border: 1px solid #ddd;">top 10 user</td>
+                    </tr>
+                </table>
+            </section>
+
+            <!-- Lab 1 Overview -->
+            <section>
+                <div class="lab-callout">
+                    <h2>Lab 1: Review of Search Basics</h2>
+                    <p><strong>Duration: 30 minutes</strong></p>
+                </div>
+                <p><strong>Lab Objectives:</strong></p>
+                <ul>
+                    <li>Practice basic search operators and wildcards</li>
+                    <li>Use fields and where commands effectively</li>
+                    <li>Calculate statistics with stats command</li>
+                    <li>Apply search best practices</li>
+                </ul>
+                <div class="info">
+                    <strong>Location:</strong> lab1-review-search-basics/README.md
+                </div>
+            </section>
+
+            <!-- Summary -->
+            <section>
+                <div class="session-header">
+                    <h2>Session Summary</h2>
+                </div>
+                <ul>
+                    <li>Reviewed fundamental Splunk search syntax</li>
+                    <li>Mastered boolean operators and wildcards</li>
+                    <li>Learned field extraction and filtering</li>
+                    <li>Practiced with fields, where, and stats commands</li>
+                    <li>Understood search best practices</li>
+                </ul>
+                <div class="highlight-box">
+                    <strong>Next:</strong> Presentation 2 - Advanced Search Techniques (Subsearches & Macros)
+                </div>
+            </section>
+
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/reveal.min.js"></script>
+    <script>
+        Reveal.initialize({
+            hash: true,
+            center: false,
+            transition: 'slide',
+            width: 1200,
+            height: 800,
+            margin: 0.1,
+            minScale: 0.2,
+            maxScale: 2.0
+        });
+    </script>
+</body>
+</html>

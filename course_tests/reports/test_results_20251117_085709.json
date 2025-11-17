@@ -1,0 +1,911 @@
+{
+  "timestamp": "2025-11-17T08:57:08.670369",
+  "duration_seconds": 1.130907,
+  "total_labs": 14,
+  "total_tests": 76,
+  "total_passed": 0,
+  "total_failed": 76,
+  "overall_pass_rate": 0.0,
+  "lab_results": [
+    {
+      "lab_number": 1,
+      "lab_name": "Review of Search Basics",
+      "total_tests": 19,
+      "passed": 0,
+      "failed": 19,
+      "pass_rate": 0.0,
+      "results": [
+        {
+          "test_name": "Simple keyword search (error)",
+          "lab_number": 1,
+          "passed": false,
+          "error_message": "Failed to create search",
+          "query": "error",
+          "result_count": 0,
+          "execution_time": 0.00834512710571289,
+          "details": {}
+        },
+        {
+          "test_name": "Wildcard search (error*)",
+          "lab_number": 1,
+          "passed": false,
+          "error_message": "Failed to create search",
+          "query": "error*",
+          "result_count": 0,
+          "execution_time": 0.0010380744934082031,
+          "details": {}
+        },
+        {
+          "test_name": "Boolean AND (error AND failed)",
+          "lab_number": 1,
+          "passed": false,
+          "error_message": "Failed to create search",
+          "query": "error AND failed",
+          "result_count": 0,
+          "execution_time": 0.0008237361907958984,
+          "details": {}
+        },
+        {
+          "test_name": "Boolean OR (error OR failed)",
+          "lab_number": 1,
+          "passed": false,
+          "error_message": "Failed to create search",
+          "query": "error OR failed",
+          "result_count": 0,
+          "execution_time": 0.0007479190826416016,
+          "details": {}
+        },
+        {
+          "test_name": "Boolean NOT (error NOT warning)",
+          "lab_number": 1,
+          "passed": false,
+          "error_message": "Failed to create search",
+          "query": "error NOT warning",
+          "result_count": 0,
+          "execution_time": 0.0006971359252929688,
+          "details": {}
+        },
+        {
+          "test_name": "Fields command",
+          "lab_number": 1,
+          "passed": false,
+          "error_message": "Failed to create search",
+          "query": "index=web | fields host, source, sourcetype | head 10",
+          "result_count": 0,
+          "execution_time": 0.0007588863372802734,
+          "details": {}
+        },
+        {
+          "test_name": "Filter by field value (status=404)",
+          "lab_number": 1,
+          "passed": false,
+          "error_message": "Failed to create search",
+          "query": "index=web status=404 | head 10",
+          "result_count": 0,
+          "execution_time": 0.0006539821624755859,
+          "details": {}
+        },
+        {
+          "test_name": "Field range filter (status>=400 status<500)",
+          "lab_number": 1,
+          "passed": false,
+          "error_message": "Failed to create search",
+          "query": "index=web status>=400 status<500 | head 10",
+          "result_count": 0,
+          "execution_time": 0.0007071495056152344,
+          "details": {}
+        },
+        {
+          "test_name": "Where command (status=404)",
+          "lab_number": 1,
+          "passed": false,
+          "error_message": "Failed to create search",
+          "query": "index=web | where status=404 | head 10",
+          "result_count": 0,
+          "execution_time": 0.0006611347198486328,
+          "details": {}
+        },
+        {
+          "test_name": "Where with AND logic",
+          "lab_number": 1,
+          "passed": false,
+          "error_message": "Failed to create search",
+          "query": "index=web | where status > 400 AND status < 500 | head 10",
+          "result_count": 0,
+          "execution_time": 0.000659942626953125,
+          "details": {}
+        },
+        {
+          "test_name": "Where isnotnull(user_id)",
+          "lab_number": 1,
+          "passed": false,
+          "error_message": "Failed to create search",
+          "query": "index=web | where isnotnull(user_id) | head 10",
+          "result_count": 0,
+          "execution_time": 0.0007188320159912109,
+          "details": {}
+        },
+        {
+          "test_name": "Stats count",
+          "lab_number": 1,
+          "passed": false,
+          "error_message": "Failed to create search",
+          "query": "index=web | stats count",
+          "result_count": 0,
+          "execution_time": 0.0006539821624755859,
+          "details": {}
+        },
+        {
+          "test_name": "Stats count by status",
+          "lab_number": 1,
+          "passed": false,
+          "error_message": "Failed to create search",
+          "query": "index=web | stats count by status",
+          "result_count": 0,
+          "execution_time": 0.0006349086761474609,
+          "details": {}
+        },
+        {
+          "test_name": "Multiple stats (count, avg, max)",
+          "lab_number": 1,
+          "passed": false,
+          "error_message": "Failed to create search",
+          "query": "index=web | stats count, avg(response_time) as avg_time, max(response_time) as max_time by host",
+          "result_count": 0,
+          "execution_time": 0.0006709098815917969,
+          "details": {}
+        },
+        {
+          "test_name": "Top command (top 10 user)",
+          "lab_number": 1,
+          "passed": false,
+          "error_message": "Failed to create search",
+          "query": "index=web | top limit=10 user",
+          "result_count": 0,
+          "execution_time": 0.0006070137023925781,
+          "details": {}
+        },
+        {
+          "test_name": "Rare command (rare 10 source)",
+          "lab_number": 1,
+          "passed": false,
+          "error_message": "Failed to create search",
+          "query": "index=web | rare limit=10 source",
+          "result_count": 0,
+          "execution_time": 0.0006310939788818359,
+          "details": {}
+        },
+        {
+          "test_name": "Challenge 1: Authentication failures",
+          "lab_number": 1,
+          "passed": false,
+          "error_message": "Failed to create search",
+          "query": "index=auth action=login_failed | fields _time, user, src_ip | sort -_time | head 10",
+          "result_count": 0,
+          "execution_time": 0.0006432533264160156,
+          "details": {}
+        },
+        {
+          "test_name": "Challenge 2: Error count by sourcetype",
+          "lab_number": 1,
+          "passed": false,
+          "error_message": "Failed to create search",
+          "query": "index=app level=ERROR | stats count by sourcetype | sort -count",
+          "result_count": 0,
+          "execution_time": 0.0006220340728759766,
+          "details": {}
+        },
+        {
+          "test_name": "Challenge 3: Response time stats by status",
+          "lab_number": 1,
+          "passed": false,
+          "error_message": "Failed to create search",
+          "query": "index=web | stats avg(response_time) as avg_time, min(response_time) as min_time, max(response_time) as max_time by status | sort -avg_time",
+          "result_count": 0,
+          "execution_time": 0.0007581710815429688,
+          "details": {}
+        }
+      ]
+    },
+    {
+      "lab_number": 2,
+      "lab_name": "Subsearches and Macros",
+      "total_tests": 11,
+      "passed": 0,
+      "failed": 11,
+      "pass_rate": 0.0,
+      "results": [
+        {
+          "test_name": "Basic subsearch (IPs with 404 errors)",
+          "lab_number": 2,
+          "passed": false,
+          "error_message": "Failed to create search",
+          "query": "index=web status=200 [search index=web status=404 | fields src_ip | dedup src_ip | head 10]",
+          "result_count": 0,
+          "execution_time": 0.0009760856628417969,
+          "details": {}
+        },
+        {
+          "test_name": "Subsearch with return command",
+          "lab_number": 2,
+          "passed": false,
+          "error_message": "Failed to create search",
+          "query": "index=web [search index=auth action=login status=success | fields user | dedup user | head 10 | return 1000 $user]",
+          "result_count": 0,
+          "execution_time": 0.0007481575012207031,
+          "details": {}
+        },
+        {
+          "test_name": "Subsearch with format command",
+          "lab_number": 2,
+          "passed": false,
+          "error_message": "Failed to create search",
+          "query": "index=web [search index=app level=ERROR | fields host | format] | head 10",
+          "result_count": 0,
+          "execution_time": 0.0006341934204101562,
+          "details": {}
+        },
+        {
+          "test_name": "Related events subsearch",
+          "lab_number": 2,
+          "passed": false,
+          "error_message": "Failed to create search",
+          "query": "index=web [search index=web status>=500 | head 10 | fields src_ip] | stats count by user, src_ip",
+          "result_count": 0,
+          "execution_time": 0.0006191730499267578,
+          "details": {}
+        },
+        {
+          "test_name": "NOT with subsearch",
+          "lab_number": 2,
+          "passed": false,
+          "error_message": "Failed to create search",
+          "query": "index=web NOT [search index=web status=200 | fields session_id | head 100] | head 10",
+          "result_count": 0,
+          "execution_time": 0.0006279945373535156,
+          "details": {}
+        },
+        {
+          "test_name": "Multiple subsearches with OR",
+          "lab_number": 2,
+          "passed": false,
+          "error_message": "Failed to create search",
+          "query": "index=web [search index=web status>=500 | fields src_ip | head 10] OR [search index=auth action=login_failed | fields src_ip | head 10] | head 10",
+          "result_count": 0,
+          "execution_time": 0.0006279945373535156,
+          "details": {}
+        },
+        {
+          "test_name": "Simple macro usage (get_errors)",
+          "lab_number": 2,
+          "passed": false,
+          "error_message": "Failed to create search",
+          "query": "index=web status>=400 status<600 | stats count by status",
+          "result_count": 0,
+          "execution_time": 0.000621795654296875,
+          "details": {}
+        },
+        {
+          "test_name": "Time range pattern",
+          "lab_number": 2,
+          "passed": false,
+          "error_message": "Failed to create search",
+          "query": "index=web earliest=-24h | stats count",
+          "result_count": 0,
+          "execution_time": 0.0005979537963867188,
+          "details": {}
+        },
+        {
+          "test_name": "Aggregation pattern (top users)",
+          "lab_number": 2,
+          "passed": false,
+          "error_message": "Failed to create search",
+          "query": "index=web | stats count by user | sort -count | head 10",
+          "result_count": 0,
+          "execution_time": 0.0005950927734375,
+          "details": {}
+        },
+        {
+          "test_name": "Challenge 1: New location login detection",
+          "lab_number": 2,
+          "passed": false,
+          "error_message": "Failed to create search",
+          "query": "index=auth action=login earliest=-1d NOT [search index=auth action=login earliest=-30d latest=-1d | fields user, src_ip] | stats count by user, src_ip | sort -count | head 10",
+          "result_count": 0,
+          "execution_time": 0.0006070137023925781,
+          "details": {}
+        },
+        {
+          "test_name": "Challenge 2: Active users analysis",
+          "lab_number": 2,
+          "passed": false,
+          "error_message": "Failed to create search",
+          "query": "index=web [search index=web earliest=-24h | stats count by user | sort -count | head 10 | fields user] | stats count as total by user | sort -total",
+          "result_count": 0,
+          "execution_time": 0.0006067752838134766,
+          "details": {}
+        }
+      ]
+    },
+    {
+      "lab_number": 3,
+      "lab_name": "Statistical Commands",
+      "total_tests": 9,
+      "passed": 0,
+      "failed": 9,
+      "pass_rate": 0.0,
+      "results": [
+        {
+          "test_name": "Stats with multiple aggregations",
+          "lab_number": 3,
+          "passed": false,
+          "error_message": "Failed to create search",
+          "query": "index=web | stats count, avg(response_time) as avg_time, max(response_time) as max_time, min(response_time) as min_time by status",
+          "result_count": 0,
+          "execution_time": 0.0006258487701416016,
+          "details": {}
+        },
+        {
+          "test_name": "Stats with eval calculations",
+          "lab_number": 3,
+          "passed": false,
+          "error_message": "Failed to create search",
+          "query": "index=web | stats sum(bytes) as total_bytes by host | eval total_mb = round(total_bytes/1024/1024, 2)",
+          "result_count": 0,
+          "execution_time": 0.0006570816040039062,
+          "details": {}
+        },
+        {
+          "test_name": "Stats with distinct count (dc)",
+          "lab_number": 3,
+          "passed": false,
+          "error_message": "Failed to create search",
+          "query": "index=web | stats dc(user) as unique_users, count as total_requests by host",
+          "result_count": 0,
+          "execution_time": 0.0006377696990966797,
+          "details": {}
+        },
+        {
+          "test_name": "Stats with values() function",
+          "lab_number": 3,
+          "passed": false,
+          "error_message": "Failed to create search",
+          "query": "index=web | stats values(status) as status_codes, count by host",
+          "result_count": 0,
+          "execution_time": 0.0005869865417480469,
+          "details": {}
+        },
+        {
+          "test_name": "Chart count over host by status",
+          "lab_number": 3,
+          "passed": false,
+          "error_message": "Failed to create search",
+          "query": "index=web | chart count over host by status",
+          "result_count": 0,
+          "execution_time": 0.00061798095703125,
+          "details": {}
+        },
+        {
+          "test_name": "Chart with useother and limit",
+          "lab_number": 3,
+          "passed": false,
+          "error_message": "Failed to create search",
+          "query": "index=web | chart count over status by host limit=5",
+          "result_count": 0,
+          "execution_time": 0.0005731582641601562,
+          "details": {}
+        },
+        {
+          "test_name": "Timechart span=1h avg response time",
+          "lab_number": 3,
+          "passed": false,
+          "error_message": "Failed to create search",
+          "query": "index=web | timechart span=1h avg(response_time) as avg_time",
+          "result_count": 0,
+          "execution_time": 0.0005948543548583984,
+          "details": {}
+        },
+        {
+          "test_name": "Timechart count by status",
+          "lab_number": 3,
+          "passed": false,
+          "error_message": "Failed to create search",
+          "query": "index=web | timechart span=1h count by status",
+          "result_count": 0,
+          "execution_time": 0.0006208419799804688,
+          "details": {}
+        },
+        {
+          "test_name": "Timechart multiple statistics",
+          "lab_number": 3,
+          "passed": false,
+          "error_message": "Failed to create search",
+          "query": "index=web | timechart span=1h avg(response_time) as avg_time, max(response_time) as max_time, count",
+          "result_count": 0,
+          "execution_time": 0.0006031990051269531,
+          "details": {}
+        }
+      ]
+    },
+    {
+      "lab_number": 4,
+      "lab_name": "Join Command and Multi-Index Searches",
+      "total_tests": 4,
+      "passed": 0,
+      "failed": 4,
+      "pass_rate": 0.0,
+      "results": [
+        {
+          "test_name": "Basic join operation",
+          "lab_number": 4,
+          "passed": false,
+          "error_message": "Failed to create search",
+          "query": "index=web | join type=inner user [search index=auth action=login | fields user, src_ip] | head 10",
+          "result_count": 0,
+          "execution_time": 0.0006840229034423828,
+          "details": {}
+        },
+        {
+          "test_name": "Left join operation",
+          "lab_number": 4,
+          "passed": false,
+          "error_message": "Failed to create search",
+          "query": "index=web | join type=left user [search index=auth | fields user, action] | head 10",
+          "result_count": 0,
+          "execution_time": 0.0005810260772705078,
+          "details": {}
+        },
+        {
+          "test_name": "Append command",
+          "lab_number": 4,
+          "passed": false,
+          "error_message": "Failed to create search",
+          "query": "index=web earliest=-1h | append [search index=app earliest=-1h] | head 20",
+          "result_count": 0,
+          "execution_time": 0.0005788803100585938,
+          "details": {}
+        },
+        {
+          "test_name": "Multi-index search",
+          "lab_number": 4,
+          "passed": false,
+          "error_message": "Failed to create search",
+          "query": "(index=web OR index=app) earliest=-1h | stats count by index",
+          "result_count": 0,
+          "execution_time": 0.0016109943389892578,
+          "details": {}
+        }
+      ]
+    },
+    {
+      "lab_number": 5,
+      "lab_name": "Time-Based Searches",
+      "total_tests": 4,
+      "passed": 0,
+      "failed": 4,
+      "pass_rate": 0.0,
+      "results": [
+        {
+          "test_name": "Time range with earliest/latest",
+          "lab_number": 5,
+          "passed": false,
+          "error_message": "Failed to create search",
+          "query": "index=web earliest=-24h latest=-1h | stats count",
+          "result_count": 0,
+          "execution_time": 0.0006239414215087891,
+          "details": {}
+        },
+        {
+          "test_name": "Timechart with span",
+          "lab_number": 5,
+          "passed": false,
+          "error_message": "Failed to create search",
+          "query": "index=web | timechart span=1h count by status",
+          "result_count": 0,
+          "execution_time": 0.00061798095703125,
+          "details": {}
+        },
+        {
+          "test_name": "Bucket command for time grouping",
+          "lab_number": 5,
+          "passed": false,
+          "error_message": "Failed to create search",
+          "query": "index=web | bucket _time span=15m | stats count by _time, host | head 20",
+          "result_count": 0,
+          "execution_time": 0.0005991458892822266,
+          "details": {}
+        },
+        {
+          "test_name": "Timechart for prediction",
+          "lab_number": 5,
+          "passed": false,
+          "error_message": "Failed to create search",
+          "query": "index=web | timechart span=1d count as daily_count",
+          "result_count": 0,
+          "execution_time": 0.0006220340728759766,
+          "details": {}
+        }
+      ]
+    },
+    {
+      "lab_number": 6,
+      "lab_name": "Custom Dashboards and Visualizations",
+      "total_tests": 4,
+      "passed": 0,
+      "failed": 4,
+      "pass_rate": 0.0,
+      "results": [
+        {
+          "test_name": "Line chart data (timechart)",
+          "lab_number": 6,
+          "passed": false,
+          "error_message": "Failed to create search",
+          "query": "index=web | timechart span=1h avg(response_time) as avg_response",
+          "result_count": 0,
+          "execution_time": 0.0006489753723144531,
+          "details": {}
+        },
+        {
+          "test_name": "Bar chart data (stats by category)",
+          "lab_number": 6,
+          "passed": false,
+          "error_message": "Failed to create search",
+          "query": "index=web | stats count by status | sort -count",
+          "result_count": 0,
+          "execution_time": 0.0006129741668701172,
+          "details": {}
+        },
+        {
+          "test_name": "Pie chart data (distribution)",
+          "lab_number": 6,
+          "passed": false,
+          "error_message": "Failed to create search",
+          "query": "index=web | stats count by host",
+          "result_count": 0,
+          "execution_time": 0.0006310939788818359,
+          "details": {}
+        },
+        {
+          "test_name": "Single value KPI",
+          "lab_number": 6,
+          "passed": false,
+          "error_message": "Failed to create search",
+          "query": "index=web | stats avg(response_time) as avg_response_time",
+          "result_count": 0,
+          "execution_time": 0.0005681514739990234,
+          "details": {}
+        }
+      ]
+    },
+    {
+      "lab_number": 7,
+      "lab_name": "Search Optimization",
+      "total_tests": 3,
+      "passed": 0,
+      "failed": 3,
+      "pass_rate": 0.0,
+      "results": [
+        {
+          "test_name": "Optimized search (specific index and time)",
+          "lab_number": 7,
+          "passed": false,
+          "error_message": "Failed to create search",
+          "query": "index=web earliest=-1h sourcetype=* status>=500 | stats count by host",
+          "result_count": 0,
+          "execution_time": 0.0005869865417480469,
+          "details": {}
+        },
+        {
+          "test_name": "Early field extraction",
+          "lab_number": 7,
+          "passed": false,
+          "error_message": "Failed to create search",
+          "query": "index=web | fields status, response_time, host | stats avg(response_time) by status",
+          "result_count": 0,
+          "execution_time": 0.0005829334259033203,
+          "details": {}
+        },
+        {
+          "test_name": "Stats-based aggregation",
+          "lab_number": 7,
+          "passed": false,
+          "error_message": "Failed to create search",
+          "query": "index=web | stats count, values(status) as statuses by src_ip | head 100",
+          "result_count": 0,
+          "execution_time": 0.0006017684936523438,
+          "details": {}
+        }
+      ]
+    },
+    {
+      "lab_number": 8,
+      "lab_name": "Eval Command and Data Manipulation",
+      "total_tests": 6,
+      "passed": 0,
+      "failed": 6,
+      "pass_rate": 0.0,
+      "results": [
+        {
+          "test_name": "Eval basic calculation",
+          "lab_number": 8,
+          "passed": false,
+          "error_message": "Failed to create search",
+          "query": "index=web | eval response_time_sec = response_time / 1000 | head 10",
+          "result_count": 0,
+          "execution_time": 0.0006730556488037109,
+          "details": {}
+        },
+        {
+          "test_name": "Eval if statement",
+          "lab_number": 8,
+          "passed": false,
+          "error_message": "Failed to create search",
+          "query": "index=web | eval status_category = if(status < 400, \"Success\", \"Error\") | stats count by status_category",
+          "result_count": 0,
+          "execution_time": 0.0006382465362548828,
+          "details": {}
+        },
+        {
+          "test_name": "Eval case statement",
+          "lab_number": 8,
+          "passed": false,
+          "error_message": "Failed to create search",
+          "query": "index=web | eval status_type = case(status >= 200 AND status < 300, \"Success\", status >= 300 AND status < 400, \"Redirect\", status >= 400 AND status < 500, \"Client Error\", status >= 500, \"Server Error\", 1=1, \"Unknown\") | stats count by status_type",
+          "result_count": 0,
+          "execution_time": 0.0006270408630371094,
+          "details": {}
+        },
+        {
+          "test_name": "Eval coalesce",
+          "lab_number": 8,
+          "passed": false,
+          "error_message": "Failed to create search",
+          "query": "index=web | eval user_field = coalesce(user, \"anonymous\") | stats count by user_field",
+          "result_count": 0,
+          "execution_time": 0.0005929470062255859,
+          "details": {}
+        },
+        {
+          "test_name": "Eval string functions",
+          "lab_number": 8,
+          "passed": false,
+          "error_message": "Failed to create search",
+          "query": "index=web | eval url_length = len(url), url_upper = upper(url) | head 10",
+          "result_count": 0,
+          "execution_time": 0.0005888938903808594,
+          "details": {}
+        },
+        {
+          "test_name": "Eval date/time functions",
+          "lab_number": 8,
+          "passed": false,
+          "error_message": "Failed to create search",
+          "query": "index=web | eval hour = strftime(_time, \"%H\"), day_of_week = strftime(_time, \"%A\") | stats count by hour",
+          "result_count": 0,
+          "execution_time": 0.0005960464477539062,
+          "details": {}
+        }
+      ]
+    },
+    {
+      "lab_number": 9,
+      "lab_name": "Regular Expressions with Rex",
+      "total_tests": 3,
+      "passed": 0,
+      "failed": 3,
+      "pass_rate": 0.0,
+      "results": [
+        {
+          "test_name": "Rex basic field extraction",
+          "lab_number": 9,
+          "passed": false,
+          "error_message": "Failed to create search",
+          "query": "index=web | rex field=url \"/(?<endpoint>[^/]+)$\" | stats count by endpoint | head 10",
+          "result_count": 0,
+          "execution_time": 0.0006337165832519531,
+          "details": {}
+        },
+        {
+          "test_name": "Rex multiple fields",
+          "lab_number": 9,
+          "passed": false,
+          "error_message": "Failed to create search",
+          "query": "index=app | rex \"user=(?<username>\\w+).*level=(?<log_level>\\w+)\" | stats count by log_level | head 10",
+          "result_count": 0,
+          "execution_time": 0.0005738735198974609,
+          "details": {}
+        },
+        {
+          "test_name": "Rex named capture groups",
+          "lab_number": 9,
+          "passed": false,
+          "error_message": "Failed to create search",
+          "query": "index=web | rex field=_raw \"(?<ip_addr>\\d+\\.\\d+\\.\\d+\\.\\d+)\" | stats dc(ip_addr) as unique_ips",
+          "result_count": 0,
+          "execution_time": 0.0005559921264648438,
+          "details": {}
+        }
+      ]
+    },
+    {
+      "lab_number": 10,
+      "lab_name": "Lookups and Data Enrichment",
+      "total_tests": 3,
+      "passed": 0,
+      "failed": 3,
+      "pass_rate": 0.0,
+      "results": [
+        {
+          "test_name": "Inputlookup users.csv",
+          "lab_number": 10,
+          "passed": false,
+          "error_message": "Expected at least 1 results, got 0",
+          "query": "| inputlookup users.csv | head 10",
+          "result_count": 0,
+          "execution_time": 1.0331618785858154,
+          "details": {}
+        },
+        {
+          "test_name": "Lookup enrichment",
+          "lab_number": 10,
+          "passed": false,
+          "error_message": "Failed to create search",
+          "query": "index=web | lookup users.csv user_id OUTPUT email, department | head 10",
+          "result_count": 0,
+          "execution_time": 0.00611114501953125,
+          "details": {}
+        },
+        {
+          "test_name": "Stats with lookup fields",
+          "lab_number": 10,
+          "passed": false,
+          "error_message": "Failed to create search",
+          "query": "index=web | lookup users.csv user_id OUTPUT department | stats count by department",
+          "result_count": 0,
+          "execution_time": 0.004300117492675781,
+          "details": {}
+        }
+      ]
+    },
+    {
+      "lab_number": 11,
+      "lab_name": "Machine Learning Toolkit Introduction",
+      "total_tests": 2,
+      "passed": 0,
+      "failed": 2,
+      "pass_rate": 0.0,
+      "results": [
+        {
+          "test_name": "Prepare data for ML (timechart)",
+          "lab_number": 11,
+          "passed": false,
+          "error_message": "Failed to create search",
+          "query": "index=web | timechart span=1h avg(response_time) as avg_time",
+          "result_count": 0,
+          "execution_time": 0.003615140914916992,
+          "details": {}
+        },
+        {
+          "test_name": "Statistical baseline calculation",
+          "lab_number": 11,
+          "passed": false,
+          "error_message": "Failed to create search",
+          "query": "index=web | stats avg(response_time) as avg_response, stdev(response_time) as stdev_response by host",
+          "result_count": 0,
+          "execution_time": 0.003280162811279297,
+          "details": {}
+        }
+      ]
+    },
+    {
+      "lab_number": 12,
+      "lab_name": "Time Series Analysis",
+      "total_tests": 2,
+      "passed": 0,
+      "failed": 2,
+      "pass_rate": 0.0,
+      "results": [
+        {
+          "test_name": "Time series data (daily aggregation)",
+          "lab_number": 12,
+          "passed": false,
+          "error_message": "Failed to create search",
+          "query": "index=sales | timechart span=1d sum(final_amount) as daily_revenue",
+          "result_count": 0,
+          "execution_time": 0.003603219985961914,
+          "details": {}
+        },
+        {
+          "test_name": "Trend analysis with trendline",
+          "lab_number": 12,
+          "passed": false,
+          "error_message": "Failed to create search",
+          "query": "index=sales | timechart span=1d sum(final_amount) as revenue | trendline sma3(revenue) as trend",
+          "result_count": 0,
+          "execution_time": 0.0038750171661376953,
+          "details": {}
+        }
+      ]
+    },
+    {
+      "lab_number": 13,
+      "lab_name": "User and Role Management",
+      "total_tests": 2,
+      "passed": 0,
+      "failed": 2,
+      "pass_rate": 0.0,
+      "results": [
+        {
+          "test_name": "User activity in internal logs",
+          "lab_number": 13,
+          "passed": false,
+          "error_message": "Failed to create search",
+          "query": "index=_audit action=login | stats count by user | head 10",
+          "result_count": 0,
+          "execution_time": 0.0034971237182617188,
+          "details": {}
+        },
+        {
+          "test_name": "Search activity audit",
+          "lab_number": 13,
+          "passed": false,
+          "error_message": "Failed to create search",
+          "query": "index=_audit action=search | stats count by user | head 10",
+          "result_count": 0,
+          "execution_time": 0.0032961368560791016,
+          "details": {}
+        }
+      ]
+    },
+    {
+      "lab_number": 14,
+      "lab_name": "System Administration and Monitoring",
+      "total_tests": 4,
+      "passed": 0,
+      "failed": 4,
+      "pass_rate": 0.0,
+      "results": [
+        {
+          "test_name": "Index event counts",
+          "lab_number": 14,
+          "passed": false,
+          "error_message": "Failed to create search",
+          "query": "index=* | stats count by index",
+          "result_count": 0,
+          "execution_time": 0.004029989242553711,
+          "details": {}
+        },
+        {
+          "test_name": "Sourcetype distribution",
+          "lab_number": 14,
+          "passed": false,
+          "error_message": "Failed to create search",
+          "query": "index=* | stats count by sourcetype | sort -count",
+          "result_count": 0,
+          "execution_time": 0.004111766815185547,
+          "details": {}
+        },
+        {
+          "test_name": "Splunk internal metrics",
+          "lab_number": 14,
+          "passed": false,
+          "error_message": "Failed to create search",
+          "query": "index=_internal source=*metrics.log | stats count by source",
+          "result_count": 0,
+          "execution_time": 0.004168272018432617,
+          "details": {}
+        },
+        {
+          "test_name": "License usage check",
+          "lab_number": 14,
+          "passed": false,
+          "error_message": "Failed to create search",
+          "query": "index=_internal source=*license_usage.log | stats sum(b) as bytes_indexed by idx",
+          "result_count": 0,
+          "execution_time": 0.003896951675415039,
+          "details": {}
+        }
+      ]
+    }
+  ]
+}
