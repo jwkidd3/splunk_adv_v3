@@ -1,0 +1,876 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Splunk Advanced - Join Command, Multi-Index Searches & Time-Based Analysis</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/reveal.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/theme/white.min.css">
+    <style>
+        .reveal .slides section {
+            text-align: left;
+            font-size: 0.75em !important;
+            line-height: 1.3;
+            max-height: 90vh !important;
+            overflow-y: auto !important;
+            padding: 0.5em 1em !important;
+        }
+        .reveal h1 {
+            font-size: 1.8em !important;
+            margin: 0.3em 0 !important;
+        }
+        .reveal h2 {
+            font-size: 1.4em !important;
+            margin: 0.3em 0 !important;
+        }
+        .reveal h3 {
+            font-size: 1.2em !important;
+            margin: 0.3em 0 !important;
+        }
+        .reveal h1, .reveal h2, .reveal h3 {
+            color: #2c3e50;
+            text-align: center;
+        }
+        .reveal p {
+            margin: 0.3em 0 !important;
+        }
+        .reveal ul, .reveal ol {
+            margin: 0.5em 0 !important;
+        }
+        .reveal li {
+            margin: 0.2em 0 !important;
+        }
+        .title-block {
+            background: linear-gradient(135deg, #f05e23 0%, #e31c00 100%);
+            color: white !important;
+            padding: 1.5em;
+            border-radius: 10px;
+            text-align: center;
+        }
+        .session-header {
+            background: #f8f9fa;
+            color: #2c3e50 !important;
+            padding: 0.6em;
+            border-left: 5px solid #f05e23;
+            margin-bottom: 0.5em;
+        }
+        .code-block {
+            background: #2c3e50;
+            color: #ecf0f1;
+            border: 2px solid #34495e;
+            border-radius: 5px;
+            padding: 0.5em;
+            font-family: 'Courier New', monospace;
+            font-size: 0.6em;
+            margin: 0.3em 0;
+            line-height: 1.2;
+            overflow-x: auto;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+        .highlight-box {
+            background: #e8f5e8;
+            border-left: 4px solid #27ae60;
+            padding: 0.5em;
+            margin: 0.3em 0;
+        }
+        .lab-callout {
+            background: linear-gradient(45deg, #f05e23, #e31c00);
+            color: white !important;
+            padding: 0.8em;
+            border-radius: 8px;
+            text-align: center;
+            font-size: 0.9em;
+            margin: 0.5em 0;
+        }
+        .warning-box {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            border-radius: 4px;
+            padding: 0.5em;
+            margin: 0.3em 0;
+        }
+        .info {
+            background: #e3f2fd;
+            border: 1px solid #bbdefb;
+            border-radius: 4px;
+            padding: 0.5em;
+            margin: 0.3em 0;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="reveal">
+        <div class="slides">
+
+            <!-- Title Slide -->
+            <section>
+                <div class="title-block">
+                    <h1>Join Command, Multi-Index Searches & Time-Based Analysis</h1>
+                    <h3>Advanced Data Correlation Techniques</h3>
+                    <p><strong>Session 3</strong></p>
+                    <p>Labs 4-5: Correlating Data Across Sources and Time</p>
+                </div>
+            </section>
+
+            <!-- Learning Objectives -->
+            <section>
+                <div class="session-header">
+                    <h2>Learning Objectives</h2>
+                </div>
+                <p>By the end of this session, you will be able to:</p>
+                <ul>
+                    <li><strong>Join Operations:</strong> Combine data from different searches using inner, left, and outer joins</li>
+                    <li><strong>Multi-Index Searches:</strong> Query across multiple indexes efficiently</li>
+                    <li><strong>Data Combination:</strong> Use append and union commands for data aggregation</li>
+                    <li><strong>Time Analysis:</strong> Master time modifiers and time-based filtering techniques</li>
+                    <li><strong>Trend Analysis:</strong> Create timecharts and perform forecasting</li>
+                    <li><strong>Performance:</strong> Optimize correlation searches for large datasets</li>
+                </ul>
+            </section>
+
+            <!-- Part 1: Join Command Introduction -->
+            <section>
+                <div class="session-header">
+                    <h2>Part 1: Understanding the Join Command</h2>
+                </div>
+                <h3>What is the Join Command?</h3>
+                <p>The join command correlates data from two searches based on common field values:</p>
+                <ul>
+                    <li>Combines results from a main search and a subsearch</li>
+                    <li>Similar to SQL JOIN operations</li>
+                    <li>Supports multiple join types: inner, left, and outer</li>
+                    <li>Critical for correlating data across different sources</li>
+                </ul>
+
+                <div class="highlight-box">
+                    <strong>Key Concept:</strong> Use join when you need to combine fields from different data sources based on common identifiers (like user_id, host, ip_address)
+                </div>
+
+                <div class="warning-box">
+                    <strong>Performance Note:</strong> join operations can be resource-intensive. Consider alternatives like stats or transaction when possible
+                </div>
+            </section>
+
+            <!-- Join Syntax -->
+            <section>
+                <div class="session-header">
+                    <h2>Join Command Syntax</h2>
+                </div>
+                <h3>Basic Syntax</h3>
+                <div class="code-block">... | join [type=inner|left|outer] [field-list] [subsearch]</div>
+
+                <h3>Join Types</h3>
+                <ul>
+                    <li><strong>inner (default):</strong> Returns only matching events from both searches</li>
+                    <li><strong>left:</strong> Returns all events from main search, matching events from subsearch</li>
+                    <li><strong>outer:</strong> Returns all events from both searches, whether matched or not</li>
+                </ul>
+
+                <h3>Simple Example</h3>
+                <div class="code-block">index=web status=200
+| join user_id [search index=users | fields user_id, user_name, user_level]
+| table user_id, user_name, user_level, uri, status</div>
+                <p><em>Joins web logs with user information based on user_id</em></p>
+            </section>
+
+            <!-- Inner Join -->
+            <section>
+                <div class="session-header">
+                    <h2>Inner Join</h2>
+                </div>
+                <h3>Definition</h3>
+                <p>Returns only events that have matching values in both searches (default behavior)</p>
+
+                <h3>Use Case: Correlate Login Success with User Profile</h3>
+                <div class="code-block">index=auth action=success
+| stats count by user_id, src_ip
+| join type=inner user_id [
+    search index=user_db
+    | fields user_id, department, security_level
+]
+| table user_id, department, security_level, src_ip, count
+| sort -count</div>
+
+                <h3>When to Use Inner Join</h3>
+                <ul>
+                    <li>Need data from both sources to be meaningful</li>
+                    <li>Want to exclude unmatched records</li>
+                    <li>Enriching data where reference must exist</li>
+                </ul>
+
+                <div class="info">
+                    <strong>Example Result:</strong> Only users who have both login events AND user profile records will appear
+                </div>
+            </section>
+
+            <!-- Left Join -->
+            <section>
+                <div class="session-header">
+                    <h2>Left Join</h2>
+                </div>
+                <h3>Definition</h3>
+                <p>Returns all events from the main search, with matching data from subsearch when available</p>
+
+                <h3>Use Case: Enrich Web Logs with Optional User Data</h3>
+                <div class="code-block">index=web
+| stats count, avg(response_time) as avg_response by user_id, uri
+| join type=left user_id [
+    search index=users
+    | fields user_id, user_type, subscription_level
+]
+| fillnull value="Unknown" user_type subscription_level
+| table user_id, user_type, subscription_level, uri, count, avg_response</div>
+
+                <h3>When to Use Left Join</h3>
+                <ul>
+                    <li>Main search data is complete and primary</li>
+                    <li>Subsearch provides optional enrichment</li>
+                    <li>Want to see all main search results regardless of match</li>
+                </ul>
+
+                <div class="highlight-box">
+                    <strong>Pro Tip:</strong> Use fillnull after left joins to handle missing values from unmatched records
+                </div>
+            </section>
+
+            <!-- Outer Join -->
+            <section>
+                <div class="session-header">
+                    <h2>Outer Join</h2>
+                </div>
+                <h3>Definition</h3>
+                <p>Returns all events from both searches, matching where possible</p>
+
+                <h3>Use Case: Find All Users with or without Recent Activity</h3>
+                <div class="code-block">index=auth earliest=-24h
+| stats count as login_count by user_id
+| join type=outer user_id [
+    search index=users status=active
+    | fields user_id, last_seen, account_status
+]
+| fillnull value=0 login_count
+| fillnull value="Unknown" last_seen, account_status
+| eval activity_status=if(login_count>0, "Active", "Inactive")
+| table user_id, login_count, activity_status, last_seen, account_status</div>
+
+                <h3>When to Use Outer Join</h3>
+                <ul>
+                    <li>Need complete picture from both sources</li>
+                    <li>Identifying gaps or mismatches</li>
+                    <li>Reconciliation and auditing scenarios</li>
+                </ul>
+            </section>
+
+            <!-- Multi-Field Join -->
+            <section>
+                <div class="session-header">
+                    <h2>Multi-Field Joins</h2>
+                </div>
+                <h3>Joining on Multiple Fields</h3>
+                <p>Correlate data using multiple field matches for more precise joins</p>
+
+                <h3>Syntax</h3>
+                <div class="code-block">... | join field1 field2 field3 [subsearch]</div>
+
+                <h3>Example: Match by User and Session</h3>
+                <div class="code-block">index=web_logs
+| stats count by user_id, session_id, uri
+| join user_id session_id [
+    search index=app_logs event_type=transaction
+    | fields user_id, session_id, transaction_id, amount
+]
+| table user_id, session_id, uri, transaction_id, amount, count</div>
+
+                <h3>Best Practices</h3>
+                <ul>
+                    <li>Use specific fields to improve match accuracy</li>
+                    <li>Include only necessary fields in subsearch</li>
+                    <li>Consider cardinality of join fields</li>
+                </ul>
+
+                <div class="warning-box">
+                    <strong>Warning:</strong> More join fields = more specific matches but potentially fewer results
+                </div>
+            </section>
+
+            <!-- Join Performance -->
+            <section>
+                <div class="session-header">
+                    <h2>Join Performance Optimization</h2>
+                </div>
+                <h3>Performance Challenges</h3>
+                <ul>
+                    <li>Join operations are memory-intensive</li>
+                    <li>Default limit: 50,000 results from subsearch</li>
+                    <li>Can significantly slow down searches</li>
+                </ul>
+
+                <h3>Optimization Techniques</h3>
+                <ol>
+                    <li><strong>Reduce Subsearch Results:</strong></li>
+                </ol>
+                <div class="code-block">BAD:  | join user_id [search index=users]
+GOOD: | join user_id [search index=users | dedup user_id | fields user_id, user_name]</div>
+
+                <ol start="2">
+                    <li><strong>Filter Early:</strong></li>
+                </ol>
+                <div class="code-block">BAD:  | join user_id [search index=users] | where department="IT"
+GOOD: | join user_id [search index=users department="IT" | fields user_id, department]</div>
+
+                <ol start="3">
+                    <li><strong>Use stats Instead When Possible:</strong></li>
+                </ol>
+                <div class="code-block">INSTEAD OF JOIN: index=web OR index=users | stats values(*) by user_id</div>
+
+                <div class="highlight-box">
+                    <strong>Rule of Thumb:</strong> If you can use stats with OR logic, it's usually faster than join
+                </div>
+            </section>
+
+            <!-- Join vs Stats -->
+            <section>
+                <div class="session-header">
+                    <h2>Join vs Stats: When to Use Each</h2>
+                </div>
+                <h3>Use Join When:</h3>
+                <ul>
+                    <li>Data sources have different time ranges</li>
+                    <li>Subsearch uses complex logic or transformations</li>
+                    <li>Need specific join type (left, outer)</li>
+                    <li>Sources cannot be combined with OR</li>
+                </ul>
+
+                <h3>Use Stats When:</h3>
+                <ul>
+                    <li>All data in same time range</li>
+                    <li>Can combine sources with OR logic</li>
+                    <li>Need better performance</li>
+                    <li>Simple aggregation across sources</li>
+                </ul>
+
+                <h3>Comparison Example</h3>
+                <div class="code-block">WITH JOIN (Slower):
+index=web | stats count by user_id
+| join user_id [search index=app | stats count as app_count by user_id]
+
+WITH STATS (Faster):
+(index=web OR index=app)
+| stats count(eval(index="web")) as web_count,
+        count(eval(index="app")) as app_count
+        by user_id</div>
+            </section>
+
+            <!-- Part 2: Multi-Index Searches -->
+            <section>
+                <div class="session-header">
+                    <h2>Part 2: Multi-Index Searching</h2>
+                </div>
+                <h3>What are Multi-Index Searches?</h3>
+                <p>Queries that span multiple indexes to correlate data across different data sources</p>
+
+                <h3>Syntax Options</h3>
+                <div class="code-block">Option 1: Multiple indexes explicitly
+index=web OR index=app OR index=db
+
+Option 2: Wildcard pattern
+index=prod_*
+
+Option 3: Multiple criteria
+(index=web sourcetype=access_combined) OR (index=app sourcetype=log4j)</div>
+
+                <h3>Benefits</h3>
+                <ul>
+                    <li>Correlate events across application tiers</li>
+                    <li>End-to-end transaction tracking</li>
+                    <li>Comprehensive security analysis</li>
+                    <li>Full-stack troubleshooting</li>
+                </ul>
+            </section>
+
+            <!-- Multi-Index Best Practices -->
+            <section>
+                <div class="session-header">
+                    <h2>Multi-Index Search Best Practices</h2>
+                </div>
+                <h3>1. Be Specific with Filters</h3>
+                <div class="code-block">BETTER: (index=web status>=400) OR (index=app log_level=ERROR)
+WORSE:  index=web OR index=app | where status>=400 OR log_level="ERROR"</div>
+
+                <h3>2. Use Index-Specific Fields</h3>
+                <div class="code-block">index=web OR index=app
+| eval source_type=case(
+    index=="web", "Web Server",
+    index=="app", "Application",
+    1==1, "Unknown"
+)
+| stats count by source_type, host</div>
+
+                <h3>3. Consider Time Ranges</h3>
+                <div class="code-block">earliest=-24h latest=now (index=web OR index=app OR index=db)
+| timechart span=1h count by index</div>
+
+                <div class="warning-box">
+                    <strong>Performance Impact:</strong> Searching multiple indexes is more resource-intensive. Always filter as early as possible
+                </div>
+            </section>
+
+            <!-- Append Command -->
+            <section>
+                <div class="session-header">
+                    <h2>The Append Command</h2>
+                </div>
+                <h3>Purpose</h3>
+                <p>Adds results from a subsearch to the bottom of current results (like UNION ALL in SQL)</p>
+
+                <h3>Syntax</h3>
+                <div class="code-block">... | append [subsearch options] [subsearch]</div>
+
+                <h3>Example: Combine Current and Historical Data</h3>
+                <div class="code-block">index=web earliest=-1h latest=now
+| stats count as recent_count by uri
+| append [
+    search index=summary_web earliest=-7d latest=-1h
+    | stats sum(count) as historical_count by uri
+]
+| stats sum(*count) as total_count by uri
+| sort -total_count</div>
+
+                <h3>Use Cases</h3>
+                <ul>
+                    <li>Combining live and summary data</li>
+                    <li>Aggregating results from different time periods</li>
+                    <li>Merging data from different indexes with similar schemas</li>
+                    <li>Building composite reports</li>
+                </ul>
+            </section>
+
+            <!-- Union Command -->
+            <section>
+                <div class="session-header">
+                    <h2>The Union Command</h2>
+                </div>
+                <h3>Purpose</h3>
+                <p>Merges results from multiple datasets, automatically matching fields</p>
+
+                <h3>Syntax</h3>
+                <div class="code-block">| union [subsearch1] [subsearch2] ...</div>
+
+                <h3>Example: Combine Multiple Data Sources</h3>
+                <div class="code-block">| union
+    [search index=web | eval source="web" | fields source, user, action, status]
+    [search index=app | eval source="app" | fields source, user, action, status]
+    [search index=db | eval source="db" | fields source, user, action, status]
+| stats count by source, action</div>
+
+                <h3>Union vs Append</h3>
+                <ul>
+                    <li><strong>union:</strong> More flexible, automatically aligns fields</li>
+                    <li><strong>append:</strong> Simpler, just stacks results</li>
+                    <li><strong>union:</strong> Better for heterogeneous data</li>
+                    <li><strong>append:</strong> Better for homogeneous data</li>
+                </ul>
+
+                <div class="info">
+                    <strong>Note:</strong> union is particularly useful when combining data with different field names that represent the same concept
+                </div>
+            </section>
+
+            <!-- Append vs Union Comparison -->
+            <section>
+                <div class="session-header">
+                    <h2>Append vs Union: Detailed Comparison</h2>
+                </div>
+                <h3>Append Characteristics</h3>
+                <ul>
+                    <li>Adds results to the end of current search</li>
+                    <li>Maintains field structure of main search</li>
+                    <li>Subsearch fields added as available</li>
+                    <li>Good for stacking similar datasets</li>
+                </ul>
+
+                <h3>Union Characteristics</h3>
+                <ul>
+                    <li>Merges multiple searches as peers</li>
+                    <li>Automatically aligns matching fields</li>
+                    <li>Creates combined field list</li>
+                    <li>Better for diverse datasets</li>
+                </ul>
+
+                <h3>Example Comparison</h3>
+                <div class="code-block">APPEND:
+index=web earliest=-1h | stats count by uri
+| append [search index=web earliest=-2h latest=-1h | stats count by uri]
+
+UNION:
+| union
+    [search index=web earliest=-1h | eval period="recent"]
+    [search index=web earliest=-2h latest=-1h | eval period="previous"]
+| stats sum(count) by uri, period</div>
+            </section>
+
+            <!-- Part 3: Time Modifiers -->
+            <section>
+                <div class="session-header">
+                    <h2>Part 3: Time Modifiers and Filtering</h2>
+                </div>
+                <h3>Time Modifiers Overview</h3>
+                <p>Control the time range of your searches with precision</p>
+
+                <h3>Basic Time Modifiers</h3>
+                <div class="code-block">earliest=-1h               # Last hour
+latest=now                 # Up to current time
+earliest=-24h latest=-1h   # Yesterday excluding last hour
+earliest=-7d@d latest=@d   # Last 7 days, snapped to day boundaries</div>
+
+                <h3>Snap to Time Units</h3>
+                <ul>
+                    <li><strong>@s</strong> - Snap to second</li>
+                    <li><strong>@m</strong> - Snap to minute</li>
+                    <li><strong>@h</strong> - Snap to hour</li>
+                    <li><strong>@d</strong> - Snap to day</li>
+                    <li><strong>@w</strong> - Snap to week</li>
+                    <li><strong>@mon</strong> - Snap to month</li>
+                </ul>
+            </section>
+
+            <!-- Advanced Time Modifiers -->
+            <section>
+                <div class="session-header">
+                    <h2>Advanced Time Modifiers</h2>
+                </div>
+                <h3>Relative Time Expressions</h3>
+                <div class="code-block">earliest=-1d@d              # Yesterday at midnight
+earliest=-1w@w              # Last week, start of week
+earliest=-1mon@mon latest=@mon  # Previous month, entire month
+earliest=@d                 # Today from midnight to now</div>
+
+                <h3>Business Hours Example</h3>
+                <div class="code-block">index=web earliest=-1d@d latest=-1d@d+24h
+| eval hour=strftime(_time, "%H")
+| where hour>=9 AND hour<17
+| stats count by hour</div>
+                <p><em>Analyzes yesterday's traffic during business hours (9 AM - 5 PM)</em></p>
+
+                <h3>Multiple Time Ranges</h3>
+                <div class="code-block">index=web
+| eval time_period=case(
+    _time>=relative_time(now(),"-1h"), "Last Hour",
+    _time>=relative_time(now(),"-24h"), "Last 24 Hours",
+    _time>=relative_time(now(),"-7d"), "Last Week",
+    1==1, "Older"
+)
+| stats count by time_period</div>
+            </section>
+
+            <!-- Timechart Command Deep Dive -->
+            <section>
+                <div class="session-header">
+                    <h2>Timechart Command Deep Dive</h2>
+                </div>
+                <h3>Basic Timechart</h3>
+                <div class="code-block">index=web | timechart count</div>
+
+                <h3>With Span Control</h3>
+                <div class="code-block">index=web | timechart span=5m count by status</div>
+
+                <h3>Multiple Metrics</h3>
+                <div class="code-block">index=web
+| timechart span=10m
+    count as requests,
+    avg(response_time) as avg_response,
+    perc95(response_time) as p95_response,
+    count(eval(status>=500)) as errors</div>
+
+                <h3>Timechart Options</h3>
+                <ul>
+                    <li><strong>span:</strong> Time bucket size (5m, 1h, 1d, etc.)</li>
+                    <li><strong>limit:</strong> Max number of series (default 10)</li>
+                    <li><strong>usenull:</strong> Include NULL values</li>
+                    <li><strong>useother:</strong> Group remaining series as "OTHER"</li>
+                </ul>
+
+                <div class="code-block">index=web | timechart span=1h limit=20 useother=false count by uri</div>
+            </section>
+
+            <!-- Bucket Command -->
+            <section>
+                <div class="session-header">
+                    <h2>The Bucket Command</h2>
+                </div>
+                <h3>Purpose</h3>
+                <p>Groups events into time or numeric buckets for custom aggregation</p>
+
+                <h3>Time-Based Bucketing</h3>
+                <div class="code-block">index=web
+| bucket _time span=15m
+| stats count, avg(response_time) by _time, host
+| sort _time</div>
+
+                <h3>Numeric Bucketing</h3>
+                <div class="code-block">index=web
+| bucket response_time span=100
+| stats count by response_time
+| sort response_time</div>
+                <p><em>Groups response times into 100ms buckets (0-100, 100-200, etc.)</em></p>
+
+                <h3>Custom Bucket Labels</h3>
+                <div class="code-block">index=web
+| bucket response_time span=100
+| eval response_bucket=case(
+    response_time<200, "Fast (0-200ms)",
+    response_time<500, "Normal (200-500ms)",
+    response_time<1000, "Slow (500-1000ms)",
+    1==1, "Very Slow (>1000ms)"
+)
+| stats count by response_bucket</div>
+            </section>
+
+            <!-- Trend Analysis -->
+            <section>
+                <div class="session-header">
+                    <h2>Trend Analysis Techniques</h2>
+                </div>
+                <h3>1. Moving Averages</h3>
+                <div class="code-block">index=web
+| timechart span=5m count as requests
+| streamstats window=12 avg(requests) as moving_avg_hour
+| eval change_pct=((requests-moving_avg_hour)/moving_avg_hour)*100</div>
+
+                <h3>2. Week-over-Week Comparison</h3>
+                <div class="code-block">index=web earliest=-14d
+| eval week=if(_time>=relative_time(now(),"-7d"), "This Week", "Last Week")
+| eval day_hour=strftime(_time, "%A %H:00")
+| chart count by day_hour week</div>
+
+                <h3>3. Growth Rate Calculation</h3>
+                <div class="code-block">index=sales
+| timechart span=1d sum(revenue) as daily_revenue
+| streamstats current=f window=1 last(daily_revenue) as previous_day
+| eval growth_rate=round(((daily_revenue-previous_day)/previous_day)*100, 2)
+| fields _time, daily_revenue, growth_rate</div>
+            </section>
+
+            <!-- Forecasting Basics -->
+            <section>
+                <div class="session-header">
+                    <h2>Forecasting and Prediction Basics</h2>
+                </div>
+                <h3>Simple Linear Trend</h3>
+                <div class="code-block">index=web earliest=-30d
+| timechart span=1d count as requests
+| trendline sma2(requests) as trend
+| predict requests future_timespan=7 holdback=0</div>
+
+                <h3>Detecting Anomalies with Standard Deviation</h3>
+                <div class="code-block">index=app
+| timechart span=5m count
+| eventstats avg(count) as avg_count, stdev(count) as stdev_count
+| eval upper_bound=avg_count+(3*stdev_count)
+| eval lower_bound=avg_count-(3*stdev_count)
+| eval anomaly=if(count>upper_bound OR count<lower_bound, "YES", "NO")
+| where anomaly="YES"</div>
+
+                <h3>Seasonal Baseline Comparison</h3>
+                <div class="code-block">index=web earliest=-8d
+| eval day_of_week=strftime(_time, "%A")
+| eval hour=strftime(_time, "%H")
+| eval is_current=if(_time>=relative_time(now(),"-24h"), 1, 0)
+| chart avg(response_time) over hour by is_current</div>
+            </section>
+
+            <!-- Real-World Correlation Examples -->
+            <section>
+                <div class="session-header">
+                    <h2>Real-World Correlation Examples</h2>
+                </div>
+                <h3>Example 1: Full Transaction Tracking</h3>
+                <div class="code-block">index=web uri="/checkout"
+| join session_id [
+    search index=app event_type=payment
+    | fields session_id, payment_status, amount
+]
+| join user_id [
+    search index=users
+    | fields user_id, user_tier, country
+]
+| stats count as attempts,
+        count(eval(payment_status="success")) as successful,
+        avg(amount) as avg_amount
+        by user_tier, country</div>
+
+                <h3>Example 2: Security Correlation</h3>
+                <div class="code-block">index=firewall action=blocked
+| stats count as blocked_attempts by src_ip
+| where blocked_attempts>100
+| join type=left src_ip [
+    search index=auth action=success
+    | stats count as successful_logins by src_ip
+]
+| eval threat_score=case(
+    successful_logins>0, blocked_attempts/successful_logins,
+    1==1, blocked_attempts
+)
+| sort -threat_score</div>
+            </section>
+
+            <!-- Performance Optimization -->
+            <section>
+                <div class="session-header">
+                    <h2>Performance Optimization for Correlation Searches</h2>
+                </div>
+                <h3>1. Index-Time vs Search-Time Operations</h3>
+                <ul>
+                    <li><strong>Prefer:</strong> Index-time field extractions</li>
+                    <li><strong>Use:</strong> Accelerated data models when available</li>
+                    <li><strong>Avoid:</strong> Complex regex in correlation searches</li>
+                </ul>
+
+                <h3>2. Efficient Join Strategies</h3>
+                <div class="code-block">LESS EFFICIENT:
+index=web | join user_id [search index=users]
+
+MORE EFFICIENT:
+index=web | join user_id [search index=users | dedup user_id | head 50000 | fields user_id, name]</div>
+
+                <h3>3. Use tstats for Pre-Aggregated Data</h3>
+                <div class="code-block">| tstats count where index=web by _time span=5m, status
+| append [
+    | tstats count where index=app by _time span=5m, log_level
+]</div>
+
+                <h3>4. Leverage Summary Indexing</h3>
+                <div class="code-block">index=summary_web earliest=-30d
+| append [search index=web earliest=-1h | stats count by uri]
+| stats sum(count) as total by uri</div>
+            </section>
+
+            <!-- Common Pitfalls -->
+            <section>
+                <div class="session-header">
+                    <h2>Common Pitfalls and How to Avoid Them</h2>
+                </div>
+                <h3>Pitfall 1: Unoptimized Joins</h3>
+                <div class="warning-box">
+                    <strong>Problem:</strong> Joining on non-indexed fields or high-cardinality fields
+                    <br><strong>Solution:</strong> Use fields with good selectivity, limit subsearch results
+                </div>
+
+                <h3>Pitfall 2: Wide Time Ranges</h3>
+                <div class="warning-box">
+                    <strong>Problem:</strong> Searching across months or years without summary data
+                    <br><strong>Solution:</strong> Use summary indexes, accelerated data models, or tstats
+                </div>
+
+                <h3>Pitfall 3: Unnecessary Multi-Index Searches</h3>
+                <div class="warning-box">
+                    <strong>Problem:</strong> Searching all indexes when data is in specific index
+                    <br><strong>Solution:</strong> Always specify the most restrictive index criteria
+                </div>
+
+                <h3>Pitfall 4: Missing fillnull After Joins</h3>
+                <div class="warning-box">
+                    <strong>Problem:</strong> NULL values from left/outer joins cause filtering issues
+                    <br><strong>Solution:</strong> Use fillnull to handle missing values appropriately
+                </div>
+            </section>
+
+            <!-- Time Zone Considerations -->
+            <section>
+                <div class="session-header">
+                    <h2>Time Zone Considerations</h2>
+                </div>
+                <h3>Understanding Splunk Time Handling</h3>
+                <ul>
+                    <li>Splunk stores all events in UTC internally</li>
+                    <li>Display time zone set in user preferences</li>
+                    <li>Time zone affects search results and visualization</li>
+                </ul>
+
+                <h3>Converting Time Zones</h3>
+                <div class="code-block">index=web
+| eval local_time=strftime(_time, "%Y-%m-%d %H:%M:%S")
+| eval utc_time=strftime(_time, "%Y-%m-%d %H:%M:%S UTC")
+| eval tokyo_time=strftime(_time+32400, "%Y-%m-%d %H:%M:%S JST")
+| table _time, local_time, utc_time, tokyo_time</div>
+
+                <h3>Cross-Region Correlation</h3>
+                <div class="code-block">(index=web_us OR index=web_eu OR index=web_asia)
+| eval region=case(
+    index=="web_us", "Americas",
+    index=="web_eu", "Europe",
+    index=="web_asia", "Asia"
+)
+| eval hour_utc=strftime(_time, "%H")
+| chart count by hour_utc region</div>
+            </section>
+
+            <!-- Lab Preparation -->
+            <section>
+                <div class="session-header">
+                    <h2>Preparing for Labs 4-5</h2>
+                </div>
+                <div class="lab-callout">
+                    <h3>Lab 4: Join and Multi-Index Searches</h3>
+                    <p>You will practice:</p>
+                    <ul style="text-align: left;">
+                        <li>Implementing inner, left, and outer joins</li>
+                        <li>Correlating data across multiple indexes</li>
+                        <li>Using append and union commands</li>
+                        <li>Optimizing join performance</li>
+                        <li>Building comprehensive correlation searches</li>
+                    </ul>
+                </div>
+
+                <div class="lab-callout">
+                    <h3>Lab 5: Time-Based Analysis and Trending</h3>
+                    <p>You will practice:</p>
+                    <ul style="text-align: left;">
+                        <li>Using advanced time modifiers</li>
+                        <li>Creating timecharts with multiple metrics</li>
+                        <li>Implementing bucket-based analysis</li>
+                        <li>Performing trend analysis and forecasting</li>
+                        <li>Building time-based correlation searches</li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- Summary -->
+            <section>
+                <div class="session-header">
+                    <h2>Session Summary</h2>
+                </div>
+                <h3>Key Takeaways</h3>
+                <ul>
+                    <li><strong>Join Command:</strong> Powerful for correlating disparate data sources, but consider performance implications</li>
+                    <li><strong>Join Types:</strong> Choose appropriate join type (inner/left/outer) based on data requirements</li>
+                    <li><strong>Multi-Index:</strong> Essential for comprehensive analysis across application tiers</li>
+                    <li><strong>Append/Union:</strong> Use for combining results from multiple searches effectively</li>
+                    <li><strong>Time Analysis:</strong> Master time modifiers and timechart for temporal insights</li>
+                    <li><strong>Optimization:</strong> Always consider performance - filter early, limit results, use summary data</li>
+                    <li><strong>Alternatives:</strong> Sometimes stats with OR logic is better than join</li>
+                </ul>
+
+                <div class="highlight-box">
+                    <strong>Next Session:</strong> We'll explore dashboards, visualizations, and search optimization techniques to make your data actionable
+                </div>
+            </section>
+
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/reveal.min.js"></script>
+    <script>
+        Reveal.initialize({
+            hash: true,
+            slideNumber: true,
+            transition: 'slide',
+            width: 1200,
+            height: 900,
+            margin: 0.05
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,722 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Splunk Advanced - Subsearches, Macros & Statistical Commands</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/reveal.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/theme/white.min.css">
+    <style>
+        .reveal .slides section {
+            text-align: left;
+            font-size: 0.75em !important;
+            line-height: 1.3;
+            max-height: 90vh !important;
+            overflow-y: auto !important;
+            padding: 0.5em 1em !important;
+        }
+        .reveal h1 {
+            font-size: 1.8em !important;
+            margin: 0.3em 0 !important;
+        }
+        .reveal h2 {
+            font-size: 1.4em !important;
+            margin: 0.3em 0 !important;
+        }
+        .reveal h3 {
+            font-size: 1.2em !important;
+            margin: 0.3em 0 !important;
+        }
+        .reveal h1, .reveal h2, .reveal h3 {
+            color: #2c3e50;
+            text-align: center;
+        }
+        .reveal p {
+            margin: 0.3em 0 !important;
+        }
+        .reveal ul, .reveal ol {
+            margin: 0.5em 0 !important;
+        }
+        .reveal li {
+            margin: 0.2em 0 !important;
+        }
+        .title-block {
+            background: linear-gradient(135deg, #f05e23 0%, #e31c00 100%);
+            color: white !important;
+            padding: 1.5em;
+            border-radius: 10px;
+            text-align: center;
+        }
+        .session-header {
+            background: #f8f9fa;
+            color: #2c3e50 !important;
+            padding: 0.6em;
+            border-left: 5px solid #f05e23;
+            margin-bottom: 0.5em;
+        }
+        .code-block {
+            background: #2c3e50;
+            color: #ecf0f1;
+            border: 2px solid #34495e;
+            border-radius: 5px;
+            padding: 0.5em;
+            font-family: 'Courier New', monospace;
+            font-size: 0.6em;
+            margin: 0.3em 0;
+            line-height: 1.2;
+            overflow-x: auto;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+        .highlight-box {
+            background: #e8f5e8;
+            border-left: 4px solid #27ae60;
+            padding: 0.5em;
+            margin: 0.3em 0;
+        }
+        .lab-callout {
+            background: linear-gradient(45deg, #f05e23, #e31c00);
+            color: white !important;
+            padding: 0.8em;
+            border-radius: 8px;
+            text-align: center;
+            font-size: 0.9em;
+            margin: 0.5em 0;
+        }
+        .warning-box {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            border-radius: 4px;
+            padding: 0.5em;
+            margin: 0.3em 0;
+        }
+        .info {
+            background: #e3f2fd;
+            border: 1px solid #bbdefb;
+            border-radius: 4px;
+            padding: 0.5em;
+            margin: 0.3em 0;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="reveal">
+        <div class="slides">
+
+            <!-- Title Slide -->
+            <section>
+                <div class="title-block">
+                    <h1>Subsearches, Macros & Statistical Commands</h1>
+                    <h3>Advanced Search Techniques</h3>
+                    <p><strong>Session 2</strong></p>
+                    <p>Labs 2-3: Building Complex Search Logic</p>
+                </div>
+            </section>
+
+            <!-- Learning Objectives -->
+            <section>
+                <div class="session-header">
+                    <h2>Learning Objectives</h2>
+                </div>
+                <p>By the end of this session, you will be able to:</p>
+                <ul>
+                    <li><strong>Subsearches:</strong> Understand and implement subsearches to create dynamic search logic</li>
+                    <li><strong>Search Macros:</strong> Create reusable search components for complex queries</li>
+                    <li><strong>Statistical Commands:</strong> Perform advanced data aggregation and analysis</li>
+                    <li><strong>Performance:</strong> Optimize searches using subsearch best practices</li>
+                    <li><strong>Reporting:</strong> Generate meaningful statistical reports and visualizations</li>
+                </ul>
+            </section>
+
+            <!-- Part 1: Subsearches Introduction -->
+            <section>
+                <div class="session-header">
+                    <h2>Part 1: Understanding Subsearches</h2>
+                </div>
+                <h3>What is a Subsearch?</h3>
+                <p>A subsearch is a search within a search that:</p>
+                <ul>
+                    <li>Runs <strong>first</strong> and passes its results to the outer (main) search</li>
+                    <li>Enclosed in <strong>square brackets</strong> [ ]</li>
+                    <li>Returns values that act as filters or inputs for the main search</li>
+                    <li>Has performance implications - limited to 50,000 results by default</li>
+                </ul>
+
+                <div class="highlight-box">
+                    <strong>Key Concept:</strong> Subsearches enable dynamic filtering - the outer search uses results from the inner search as criteria
+                </div>
+            </section>
+
+            <!-- Subsearch Syntax -->
+            <section>
+                <div class="session-header">
+                    <h2>Subsearch Syntax & Structure</h2>
+                </div>
+                <h3>Basic Syntax</h3>
+                <div class="code-block">index=outer_index [search index=inner_index | fields field_name]</div>
+
+                <h3>Execution Flow</h3>
+                <ol>
+                    <li><strong>Inner search runs first:</strong> [search index=inner_index | fields field_name]</li>
+                    <li><strong>Results passed to outer search:</strong> Becomes field_name=value1 OR field_name=value2...</li>
+                    <li><strong>Outer search executes:</strong> Using subsearch results as filter</li>
+                </ol>
+
+                <div class="warning-box">
+                    <strong>Important Limits:</strong>
+                    <ul>
+                        <li>Max results: 50,000 (configurable in limits.conf)</li>
+                        <li>Max time: 60 seconds (configurable)</li>
+                        <li>Nested subsearches: Maximum 3 levels deep</li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- Subsearch Use Cases -->
+            <section>
+                <div class="session-header">
+                    <h2>When to Use Subsearches</h2>
+                </div>
+                <h3>Perfect Use Cases</h3>
+                <ul>
+                    <li><strong>Dynamic Filtering:</strong> Filter main search based on results from another search</li>
+                    <li><strong>Correlation:</strong> Find related events across different indexes or time ranges</li>
+                    <li><strong>Top-N Analysis:</strong> Find events related to top performing entities</li>
+                    <li><strong>Anomaly Detection:</strong> Compare against baseline or threshold values</li>
+                </ul>
+
+                <h3>Example: Find Web Requests from IPs with Failed Logins</h3>
+                <div class="code-block">index=web status=200
+[search index=auth action=failure | stats count by src_ip | where count > 5 | fields src_ip]
+| stats count by uri</div>
+                <p><em>This finds successful web requests from IPs that had more than 5 failed login attempts</em></p>
+            </section>
+
+            <!-- Subsearch Commands -->
+            <section>
+                <div class="session-header">
+                    <h2>Subsearch Commands & Techniques</h2>
+                </div>
+                <h3>1. The return Command</h3>
+                <p>Controls how many results and which fields the subsearch returns</p>
+                <div class="code-block">index=main [search index=users premium=true | return 1000 $user_id]</div>
+                <ul>
+                    <li><strong>return N</strong> - Returns N results (default 50,000)</li>
+                    <li><strong>return $field</strong> - Returns specific field value</li>
+                    <li><strong>return N $field</strong> - Returns N values of specific field</li>
+                </ul>
+
+                <h3>2. The format Command</h3>
+                <p>Customizes how subsearch results are formatted for the outer search</p>
+                <div class="code-block">index=web [search index=users status=active
+| fields user_id
+| format "(" "user=" "\" OR \"" ")" ]</div>
+                <p><em>Creates: (user="user1" OR user="user2" OR user="user3")</em></p>
+            </section>
+
+            <!-- Advanced Subsearch Patterns -->
+            <section>
+                <div class="session-header">
+                    <h2>Advanced Subsearch Patterns</h2>
+                </div>
+                <h3>Pattern 1: Time-Based Correlation</h3>
+                <div class="code-block">index=web [search index=app error earliest=-1h | stats earliest(_time) as start_time | return $start_time]
+| stats count by status</div>
+                <p><em>Finds web logs starting from when the first app error occurred</em></p>
+
+                <h3>Pattern 2: NOT with Subsearches</h3>
+                <div class="code-block">index=web NOT [search index=whitelist | fields src_ip]
+| stats count by src_ip</div>
+                <p><em>Finds web traffic from IPs NOT in whitelist</em></p>
+
+                <h3>Pattern 3: Multiple Field Matching</h3>
+                <div class="code-block">index=transactions [search index=fraud detected=true
+| eval search_string=user_id."::".transaction_id
+| fields search_string] </div>
+            </section>
+
+            <!-- Subsearch Performance -->
+            <section>
+                <div class="session-header">
+                    <h2>Subsearch Performance Optimization</h2>
+                </div>
+                <h3>Best Practices</h3>
+                <ol>
+                    <li><strong>Minimize Results:</strong> Use stats, dedup, or head in subsearch</li>
+                    <li><strong>Specific Fields:</strong> Always use | fields to limit returned fields</li>
+                    <li><strong>Time Range:</strong> Limit subsearch time range when possible</li>
+                    <li><strong>Consider Alternatives:</strong> Sometimes join or stats are more efficient</li>
+                </ol>
+
+                <div class="highlight-box">
+                    <strong>Optimization Example:</strong>
+                    <div class="code-block">BAD:  [search index=app | fields user_id]
+GOOD: [search index=app earliest=-1h | dedup user_id | fields user_id | head 10000]</div>
+                </div>
+
+                <div class="warning-box">
+                    <strong>Warning:</strong> Subsearches that return too many results will be automatically truncated, potentially missing relevant data
+                </div>
+            </section>
+
+            <!-- Part 2: Search Macros Introduction -->
+            <section>
+                <div class="session-header">
+                    <h2>Part 2: Search Macros</h2>
+                </div>
+                <h3>What are Search Macros?</h3>
+                <p>Search macros are reusable search snippets that:</p>
+                <ul>
+                    <li>Store commonly used search logic</li>
+                    <li>Accept arguments for flexibility</li>
+                    <li>Improve search consistency and maintainability</li>
+                    <li>Can be shared across teams</li>
+                </ul>
+
+                <h3>Benefits</h3>
+                <ul>
+                    <li><strong>Reusability:</strong> Write once, use everywhere</li>
+                    <li><strong>Consistency:</strong> Standardize search patterns across organization</li>
+                    <li><strong>Maintainability:</strong> Update macro once, affects all uses</li>
+                    <li><strong>Abstraction:</strong> Hide complexity behind simple names</li>
+                </ul>
+            </section>
+
+            <!-- Creating Macros -->
+            <section>
+                <div class="session-header">
+                    <h2>Creating Search Macros</h2>
+                </div>
+                <h3>Method 1: Via Web UI</h3>
+                <ol>
+                    <li>Settings → Advanced Search → Search macros</li>
+                    <li>Click "New Search Macro"</li>
+                    <li>Enter name, definition, and optional arguments</li>
+                    <li>Set permissions (Private/App/Global)</li>
+                </ol>
+
+                <h3>Method 2: Via macros.conf</h3>
+                <div class="code-block">[my_macro_name]
+definition = index=web status>=400 | stats count by uri
+iseval = 0</div>
+
+                <div class="info">
+                    <strong>Naming Convention:</strong> Use descriptive names like <code>failed_web_requests</code> or <code>high_cpu_servers</code>
+                </div>
+            </section>
+
+            <!-- Using Macros -->
+            <section>
+                <div class="session-header">
+                    <h2>Using Search Macros</h2>
+                </div>
+                <h3>Basic Macro (No Arguments)</h3>
+                <p><strong>Definition:</strong></p>
+                <div class="code-block">Name: failed_web_requests
+Definition: index=web status>=400</div>
+
+                <p><strong>Usage:</strong></p>
+                <div class="code-block">`failed_web_requests` | stats count by uri</div>
+                <p><em>Note the backticks (`) around the macro name</em></p>
+
+                <h3>Parameterized Macro (With Arguments)</h3>
+                <p><strong>Definition:</strong></p>
+                <div class="code-block">Name: status_filter(1)
+Arguments: status_code
+Definition: index=web status=$status_code$</div>
+
+                <p><strong>Usage:</strong></p>
+                <div class="code-block">`status_filter(404)` | stats count by src_ip</div>
+            </section>
+
+            <!-- Advanced Macro Patterns -->
+            <section>
+                <div class="session-header">
+                    <h2>Advanced Macro Patterns</h2>
+                </div>
+                <h3>Multi-Argument Macros</h3>
+                <div class="code-block">Name: date_range_filter(2)
+Arguments: start_date, end_date
+Definition: earliest=$start_date$ latest=$end_date$</div>
+                <p><strong>Usage:</strong></p>
+                <div class="code-block">index=web `date_range_filter("2024-01-01","2024-01-31")` | stats count</div>
+
+                <h3>Nested Macros</h3>
+                <div class="code-block">Macro 1: production_servers
+Definition: host IN (prod-web-01, prod-web-02, prod-app-01)
+
+Macro 2: prod_errors
+Definition: `production_servers` error OR failed</div>
+                <p><strong>Usage:</strong></p>
+                <div class="code-block">index=app `prod_errors` | stats count by host</div>
+            </section>
+
+            <!-- Macro Best Practices -->
+            <section>
+                <div class="session-header">
+                    <h2>Macro Best Practices</h2>
+                </div>
+                <ul>
+                    <li><strong>Naming:</strong> Use clear, descriptive names (e.g., <code>high_priority_alerts</code>)</li>
+                    <li><strong>Documentation:</strong> Add descriptions in the macro definition</li>
+                    <li><strong>Scope:</strong> Start with private, expand to app/global when stable</li>
+                    <li><strong>Validation:</strong> Validate arguments to prevent injection issues</li>
+                    <li><strong>Testing:</strong> Test macros thoroughly before promoting to production</li>
+                    <li><strong>Versioning:</strong> Consider version numbers for major changes (e.g., <code>alert_v2</code>)</li>
+                </ul>
+
+                <div class="warning-box">
+                    <strong>Security Note:</strong> Be cautious with macros that accept user input - validate and sanitize arguments
+                </div>
+            </section>
+
+            <!-- Part 3: Statistical Commands -->
+            <section>
+                <div class="session-header">
+                    <h2>Part 3: Statistical Commands</h2>
+                </div>
+                <h3>Overview</h3>
+                <p>Statistical commands transform raw events into meaningful metrics:</p>
+                <ul>
+                    <li><strong>stats</strong> - General-purpose statistical aggregation</li>
+                    <li><strong>chart</strong> - Creates tabular data for visualization</li>
+                    <li><strong>timechart</strong> - Time-series statistical analysis</li>
+                    <li><strong>eventstats</strong> - Adds stats as fields to original events</li>
+                    <li><strong>streamstats</strong> - Cumulative statistics</li>
+                </ul>
+
+                <div class="highlight-box">
+                    <strong>Key Difference:</strong> transforming commands (stats, chart, timechart) replace events with statistics, while enriching commands (eventstats, streamstats) add stats to existing events
+                </div>
+            </section>
+
+            <!-- stats Command -->
+            <section>
+                <div class="session-header">
+                    <h2>The stats Command</h2>
+                </div>
+                <h3>Basic Syntax</h3>
+                <div class="code-block">... | stats <function>(<field>) as <name> by <field></div>
+
+                <h3>Common Statistical Functions</h3>
+                <ul>
+                    <li><strong>count:</strong> Count number of events</li>
+                    <li><strong>sum:</strong> Sum of numeric values</li>
+                    <li><strong>avg:</strong> Average of values</li>
+                    <li><strong>min/max:</strong> Minimum/maximum values</li>
+                    <li><strong>stdev:</strong> Standard deviation</li>
+                    <li><strong>values:</strong> List of unique values</li>
+                    <li><strong>list:</strong> List of all values (including duplicates)</li>
+                    <li><strong>dc (distinct_count):</strong> Count of unique values</li>
+                </ul>
+
+                <h3>Examples</h3>
+                <div class="code-block">index=web | stats count by status
+index=web | stats avg(response_time) as avg_response by uri
+index=web | stats sum(bytes) as total_bytes, avg(bytes) as avg_bytes by host</div>
+            </section>
+
+            <!-- Advanced stats -->
+            <section>
+                <div class="session-header">
+                    <h2>Advanced stats Techniques</h2>
+                </div>
+                <h3>Multiple Aggregations</h3>
+                <div class="code-block">index=web | stats
+    count as requests,
+    avg(response_time) as avg_response,
+    max(response_time) as max_response,
+    sum(bytes) as total_bytes
+    by host, status</div>
+
+                <h3>Percentiles</h3>
+                <div class="code-block">index=web | stats
+    perc50(response_time) as median,
+    perc95(response_time) as p95,
+    perc99(response_time) as p99
+    by uri</div>
+
+                <h3>Using eval with stats</h3>
+                <div class="code-block">index=web | stats
+    count as total,
+    count(eval(status>=400)) as errors,
+    count(eval(response_time>1000)) as slow_requests
+    by host</div>
+            </section>
+
+            <!-- chart Command -->
+            <section>
+                <div class="session-header">
+                    <h2>The chart Command</h2>
+                </div>
+                <h3>Purpose</h3>
+                <p>Creates data suitable for charts and tables with over/by clauses</p>
+
+                <h3>Syntax</h3>
+                <div class="code-block">... | chart <function> over <row_field> by <column_field></div>
+
+                <h3>Examples</h3>
+                <div class="code-block">index=web | chart count over status by host
+
+index=web | chart avg(response_time) over uri by host
+
+index=sales | chart sum(revenue) over product by region</div>
+
+                <h3>chart vs stats</h3>
+                <ul>
+                    <li><strong>stats:</strong> General purpose, simple grouping</li>
+                    <li><strong>chart:</strong> Two-dimensional pivoting (rows and columns)</li>
+                    <li><strong>chart:</strong> Better for creating visualizations</li>
+                </ul>
+            </section>
+
+            <!-- timechart Command -->
+            <section>
+                <div class="session-header">
+                    <h2>The timechart Command</h2>
+                </div>
+                <h3>Purpose</h3>
+                <p>Statistical analysis over time - creates time-series data</p>
+
+                <h3>Basic Syntax</h3>
+                <div class="code-block">... | timechart [span=<time>] <function>(<field>) by <field></div>
+
+                <h3>Time Span Options</h3>
+                <ul>
+                    <li><strong>span=1m</strong> - 1 minute buckets</li>
+                    <li><strong>span=5m</strong> - 5 minute buckets</li>
+                    <li><strong>span=1h</strong> - 1 hour buckets</li>
+                    <li><strong>span=1d</strong> - 1 day buckets</li>
+                    <li><strong>Auto-determined</strong> if not specified</li>
+                </ul>
+
+                <h3>Examples</h3>
+                <div class="code-block">index=web | timechart count
+
+index=web | timechart span=5m avg(response_time)
+
+index=web | timechart count by status</div>
+            </section>
+
+            <!-- Advanced Statistical Analysis -->
+            <section>
+                <div class="session-header">
+                    <h2>Advanced Statistical Analysis</h2>
+                </div>
+                <h3>eventstats - Enriching Events</h3>
+                <p>Adds statistical calculations as fields without removing events</p>
+                <div class="code-block">index=web | eventstats avg(response_time) as avg_response by host
+| eval performance = if(response_time > avg_response*2, "slow", "normal")</div>
+
+                <h3>streamstats - Running Calculations</h3>
+                <p>Calculates cumulative or windowed statistics</p>
+                <div class="code-block">index=sales | streamstats sum(revenue) as running_total
+
+index=web | streamstats window=10 avg(response_time) as moving_avg</div>
+
+                <h3>Use Cases</h3>
+                <ul>
+                    <li><strong>eventstats:</strong> Comparing individual values to aggregates</li>
+                    <li><strong>streamstats:</strong> Trend analysis, moving averages</li>
+                </ul>
+            </section>
+
+            <!-- Statistical Functions Reference -->
+            <section>
+                <div class="session-header">
+                    <h2>Statistical Functions Reference</h2>
+                </div>
+                <table style="font-size: 0.7em; width: 100%;">
+                    <tr>
+                        <th style="background: #f8f9fa;">Function</th>
+                        <th style="background: #f8f9fa;">Description</th>
+                        <th style="background: #f8f9fa;">Example</th>
+                    </tr>
+                    <tr>
+                        <td><strong>count</strong></td>
+                        <td>Number of events</td>
+                        <td>stats count by host</td>
+                    </tr>
+                    <tr>
+                        <td><strong>sum</strong></td>
+                        <td>Total of values</td>
+                        <td>stats sum(bytes) by uri</td>
+                    </tr>
+                    <tr>
+                        <td><strong>avg</strong></td>
+                        <td>Average value</td>
+                        <td>stats avg(response_time)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>min/max</strong></td>
+                        <td>Minimum/maximum</td>
+                        <td>stats min(price) max(price)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>stdev</strong></td>
+                        <td>Standard deviation</td>
+                        <td>stats stdev(response_time)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>values</strong></td>
+                        <td>List unique values</td>
+                        <td>stats values(user) by host</td>
+                    </tr>
+                    <tr>
+                        <td><strong>dc</strong></td>
+                        <td>Count distinct</td>
+                        <td>stats dc(user) as unique_users</td>
+                    </tr>
+                    <tr>
+                        <td><strong>earliest/latest</strong></td>
+                        <td>First/last value</td>
+                        <td>stats latest(_time) by user</td>
+                    </tr>
+                </table>
+            </section>
+
+            <!-- Real-World Examples -->
+            <section>
+                <div class="session-header">
+                    <h2>Real-World Statistical Analysis Examples</h2>
+                </div>
+                <h3>Example 1: Web Performance Dashboard</h3>
+                <div class="code-block">index=web
+| stats
+    count as requests,
+    avg(response_time) as avg_response,
+    perc95(response_time) as p95,
+    count(eval(status>=500)) as server_errors,
+    dc(src_ip) as unique_visitors
+    by uri
+| sort -requests</div>
+
+                <h3>Example 2: Hourly Transaction Volume</h3>
+                <div class="code-block">index=transactions
+| timechart span=1h
+    sum(amount) as revenue,
+    count as transaction_count,
+    avg(amount) as avg_transaction</div>
+
+                <h3>Example 3: Anomaly Detection</h3>
+                <div class="code-block">index=app
+| timechart span=5m count
+| eventstats avg(count) as avg_count, stdev(count) as stdev_count
+| eval threshold=avg_count+(stdev_count*3)
+| eval anomaly=if(count>threshold, "yes", "no")</div>
+            </section>
+
+            <!-- Common Patterns -->
+            <section>
+                <div class="session-header">
+                    <h2>Common Statistical Patterns</h2>
+                </div>
+                <h3>Pattern 1: Top N Analysis</h3>
+                <div class="code-block">index=web | stats count by uri | sort -count | head 10</div>
+
+                <h3>Pattern 2: Percentage Calculations</h3>
+                <div class="code-block">index=web
+| stats count as total, count(eval(status>=400)) as errors
+| eval error_rate=(errors/total)*100</div>
+
+                <h3>Pattern 3: Comparison to Average</h3>
+                <div class="code-block">index=web
+| stats avg(response_time) as response by host
+| eventstats avg(response) as overall_avg
+| eval performance=case(
+    response < overall_avg*0.8, "excellent",
+    response < overall_avg*1.2, "normal",
+    1==1, "poor")</div>
+
+                <h3>Pattern 4: Rate of Change</h3>
+                <div class="code-block">index=metrics
+| timechart span=1h sum(value) as total
+| delta total as change
+| eval change_pct=(change/total)*100</div>
+            </section>
+
+            <!-- Performance Considerations -->
+            <section>
+                <div class="session-header">
+                    <h2>Performance Considerations</h2>
+                </div>
+                <h3>Optimize Statistical Queries</h3>
+                <ul>
+                    <li><strong>Filter Early:</strong> Use index, sourcetype, host filters before stats</li>
+                    <li><strong>Limit Fields:</strong> Only include necessary fields in calculations</li>
+                    <li><strong>Use prestats:</strong> For distributed searches, use prestats=true</li>
+                    <li><strong>Appropriate Spans:</strong> Don't use overly granular time spans</li>
+                    <li><strong>Limit Results:</strong> Use head or tail after stats when appropriate</li>
+                </ul>
+
+                <div class="highlight-box">
+                    <strong>Best Practice:</strong>
+                    <div class="code-block">BETTER: index=web status=200 | stats count by uri
+WORSE:   index=web | stats count by uri, status | where status=200</div>
+                </div>
+            </section>
+
+            <!-- Lab Preparation -->
+            <section>
+                <div class="session-header">
+                    <h2>Preparing for Labs 2-3</h2>
+                </div>
+                <div class="lab-callout">
+                    <h3>Lab 2: Subsearches and Macros</h3>
+                    <p>You will practice:</p>
+                    <ul style="text-align: left;">
+                        <li>Building subsearches with different patterns</li>
+                        <li>Creating and using search macros</li>
+                        <li>Optimizing subsearch performance</li>
+                        <li>Combining subsearches with macros</li>
+                    </ul>
+                </div>
+
+                <div class="lab-callout">
+                    <h3>Lab 3: Statistical Commands</h3>
+                    <p>You will practice:</p>
+                    <ul style="text-align: left;">
+                        <li>Using stats, chart, and timechart commands</li>
+                        <li>Performing multi-level aggregations</li>
+                        <li>Creating time-series analysis</li>
+                        <li>Building statistical dashboards</li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- Summary -->
+            <section>
+                <div class="session-header">
+                    <h2>Session Summary</h2>
+                </div>
+                <h3>Key Takeaways</h3>
+                <ul>
+                    <li><strong>Subsearches:</strong> Powerful for dynamic filtering, but watch performance limits</li>
+                    <li><strong>Macros:</strong> Essential for code reusability and maintaining consistency</li>
+                    <li><strong>Statistical Commands:</strong> Foundation for all reporting and analysis</li>
+                    <li><strong>Performance:</strong> Always consider query efficiency and data volume</li>
+                    <li><strong>Real-World Application:</strong> Combine these techniques for complex analytics</li>
+                </ul>
+
+                <div class="highlight-box">
+                    <strong>Next Session:</strong> We'll build on these foundations to explore joins, multi-index searches, and time-based analysis
+                </div>
+            </section>
+
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/reveal.min.js"></script>
+    <script>
+        Reveal.initialize({
+            hash: true,
+            slideNumber: true,
+            transition: 'slide',
+            width: 1200,
+            height: 900,
+            margin: 0.05
+        });
+    </script>
+</body>
+</html>

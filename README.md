@@ -1,8 +1,7 @@
 # Splunk Advanced Course (Level 2)
 
-A comprehensive 2-day intensive Splunk training course covering advanced search techniques, data transformation, analytics, and administration.
+A comprehensive intensive Splunk training course covering advanced search techniques, data transformation, analytics, and administration.
 
-**Duration:** 2 days (14 hours total)
 **Format:** 30% theory, 70% hands-on labs
 **Prerequisites:** Splunk Fundamentals - Level 1 or equivalent practical experience
 **Platform:** Splunk Enterprise
@@ -58,7 +57,7 @@ stop-splunk.bat
 
 ## Course Structure
 
-### Day 1: Advanced Searching and Reporting (7 hours)
+### Part 1: Advanced Searching and Reporting
 **Labs 1-7:** Advanced search techniques and visualization
 
 | Lab | Title | Key Topics |
@@ -71,7 +70,7 @@ stop-splunk.bat
 | **Lab 6** | Custom Dashboards and Visualizations | Creating charts, graphs, and dashboards |
 | **Lab 7** | Search Optimization | Performance optimization, filtering, summary indexing |
 
-### Day 2: Data Transformation, Analytics, and Administration (7 hours)
+### Part 2: Data Transformation, Analytics, and Administration
 **Labs 8-14:** Data manipulation and system administration
 
 | Lab | Title | Key Topics |
@@ -88,23 +87,27 @@ stop-splunk.bat
 
 ## Detailed Course Flow
 
-This section shows the exact order of presentations and labs for each day.
+This section shows the exact order of presentations and labs throughout the course.
 
-### Day 1: Advanced Searching and Reporting (7 hours)
+### Part 1: Advanced Searching and Reporting
 
-**Morning Session (3.5 hours)**
+**Session 1: Introduction & Search Basics**
 
-1. **Presentation 1: Introduction & Search Review** (45 min)
+1. **Presentation 1: Introduction & Search Review**
    - File: `presentations/content1_presentation.html`
-   - Topics: Course overview, search operators, wildcards, field extraction
+   - Topics: Course overview, search operators, wildcards, field extraction, best practices
 
 2. **Lab 1: Review of Search Basics** (30 min)
    - Directory: `labs/lab1-review-search-basics/`
    - Activities: Practice basic searches, field extraction, filters
 
-3. **Presentation 2: Advanced Search Techniques** (50 min)
+---
+
+**Session 2: Advanced Search Techniques**
+
+3. **Presentation 2: Subsearches, Macros & Statistical Commands**
    - File: `presentations/content2_presentation.html`
-   - Topics: Subsearches, macros, statistical commands
+   - Topics: Subsearch syntax and patterns, creating reusable macros, stats/chart/timechart commands
 
 4. **Lab 2: Subsearches and Macros** (45 min)
    - Directory: `labs/lab2-subsearches-macros/`
@@ -112,79 +115,83 @@ This section shows the exact order of presentations and labs for each day.
 
 5. **Lab 3: Statistical Commands** (30 min)
    - Directory: `labs/lab3-statistical-commands/`
-   - Activities: Use stats, chart, timechart commands
-
-**Break** (15 min)
-
-**Afternoon Session (3.5 hours)**
-
-6. **Lab 4: Join Command and Multi-Index Searches** (45 min)
-   - Directory: `labs/lab4-join-multi-index/`
-   - Activities: Combine data from multiple sources
-
-7. **Lab 5: Time-Based Searches** (40 min)
-   - Directory: `labs/lab5-time-based-searches/`
-   - Activities: Analyze trends, create time-based visualizations
-
-8. **Presentation 3: Advanced Reporting and Dashboards** (50 min)
-   - File: `presentations/content3_presentation.html`
-   - Topics: Dashboard creation, visualization types, drill-downs
-
-9. **Lab 6: Custom Dashboards and Visualizations** (45 min)
-   - Directory: `labs/lab6-dashboards-visualizations/`
-   - Activities: Create interactive dashboards with various chart types
-
-10. **Lab 7: Search Optimization** (40 min)
-    - Directory: `labs/lab7-search-optimization/`
-    - Activities: Optimize searches, implement best practices
+   - Activities: Use stats, chart, timechart commands for analysis
 
 ---
 
-### Day 2: Data Transformation, Analytics, and Administration (7 hours)
+**Session 3: Data Correlation & Time Analysis**
 
-**Morning Session (3.5 hours)**
+6. **Presentation 3: Join Command, Multi-Index Searches & Time-Based Analysis**
+   - File: `presentations/content3_presentation.html`
+   - Topics: Join/append/union commands, multi-index strategies, time-based analysis, trend detection
 
-1. **Presentation 4: Data Transformation** (50 min)
+7. **Lab 4: Join Command and Multi-Index Searches** (45 min)
+   - Directory: `labs/lab4-join-multi-index/`
+   - Activities: Combine data from multiple sources, perform correlations
+
+8. **Lab 5: Time-Based Searches** (40 min)
+   - Directory: `labs/lab5-time-based-searches/`
+   - Activities: Analyze trends, create time-based visualizations
+
+---
+
+**Session 4: Visualization & Optimization**
+
+9. **Presentation 4: Dashboards, Visualizations & Search Optimization**
    - File: `presentations/content4_presentation.html`
-   - Topics: Eval command, field calculations, rex command, regular expressions
+   - Topics: Dashboard Studio, visualization types, drilldowns, tstats, summary indexing, performance tuning
 
-2. **Lab 8: Eval Command and Data Manipulation** (40 min)
-   - Directory: `labs/lab8-eval-data-manipulation/`
-   - Activities: Create calculated fields, transform data
+10. **Lab 6: Custom Dashboards and Visualizations** (45 min)
+    - Directory: `labs/lab6-dashboards-visualizations/`
+    - Activities: Create interactive dashboards with various chart types
 
-3. **Lab 9: Regular Expressions with Rex** (45 min)
-   - Directory: `labs/lab9-regex-rex/`
-   - Activities: Extract fields using regex, advanced parsing
+11. **Lab 7: Search Optimization** (40 min)
+    - Directory: `labs/lab7-search-optimization/`
+    - Activities: Optimize searches, implement best practices, use tstats
 
-4. **Lab 10: Lookups and Data Enrichment** (45 min)
-   - Directory: `labs/lab10-lookups-enrichment/`
-   - Activities: Create and use lookups, enrich data
+---
 
-**Break** (15 min)
+### Part 2: Data Transformation, Analytics, and Administration
 
-**Afternoon Session (3.5 hours)**
+**Session 5: Data Transformation**
 
-5. **Presentation 5: Analytics and Machine Learning** (45 min)
-   - File: `presentations/content5_presentation.html`
-   - Topics: ML Toolkit overview, anomaly detection, clustering, forecasting
+12. **Presentation 5: Data Transformation with Eval, Rex & Lookups**
+    - File: `presentations/content5_presentation.html`
+    - Topics: Eval functions, conditional logic, regular expressions, rex/sed commands, lookup types, data enrichment
 
-6. **Lab 11: Machine Learning Toolkit Introduction** (50 min)
-   - Directory: `labs/lab11-ml-toolkit-intro/`
-   - Activities: Anomaly detection, clustering analysis
+13. **Lab 8: Eval Command and Data Manipulation** (40 min)
+    - Directory: `labs/lab8-eval-data-manipulation/`
+    - Activities: Create calculated fields, transform data, implement conditional logic
 
-7. **Lab 12: Time Series Analysis** (40 min)
-   - Directory: `labs/lab12-time-series-analysis/`
-   - Activities: Linear regression, forecasting
+14. **Lab 9: Regular Expressions with Rex** (45 min)
+    - Directory: `labs/lab9-regex-rex/`
+    - Activities: Extract fields using regex, advanced parsing techniques
 
-8. **Presentation 6: Splunk Administration** (40 min)
-   - File: `presentations/content6_presentation.html`
-   - Topics: User management, authentication, index optimization, monitoring
+15. **Lab 10: Lookups and Data Enrichment** (45 min)
+    - Directory: `labs/lab10-lookups-enrichment/`
+    - Activities: Create and use lookups, enrich data with external information
 
-9. **Lab 13: User and Role Management** (30 min)
-   - Directory: `labs/lab13-user-role-management/`
-   - Activities: Create users, configure roles, set permissions
+---
 
-10. **Lab 14: System Administration and Monitoring** (35 min)
+**Session 6: Machine Learning & Administration**
+
+16. **Presentation 6: Machine Learning, Analytics & System Administration**
+    - File: `presentations/content6_presentation.html`
+    - Topics: ML Toolkit algorithms, anomaly detection, clustering, forecasting, user management, authentication, index optimization, monitoring
+
+17. **Lab 11: Machine Learning Toolkit Introduction** (50 min)
+    - Directory: `labs/lab11-ml-toolkit-intro/`
+    - Activities: Anomaly detection, clustering analysis, pattern recognition
+
+18. **Lab 12: Time Series Analysis** (40 min)
+    - Directory: `labs/lab12-time-series-analysis/`
+    - Activities: Linear regression, forecasting, trend prediction
+
+19. **Lab 13: User and Role Management** (30 min)
+    - Directory: `labs/lab13-user-role-management/`
+    - Activities: Create users, configure roles, set permissions, implement RBAC
+
+20. **Lab 14: System Administration and Monitoring** (35 min)
     - Directory: `labs/lab14-system-admin-monitoring/`
     - Activities: Monitor Splunk health, optimize indexes, troubleshoot issues
 
@@ -258,7 +265,6 @@ Each lab contains:
 
 ## Lab Quick Reference
 
-### Day 1 Labs
 | Lab | Duration | Difficulty | Key Commands |
 |-----|----------|------------|--------------|
 | Lab 1 | 30 min | Beginner | search, fields, where, stats |
@@ -268,10 +274,6 @@ Each lab contains:
 | Lab 5 | 40 min | Intermediate | timechart, bucket, predict |
 | Lab 6 | 45 min | Intermediate | Dashboard Studio, XML |
 | Lab 7 | 40 min | Advanced | tstats, summary indexing |
-
-### Day 2 Labs
-| Lab | Duration | Difficulty | Key Commands |
-|-----|----------|------------|--------------|
 | Lab 8 | 40 min | Intermediate | eval, if, case, coalesce |
 | Lab 9 | 45 min | Advanced | rex, regex, sed |
 | Lab 10 | 45 min | Intermediate | lookup, inputlookup, outputlookup |
@@ -364,7 +366,7 @@ bash load-sample-data.sh  # Mac/Linux
 
 ## Course Completion Checklist
 
-### Day 1
+### Labs
 - [ ] Complete Lab 1: Search Basics Review
 - [ ] Complete Lab 2: Subsearches and Macros
 - [ ] Complete Lab 3: Statistical Commands
@@ -372,8 +374,6 @@ bash load-sample-data.sh  # Mac/Linux
 - [ ] Complete Lab 5: Time-Based Searches
 - [ ] Complete Lab 6: Dashboards and Visualizations
 - [ ] Complete Lab 7: Search Optimization
-
-### Day 2
 - [ ] Complete Lab 8: Eval and Data Manipulation
 - [ ] Complete Lab 9: Regular Expressions
 - [ ] Complete Lab 10: Lookups and Enrichment
@@ -409,8 +409,8 @@ After completing this course, consider:
 
 ### Included in This Repository
 - 14 hands-on labs with detailed instructions
-- 6 Reveal.js presentations
-- Sample data sets
+- 6 comprehensive Reveal.js presentations (one for each session)
+- Sample data sets (~450,000 events)
 - SPL query examples
 - Solution guides
 - Utility scripts

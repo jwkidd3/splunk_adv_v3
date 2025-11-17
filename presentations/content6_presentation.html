@@ -1,0 +1,1099 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Splunk Advanced - Machine Learning, Analytics & Administration</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/reveal.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/theme/white.min.css">
+    <style>
+        .reveal .slides section {
+            text-align: left;
+            font-size: 0.75em !important;
+            line-height: 1.3;
+            max-height: 90vh !important;
+            overflow-y: auto !important;
+            padding: 0.5em 1em !important;
+        }
+        .reveal h1 {
+            font-size: 1.8em !important;
+            margin: 0.3em 0 !important;
+        }
+        .reveal h2 {
+            font-size: 1.4em !important;
+            margin: 0.3em 0 !important;
+        }
+        .reveal h3 {
+            font-size: 1.2em !important;
+            margin: 0.3em 0 !important;
+        }
+        .reveal h1, .reveal h2, .reveal h3 {
+            color: #2c3e50;
+            text-align: center;
+        }
+        .reveal p {
+            margin: 0.3em 0 !important;
+        }
+        .reveal ul, .reveal ol {
+            margin: 0.5em 0 !important;
+        }
+        .reveal li {
+            margin: 0.2em 0 !important;
+        }
+        .title-block {
+            background: linear-gradient(135deg, #f05e23 0%, #e31c00 100%);
+            color: white !important;
+            padding: 1.5em;
+            border-radius: 10px;
+            text-align: center;
+        }
+        .session-header {
+            background: #f8f9fa;
+            color: #2c3e50 !important;
+            padding: 0.6em;
+            border-left: 5px solid #f05e23;
+            margin-bottom: 0.5em;
+        }
+        .code-block {
+            background: #2c3e50;
+            color: #ecf0f1;
+            border: 2px solid #34495e;
+            border-radius: 5px;
+            padding: 0.5em;
+            font-family: 'Courier New', monospace;
+            font-size: 0.6em;
+            margin: 0.3em 0;
+            line-height: 1.2;
+            overflow-x: auto;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+        .highlight-box {
+            background: #e8f5e8;
+            border-left: 4px solid #27ae60;
+            padding: 0.5em;
+            margin: 0.3em 0;
+        }
+        .lab-callout {
+            background: linear-gradient(45deg, #f05e23, #e31c00);
+            color: white !important;
+            padding: 0.8em;
+            border-radius: 8px;
+            text-align: center;
+            font-size: 0.9em;
+            margin: 0.5em 0;
+        }
+        .warning-box {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            border-radius: 4px;
+            padding: 0.5em;
+            margin: 0.3em 0;
+        }
+        .info {
+            background: #e3f2fd;
+            border: 1px solid #bbdefb;
+            border-radius: 4px;
+            padding: 0.5em;
+            margin: 0.3em 0;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="reveal">
+        <div class="slides">
+
+            <!-- Title Slide -->
+            <section>
+                <div class="title-block">
+                    <h1>Machine Learning, Analytics & Administration</h1>
+                    <h3>Advanced Analytics and Enterprise Management</h3>
+                    <p><strong>Session 6</strong></p>
+                    <p>Labs 11-14: ML, Forecasting, and System Administration</p>
+                </div>
+            </section>
+
+            <!-- Learning Objectives -->
+            <section>
+                <div class="session-header">
+                    <h2>Learning Objectives</h2>
+                </div>
+                <p>By the end of this session, you will be able to:</p>
+                <ul>
+                    <li><strong>Machine Learning Toolkit:</strong> Apply ML algorithms for anomaly detection and forecasting</li>
+                    <li><strong>Anomaly Detection:</strong> Identify unusual patterns in your data</li>
+                    <li><strong>Clustering:</strong> Group similar events for pattern recognition</li>
+                    <li><strong>Forecasting:</strong> Predict future trends using time series analysis</li>
+                    <li><strong>User Management:</strong> Configure users, roles, and authentication</li>
+                    <li><strong>Index Management:</strong> Optimize index lifecycle and retention</li>
+                    <li><strong>Performance Monitoring:</strong> Monitor and troubleshoot Splunk health</li>
+                    <li><strong>Capacity Planning:</strong> Plan for growth and scale</li>
+                </ul>
+            </section>
+
+            <!-- Part 1: Machine Learning Toolkit -->
+            <section>
+                <div class="session-header">
+                    <h2>Part 1: Machine Learning Toolkit (MLTK)</h2>
+                </div>
+                <h3>What is MLTK?</h3>
+                <p>Splunk's Machine Learning Toolkit provides:</p>
+                <ul>
+                    <li>Pre-built algorithms for common use cases</li>
+                    <li>Integration with Python machine learning libraries</li>
+                    <li>Visual model building (Assistants)</li>
+                    <li>Custom algorithm support</li>
+                    <li>No coding required for basic use</li>
+                </ul>
+
+                <h3>Installing MLTK</h3>
+                <ol>
+                    <li>Apps → Find More Apps</li>
+                    <li>Search for "Machine Learning Toolkit"</li>
+                    <li>Install (requires Python for Splunk)</li>
+                    <li>Restart Splunk</li>
+                    <li>Verify: Apps → Machine Learning Toolkit</li>
+                </ol>
+
+                <h3>MLTK Components</h3>
+                <ul>
+                    <li><strong>Showcase:</strong> Pre-built examples and use cases</li>
+                    <li><strong>Assistants:</strong> Guided ML model creation</li>
+                    <li><strong>Experiments:</strong> Build and test custom models</li>
+                    <li><strong>Algorithms:</strong> Library of ML methods</li>
+                </ul>
+            </section>
+
+            <!-- MLTK Algorithms -->
+            <section>
+                <div class="session-header">
+                    <h2>MLTK Algorithm Categories</h2>
+                </div>
+                <h3>1. Anomaly Detection</h3>
+                <ul>
+                    <li><strong>Density-based (LocalOutlierFactor):</strong> Find outliers in dense regions</li>
+                    <li><strong>Distribution-based (OneClassSVM):</strong> Detect deviations from normal distribution</li>
+                    <li><strong>Isolation Forest:</strong> Isolate anomalies in tree structure</li>
+                </ul>
+
+                <h3>2. Clustering</h3>
+                <ul>
+                    <li><strong>KMeans:</strong> Partition data into K clusters</li>
+                    <li><strong>DBSCAN:</strong> Density-based clustering</li>
+                    <li><strong>Hierarchical:</strong> Tree-based clustering</li>
+                </ul>
+
+                <h3>3. Forecasting and Prediction</h3>
+                <ul>
+                    <li><strong>Linear Regression:</strong> Predict continuous values</li>
+                    <li><strong>StateSpaceForecast:</strong> Time series forecasting</li>
+                    <li><strong>ARIMA:</strong> Auto-regressive integrated moving average</li>
+                </ul>
+
+                <h3>4. Classification</h3>
+                <ul>
+                    <li><strong>Logistic Regression:</strong> Binary classification</li>
+                    <li><strong>Decision Trees:</strong> Tree-based classification</li>
+                    <li><strong>Random Forest:</strong> Ensemble classification</li>
+                </ul>
+            </section>
+
+            <!-- Anomaly Detection Deep Dive -->
+            <section>
+                <div class="session-header">
+                    <h2>Anomaly Detection Algorithms</h2>
+                </div>
+                <h3>What is Anomaly Detection?</h3>
+                <p>Automatically identify unusual patterns that deviate from expected behavior:</p>
+                <ul>
+                    <li>Security threats (unusual login patterns)</li>
+                    <li>Performance issues (CPU spikes)</li>
+                    <li>Application errors (error rate increases)</li>
+                    <li>Business anomalies (sales drops)</li>
+                </ul>
+
+                <h3>Simple Anomaly Detection Example</h3>
+                <div class="code-block">Basic statistical approach (3-sigma rule):
+index=web
+| timechart span=5m count
+| eventstats avg(count) as avg_count, stdev(count) as stdev_count
+| eval upper_bound=avg_count+(3*stdev_count)
+| eval lower_bound=avg_count-(3*stdev_count)
+| eval is_anomaly=if(count>upper_bound OR count<lower_bound, 1, 0)
+| where is_anomaly=1</div>
+
+                <h3>Using MLTK for Anomaly Detection</h3>
+                <div class="code-block">index=web
+| timechart span=5m count
+| fit DensityFunction count threshold=0.01
+| where outlier=1</div>
+            </section>
+
+            <!-- MLTK Commands -->
+            <section>
+                <div class="session-header">
+                    <h2>Core MLTK Commands</h2>
+                </div>
+                <h3>1. fit - Train a Model</h3>
+                <div class="code-block">Syntax:
+| fit <algorithm> <fields> [into <model_name>] [options]
+
+Example - Train clustering model:
+index=transactions
+| stats avg(amount) as avg_amount, count as transaction_count by customer_id
+| fit KMeans k=5 avg_amount transaction_count into customer_segments</div>
+
+                <h3>2. apply - Use a Trained Model</h3>
+                <div class="code-block">Syntax:
+| apply <model_name>
+
+Example - Apply trained model:
+index=transactions
+| stats avg(amount) as avg_amount, count as transaction_count by customer_id
+| apply customer_segments
+| table customer_id, avg_amount, transaction_count, cluster</div>
+
+                <h3>3. predict - Forecast Future Values</h3>
+                <div class="code-block">index=sales
+| timechart span=1d sum(revenue) as daily_revenue
+| predict daily_revenue as predicted_revenue algorithm=LLP future_timespan=30</div>
+
+                <h3>4. score - Evaluate Model Performance</h3>
+                <div class="code-block">| score accuracy_score actual_field against predicted_field</div>
+            </section>
+
+            <!-- Anomaly Detection Example -->
+            <section>
+                <div class="session-header">
+                    <h2>Anomaly Detection: Full Example</h2>
+                </div>
+                <h3>Use Case: Detect Unusual Web Traffic</h3>
+                <div class="code-block">Step 1: Collect baseline data (last 30 days):
+index=web earliest=-30d
+| timechart span=1h count as requests
+| fit DensityFunction requests threshold=0.05 into web_traffic_model
+
+Step 2: Apply to recent data to detect anomalies:
+index=web earliest=-24h
+| timechart span=1h count as requests
+| apply web_traffic_model
+| where BoundaryRanges="OutOfBounds(above)" OR BoundaryRanges="OutOfBounds(below)"
+| eval anomaly_severity=case(
+    requests>(UpperBound*1.5), "Critical",
+    requests>UpperBound, "High",
+    requests<(LowerBound*0.5), "Critical",
+    requests<LowerBound, "Medium",
+    1==1, "Low"
+)
+| table _time, requests, UpperBound, LowerBound, anomaly_severity</div>
+
+                <h3>Alternative: Using IsolationForest</h3>
+                <div class="code-block">index=app_logs
+| bin _time span=15m
+| stats avg(response_time) as avg_response,
+        count(eval(status>=500)) as errors,
+        dc(user) as unique_users
+        by _time
+| fit IsolationForest avg_response errors unique_users contamination=0.1
+| where isOutlier=1
+| table _time, avg_response, errors, unique_users, outlierScore</div>
+            </section>
+
+            <!-- Clustering -->
+            <section>
+                <div class="session-header">
+                    <h2>Clustering and Pattern Recognition</h2>
+                </div>
+                <h3>What is Clustering?</h3>
+                <p>Automatically group similar events/entities together:</p>
+                <ul>
+                    <li>Customer segmentation</li>
+                    <li>Server classification</li>
+                    <li>Error pattern grouping</li>
+                    <li>User behavior analysis</li>
+                </ul>
+
+                <h3>KMeans Clustering Example</h3>
+                <div class="code-block">Use Case: Segment customers by behavior
+
+index=transactions earliest=-90d
+| stats sum(amount) as total_spent,
+        avg(amount) as avg_transaction,
+        dc(product_id) as product_variety,
+        count as transaction_count
+        by customer_id
+| fit KMeans k=4 total_spent avg_transaction product_variety transaction_count into customer_clusters
+| eval segment=case(
+    cluster=0, "High Value",
+    cluster=1, "Frequent Buyers",
+    cluster=2, "Window Shoppers",
+    cluster=3, "One-time Buyers",
+    1==1, "Unknown"
+)
+| table customer_id, total_spent, transaction_count, segment</div>
+            </section>
+
+            <!-- DBSCAN Clustering -->
+            <section>
+                <div class="session-header">
+                    <h2>DBSCAN Clustering</h2>
+                </div>
+                <h3>When to Use DBSCAN</h3>
+                <p>Unlike KMeans, DBSCAN:</p>
+                <ul>
+                    <li>Doesn't require specifying number of clusters</li>
+                    <li>Can find clusters of arbitrary shape</li>
+                    <li>Identifies noise/outliers automatically</li>
+                    <li>Better for spatial or density-based grouping</li>
+                </ul>
+
+                <h3>Example: Security Event Clustering</h3>
+                <div class="code-block">index=firewall action=blocked
+| stats count as block_count,
+        dc(dest_port) as port_variety,
+        dc(dest_ip) as target_variety
+        by src_ip
+| fit DBSCAN eps=0.5 min_samples=5 block_count port_variety target_variety
+| where cluster!=-1  # -1 indicates noise/outliers
+| stats count by cluster
+| sort -count</div>
+
+                <h3>Analyzing Cluster Characteristics</h3>
+                <div class="code-block">index=firewall action=blocked
+| stats count as block_count,
+        dc(dest_port) as port_variety,
+        dc(dest_ip) as target_variety,
+        values(dest_country) as countries
+        by src_ip
+| fit DBSCAN eps=0.5 min_samples=5 block_count port_variety target_variety
+| stats avg(block_count) as avg_blocks,
+        avg(port_variety) as avg_ports,
+        values(countries) as attack_origins,
+        count as members
+        by cluster
+| sort -avg_blocks</div>
+            </section>
+
+            <!-- Time Series Forecasting -->
+            <section>
+                <div class="session-header">
+                    <h2>Time Series Analysis and Forecasting</h2>
+                </div>
+                <h3>Built-in Forecasting Commands</h3>
+                <h4>1. predict Command</h4>
+                <div class="code-block">index=sales
+| timechart span=1d sum(revenue) as daily_revenue
+| predict daily_revenue as forecast future_timespan=30 holdback=7</div>
+
+                <h4>2. forecast Command (simpler)</h4>
+                <div class="code-block">index=web
+| timechart span=1h count
+| forecast count period=24 future_timespan=48</div>
+
+                <h3>Parameters Explained</h3>
+                <ul>
+                    <li><strong>future_timespan:</strong> Number of time periods to predict</li>
+                    <li><strong>holdback:</strong> Number of periods to exclude for validation</li>
+                    <li><strong>period:</strong> Seasonality period (24 for daily pattern in hourly data)</li>
+                    <li><strong>algorithm:</strong> LLP, LLT, LL, etc.</li>
+                </ul>
+            </section>
+
+            <!-- Advanced Forecasting -->
+            <section>
+                <div class="session-header">
+                    <h2>Advanced Forecasting with MLTK</h2>
+                </div>
+                <h3>StateSpaceForecast Algorithm</h3>
+                <div class="code-block">index=web earliest=-30d
+| timechart span=1h count as requests
+| fit StateSpaceForecast requests forecast_k=168 conf_interval=95
+| eval is_forecast=if(isnull(requests), 1, 0)
+| table _time, requests, predicted(requests),
+        lower95(predicted(requests)),
+        upper95(predicted(requests))</div>
+
+                <h3>Capacity Planning Example</h3>
+                <div class="code-block">index=infrastructure sourcetype=vmware:perf
+| timechart span=1d avg(cpu_usage_percent) as avg_cpu by host
+| predict avg_cpu as predicted_cpu future_timespan=90 holdback=14
+| where predicted_cpu>80
+| eval days_until_threshold=(_time-now())/86400
+| table host, predicted_cpu, days_until_threshold
+| where days_until_threshold>0
+| sort days_until_threshold</div>
+
+                <h3>Seasonal Decomposition</h3>
+                <div class="code-block">index=web earliest=-90d
+| timechart span=1h count
+| fit StateSpaceForecast count forecast_k=168
+| eval hour_of_day=tonumber(strftime(_time, "%H"))
+| eval day_of_week=tonumber(strftime(_time, "%w"))
+| chart avg(count) over hour_of_day by day_of_week</div>
+            </section>
+
+            <!-- Part 2: User and Role Management -->
+            <section>
+                <div class="session-header">
+                    <h2>Part 2: User and Role Management</h2>
+                </div>
+                <h3>Splunk User Management Concepts</h3>
+                <ul>
+                    <li><strong>Users:</strong> Individual accounts with credentials</li>
+                    <li><strong>Roles:</strong> Collections of capabilities and permissions</li>
+                    <li><strong>Capabilities:</strong> Specific permissions (edit_user, search, etc.)</li>
+                    <li><strong>Inheritance:</strong> Roles can inherit from other roles</li>
+                </ul>
+
+                <h3>Built-in Roles</h3>
+                <table style="font-size: 0.7em; width: 100%;">
+                    <tr>
+                        <th style="background: #f8f9fa;">Role</th>
+                        <th style="background: #f8f9fa;">Description</th>
+                        <th style="background: #f8f9fa;">Typical Use</th>
+                    </tr>
+                    <tr>
+                        <td><strong>admin</strong></td>
+                        <td>Full system access</td>
+                        <td>System administrators</td>
+                    </tr>
+                    <tr>
+                        <td><strong>power</strong></td>
+                        <td>Create and share knowledge objects</td>
+                        <td>Power users, analysts</td>
+                    </tr>
+                    <tr>
+                        <td><strong>user</strong></td>
+                        <td>Search and create private objects</td>
+                        <td>General users</td>
+                    </tr>
+                    <tr>
+                        <td><strong>can_delete</strong></td>
+                        <td>Delete events by search</td>
+                        <td>Data retention tasks</td>
+                    </tr>
+                </table>
+            </section>
+
+            <!-- Creating Users and Roles -->
+            <section>
+                <div class="session-header">
+                    <h2>Creating Users and Roles</h2>
+                </div>
+                <h3>Creating a New User</h3>
+                <ol>
+                    <li>Settings → Users → New User</li>
+                    <li>Enter username and full name</li>
+                    <li>Set password (or configure external auth)</li>
+                    <li>Assign roles</li>
+                    <li>Set default app</li>
+                    <li>Set time zone</li>
+                </ol>
+
+                <h3>Creating a Custom Role</h3>
+                <ol>
+                    <li>Settings → Roles → New Role</li>
+                    <li>Role name: analyst_readonly</li>
+                    <li>Select inherited roles (e.g., user)</li>
+                    <li>Set capabilities</li>
+                    <li>Configure search restrictions</li>
+                    <li>Set index access</li>
+                </ol>
+
+                <h3>Example: Read-Only Analyst Role</h3>
+                <div class="code-block">Role: analyst_readonly
+Inherits from: user
+Capabilities:
+  - search (inherited)
+  - list_inputs (view data inputs)
+
+Indexes: web, app, db (search only, no write)
+Search restrictions: None
+Search time window: All time
+Search job limit: 10 concurrent searches</div>
+            </section>
+
+            <!-- Role-Based Access Control -->
+            <section>
+                <div class="session-header">
+                    <h2>Role-Based Access Control (RBAC)</h2>
+                </div>
+                <h3>Key Capabilities</h3>
+                <ul>
+                    <li><strong>admin_all_objects:</strong> Admin access to all objects</li>
+                    <li><strong>edit_user:</strong> Create/modify users</li>
+                    <li><strong>schedule_search:</strong> Create scheduled searches</li>
+                    <li><strong>edit_search_schedule_priority:</strong> Set search priority</li>
+                    <li><strong>edit_tcp:</strong> Create TCP inputs</li>
+                    <li><strong>indexes_edit:</strong> Create/modify indexes</li>
+                    <li><strong>rest_apps_management:</strong> Install/manage apps</li>
+                </ul>
+
+                <h3>Search Restrictions</h3>
+                <div class="code-block">Restrict role to specific indexes:
+Settings → Roles → Edit → Indexes tab
+Select: web, app (user can only search these indexes)
+
+Restrict by sourcetype:
+Settings → Roles → Edit → Search Restrictions
+Add: sourcetype=web_access OR sourcetype=app_logs
+
+Time window restrictions:
+Settings → Roles → Edit → Search Time Window
+Set: -7d@d (can only search last 7 days)</div>
+
+                <h3>Best Practices</h3>
+                <ul>
+                    <li>Use least privilege principle</li>
+                    <li>Create functional roles (not per-person)</li>
+                    <li>Use role inheritance to simplify management</li>
+                    <li>Regularly audit role assignments</li>
+                    <li>Document custom roles and their purpose</li>
+                </ul>
+            </section>
+
+            <!-- Authentication Methods -->
+            <section>
+                <div class="session-header">
+                    <h2>Authentication Methods</h2>
+                </div>
+                <h3>1. Native Authentication</h3>
+                <p>Default Splunk authentication using local user database</p>
+                <ul>
+                    <li>Simplest to configure</li>
+                    <li>No external dependencies</li>
+                    <li>Passwords hashed and stored locally</li>
+                </ul>
+
+                <h3>2. LDAP Authentication</h3>
+                <p>Integrate with Active Directory or LDAP server</p>
+                <div class="code-block">Configuration:
+Settings → Authentication Methods → LDAP
+  - Host: ldap.company.com
+  - Port: 389 (636 for LDAPS)
+  - Bind DN: CN=splunk-service,OU=Service Accounts,DC=company,DC=com
+  - User base DN: OU=Users,DC=company,DC=com
+  - Group base DN: OU=Groups,DC=company,DC=com
+
+Map LDAP groups to Splunk roles:
+  - LDAP Group: CN=Splunk-Admins → Splunk Role: admin
+  - LDAP Group: CN=Splunk-Analysts → Splunk Role: power</div>
+
+                <h3>3. SAML Authentication (SSO)</h3>
+                <p>Single Sign-On using SAML 2.0 (Okta, Azure AD, etc.)</p>
+                <div class="code-block">Settings → Authentication Methods → SAML
+  - Enable SAML
+  - Upload IdP metadata
+  - Configure Entity ID
+  - Map SAML attributes to Splunk roles
+  - Test SSO connection</div>
+            </section>
+
+            <!-- Index Management -->
+            <section>
+                <div class="session-header">
+                    <h2>Index Lifecycle Management</h2>
+                </div>
+                <h3>Index Storage Lifecycle</h3>
+                <ol>
+                    <li><strong>Hot Bucket:</strong> Actively receiving data (memory + disk)</li>
+                    <li><strong>Warm Bucket:</strong> No longer receiving data, still searchable</li>
+                    <li><strong>Cold Bucket:</strong> Rolled to cold storage, still searchable</li>
+                    <li><strong>Frozen Bucket:</strong> Archived or deleted</li>
+                </ol>
+
+                <h3>Creating an Index</h3>
+                <div class="code-block">Settings → Indexes → New Index
+
+Name: security_logs
+Home Path: $SPLUNK_DB/security_logs/db
+Cold Path: $SPLUNK_DB/security_logs/colddb
+Thawed Path: $SPLUNK_DB/security_logs/thaweddb
+Frozen Path: /archive/splunk/security_logs
+
+Max Size of Entire Index: 500 GB
+Max Hot Buckets: 10
+Max Data Size: auto (default ~750MB per bucket)
+Froze Time Period: 90 days</div>
+
+                <h3>Index Configuration Parameters</h3>
+                <ul>
+                    <li><strong>maxTotalDataSizeMB:</strong> Max total index size</li>
+                    <li><strong>frozenTimePeriodInSecs:</strong> Age before freezing</li>
+                    <li><strong>maxHotBuckets:</strong> Max concurrent hot buckets</li>
+                    <li><strong>maxDataSize:</strong> Size before bucket rolls</li>
+                    <li><strong>coldToFrozenDir:</strong> Archive location</li>
+                </ul>
+            </section>
+
+            <!-- Index Optimization -->
+            <section>
+                <div class="session-header">
+                    <h2>Index Optimization Strategies</h2>
+                </div>
+                <h3>1. Retention Policies</h3>
+                <div class="code-block">Different retention for different data types:
+
+High-value security logs: 365 days
+Application logs: 90 days
+Debug logs: 30 days
+Summary indexes: 730 days (2 years)
+
+Configure in indexes.conf:
+[security_logs]
+frozenTimePeriodInSecs = 31536000  # 365 days
+
+[app_logs]
+frozenTimePeriodInSecs = 7776000   # 90 days</div>
+
+                <h3>2. Archive to Frozen</h3>
+                <div class="code-block">Instead of deleting, archive frozen buckets:
+
+[production_logs]
+coldToFrozenDir = /archive/splunk/production_logs
+coldToFrozenScript = $SPLUNK_HOME/bin/scripts/archive_to_s3.sh
+
+Archived buckets can be thawed later:
+$SPLUNK_HOME/bin/splunk rebuild /archive/splunk/production_logs/bucket_name</div>
+
+                <h3>3. Summary Indexing for Long-Term Analysis</h3>
+                <div class="code-block">Keep detailed logs for 90 days, summaries for 2+ years:
+
+Scheduled search (hourly):
+index=web earliest=-1h
+| bucket _time span=5m
+| stats count, avg(response_time) as avg_response by _time, uri, status
+| collect index=summary_web
+
+Query summary for historical analysis:
+index=summary_web earliest=-2y
+| stats sum(count) as total_requests by uri</div>
+            </section>
+
+            <!-- Performance Monitoring -->
+            <section>
+                <div class="session-header">
+                    <h2>System Health and Performance Monitoring</h2>
+                </div>
+                <h3>Key Metrics to Monitor</h3>
+                <ul>
+                    <li><strong>Indexing Rate:</strong> Events per second being indexed</li>
+                    <li><strong>Search Concurrency:</strong> Number of active searches</li>
+                    <li><strong>CPU & Memory:</strong> System resource utilization</li>
+                    <li><strong>Disk Usage:</strong> Index and log disk space</li>
+                    <li><strong>License Usage:</strong> Daily indexing volume vs license</li>
+                </ul>
+
+                <h3>Built-in Monitoring Tools</h3>
+                <div class="code-block">1. Monitoring Console (MC):
+   Settings → Monitoring Console
+   - Overview dashboard
+   - Indexing performance
+   - Search performance
+   - Resource usage
+
+2. Internal Indexes:
+   index=_internal - Splunk operational logs
+   index=_introspection - System metrics
+   index=_audit - User activity audit
+
+3. REST API:
+   | rest /services/server/info
+   | rest /services/server/status/resource-usage/hostwide</div>
+            </section>
+
+            <!-- Monitoring Searches -->
+            <section>
+                <div class="session-header">
+                    <h2>Essential Monitoring Searches</h2>
+                </div>
+                <h3>1. Indexing Throughput</h3>
+                <div class="code-block">index=_internal source=*metrics.log group=per_index_thruput
+| timechart span=1m sum(kb) as kb_indexed by series
+| eval MB_per_sec=kb_indexed/1024
+| fields _time, MB_per_sec</div>
+
+                <h3>2. Search Performance</h3>
+                <div class="code-block">index=_audit action=search
+| eval search_duration=total_run_time
+| stats avg(search_duration) as avg_duration,
+        max(search_duration) as max_duration,
+        count
+        by user
+| sort -avg_duration</div>
+
+                <h3>3. License Usage</h3>
+                <div class="code-block">index=_internal source=*license_usage.log type=Usage
+| timechart span=1d sum(b) as bytes_indexed
+| eval GB_indexed=round(bytes_indexed/1024/1024/1024, 2)
+| fields _time, GB_indexed</div>
+
+                <h3>4. Failed Logins</h3>
+                <div class="code-block">index=_audit action=login info=failed
+| stats count by user, src_ip
+| sort -count
+| where count>5</div>
+
+                <h3>5. Disk Space Usage</h3>
+                <div class="code-block">| rest /services/data/indexes
+| eval size_gb=round(currentDBSizeMB/1024, 2)
+| eval max_size_gb=round(maxTotalDataSizeMB/1024, 2)
+| eval usage_pct=round((size_gb/max_size_gb)*100, 1)
+| table title, size_gb, max_size_gb, usage_pct
+| where usage_pct>80</div>
+            </section>
+
+            <!-- Troubleshooting Methodologies -->
+            <section>
+                <div class="session-header">
+                    <h2>Troubleshooting Methodologies</h2>
+                </div>
+                <h3>Common Issues and Solutions</h3>
+
+                <h4>1. Slow Searches</h4>
+                <div class="code-block">Diagnostics:
+- Check Job Inspector for scan count vs results
+- Review search.log for the job
+- Check system resource utilization
+
+Solutions:
+- Add more specific filters early in search
+- Use tstats or data models
+- Reduce time range
+- Optimize transforming commands</div>
+
+                <h4>2. Indexing Delays</h4>
+                <div class="code-block">Diagnostics:
+index=_internal source=*metrics.log group=queue name=indexqueue
+| timechart avg(current_size_kb) as avg_queue_size
+
+Solutions:
+- Increase indexing parallelization
+- Add more indexers
+- Optimize parsing (fewer regex extractions)
+- Check disk I/O performance</div>
+
+                <h4>3. License Warnings</h4>
+                <div class="code-block">Diagnostics:
+index=_internal source=*license_usage.log type=Usage
+| timechart span=1d sum(b) as bytes by idx
+| eval GB=bytes/1024/1024/1024
+
+Solutions:
+- Reduce retention periods
+- Filter noisy sources
+- Implement summary indexing
+- Upgrade license</div>
+            </section>
+
+            <!-- Capacity Planning -->
+            <section>
+                <div class="session-header">
+                    <h2>Capacity Planning</h2>
+                </div>
+                <h3>Key Capacity Metrics</h3>
+                <ul>
+                    <li><strong>Daily Indexing Volume:</strong> GB/day trending</li>
+                    <li><strong>Search Load:</strong> Concurrent searches and average duration</li>
+                    <li><strong>User Growth:</strong> Active users over time</li>
+                    <li><strong>Data Retention:</strong> Total storage required</li>
+                </ul>
+
+                <h3>Calculating Storage Requirements</h3>
+                <div class="code-block">Formula:
+Total Storage = Daily Volume × Retention Days × Replication Factor × Compression Overhead
+
+Example:
+- Daily volume: 100 GB/day
+- Retention: 90 days
+- Replication factor: 2 (search head + indexer)
+- Compression: 0.5 (50% compression)
+
+Total = 100 × 90 × 2 × 0.5 = 9,000 GB = 9 TB raw storage needed</div>
+
+                <h3>Forecasting Growth</h3>
+                <div class="code-block">index=_internal source=*license_usage.log type=Usage
+| timechart span=1d sum(b) as bytes_indexed
+| eval GB_indexed=bytes_indexed/1024/1024/1024
+| predict GB_indexed as forecasted_GB future_timespan=90
+| where _time>=now()
+| stats max(forecasted_GB) as max_daily_GB
+| eval storage_needed_90_days=max_daily_GB*90*2*0.5
+| eval storage_needed_TB=round(storage_needed_90_days/1024, 2)
+| table storage_needed_TB</div>
+            </section>
+
+            <!-- Sizing Guidelines -->
+            <section>
+                <div class="session-header">
+                    <h2>Splunk Sizing Guidelines</h2>
+                </div>
+                <h3>Indexer Sizing</h3>
+                <table style="font-size: 0.7em; width: 100%;">
+                    <tr>
+                        <th style="background: #f8f9fa;">Daily Volume</th>
+                        <th style="background: #f8f9fa;">CPU Cores</th>
+                        <th style="background: #f8f9fa;">RAM</th>
+                        <th style="background: #f8f9fa;">IOPS</th>
+                    </tr>
+                    <tr>
+                        <td>< 100 GB/day</td>
+                        <td>12 cores</td>
+                        <td>12 GB</td>
+                        <td>800+ IOPS</td>
+                    </tr>
+                    <tr>
+                        <td>100-200 GB/day</td>
+                        <td>16 cores</td>
+                        <td>16 GB</td>
+                        <td>1200+ IOPS</td>
+                    </tr>
+                    <tr>
+                        <td>200-500 GB/day</td>
+                        <td>24 cores</td>
+                        <td>32 GB</td>
+                        <td>2000+ IOPS</td>
+                    </tr>
+                    <tr>
+                        <td>> 500 GB/day</td>
+                        <td>32+ cores</td>
+                        <td>48+ GB</td>
+                        <td>3000+ IOPS</td>
+                    </tr>
+                </table>
+
+                <h3>Search Head Sizing</h3>
+                <ul>
+                    <li><strong>CPU:</strong> 16+ cores for <50 concurrent users</li>
+                    <li><strong>RAM:</strong> 12-16 GB minimum, 32 GB recommended</li>
+                    <li><strong>Disk:</strong> SSD for $SPLUNK_HOME, moderate IOPS</li>
+                </ul>
+
+                <h3>General Best Practices</h3>
+                <ul>
+                    <li>Plan for 20-30% growth headroom</li>
+                    <li>Use SSDs for hot buckets</li>
+                    <li>Separate OS, Splunk, and index storage</li>
+                    <li>Monitor IOPS, not just capacity</li>
+                    <li>Consider cloud auto-scaling options</li>
+                </ul>
+            </section>
+
+            <!-- Backup and Disaster Recovery -->
+            <section>
+                <div class="session-header">
+                    <h2>Backup and Disaster Recovery</h2>
+                </div>
+                <h3>What to Backup</h3>
+                <ul>
+                    <li><strong>Configuration Files:</strong> $SPLUNK_HOME/etc/</li>
+                    <li><strong>Indexes:</strong> Hot/warm/cold buckets (optional)</li>
+                    <li><strong>KV Store:</strong> Collection data</li>
+                    <li><strong>Lookup Files:</strong> CSV and lookup definitions</li>
+                    <li><strong>Deployment Server:</strong> Apps and configurations</li>
+                </ul>
+
+                <h3>Configuration Backup</h3>
+                <div class="code-block">Backup configuration (Linux):
+tar -czf splunk-config-backup-$(date +%Y%m%d).tar.gz $SPLUNK_HOME/etc/
+
+Backup KV Store:
+$SPLUNK_HOME/bin/splunk backup kvstore -archiveName kvstore-backup-$(date +%Y%m%d)
+
+Backup indexes (optional, for critical data):
+rsync -av $SPLUNK_DB/critical_index/ /backup/splunk/critical_index/</div>
+
+                <h3>Disaster Recovery Strategy</h3>
+                <ol>
+                    <li><strong>Configuration:</strong> Daily automated backups to remote location</li>
+                    <li><strong>Indexes:</strong> Rely on data retention from sources (if possible)</li>
+                    <li><strong>Critical Data:</strong> Archive frozen buckets for compliance</li>
+                    <li><strong>Documentation:</strong> Maintain runbooks for recovery procedures</li>
+                    <li><strong>Testing:</strong> Quarterly DR drills</li>
+                </ol>
+            </section>
+
+            <!-- Security Best Practices -->
+            <section>
+                <div class="session-header">
+                    <h2>Security Best Practices</h2>
+                </div>
+                <h3>1. Authentication Security</h3>
+                <ul>
+                    <li>Enable multi-factor authentication (MFA)</li>
+                    <li>Use LDAP/SAML for centralized authentication</li>
+                    <li>Enforce strong password policies</li>
+                    <li>Disable default admin account after creating new admin</li>
+                    <li>Regular audit of user accounts</li>
+                </ul>
+
+                <h3>2. Communication Security</h3>
+                <div class="code-block">Enable SSL for all communications:
+
+Web UI:
+Settings → Server settings → General settings
+Enable HTTPS: Yes
+
+Forwarder-to-Indexer:
+inputs.conf:
+[splunktcp-ssl:9997]
+disabled = 0
+
+outputs.conf on forwarders:
+[tcpout:my_indexers]
+server = indexer1:9997, indexer2:9997
+sslCertPath = $SPLUNK_HOME/etc/auth/server.pem
+sslPassword = <encrypted_password></div>
+
+                <h3>3. Data Security</h3>
+                <ul>
+                    <li>Encrypt data at rest (filesystem encryption)</li>
+                    <li>Mask sensitive data before indexing (transforms.conf)</li>
+                    <li>Use separate indexes for sensitive data</li>
+                    <li>Implement strict RBAC for PII/PCI data</li>
+                    <li>Regular security audits</li>
+                </ul>
+            </section>
+
+            <!-- Lab Preparation -->
+            <section>
+                <div class="session-header">
+                    <h2>Preparing for Labs 11-14</h2>
+                </div>
+                <div class="lab-callout">
+                    <h3>Lab 11: Machine Learning and Anomaly Detection</h3>
+                    <p>You will practice:</p>
+                    <ul style="text-align: left;">
+                        <li>Installing and configuring MLTK</li>
+                        <li>Implementing anomaly detection algorithms</li>
+                        <li>Building clustering models</li>
+                        <li>Training and applying ML models</li>
+                        <li>Interpreting ML results for actionable insights</li>
+                    </ul>
+                </div>
+
+                <div class="lab-callout">
+                    <h3>Lab 12: Time Series Forecasting</h3>
+                    <p>You will practice:</p>
+                    <ul style="text-align: left;">
+                        <li>Using predict and forecast commands</li>
+                        <li>Implementing StateSpaceForecast</li>
+                        <li>Capacity planning with forecasts</li>
+                        <li>Seasonal pattern analysis</li>
+                        <li>Validating forecast accuracy</li>
+                    </ul>
+                </div>
+
+                <div class="lab-callout">
+                    <h3>Lab 13: User and Role Management</h3>
+                    <p>You will practice:</p>
+                    <ul style="text-align: left;">
+                        <li>Creating users and custom roles</li>
+                        <li>Configuring RBAC and capabilities</li>
+                        <li>Setting up LDAP authentication</li>
+                        <li>Implementing search restrictions</li>
+                        <li>Auditing user activity</li>
+                    </ul>
+                </div>
+
+                <div class="lab-callout">
+                    <h3>Lab 14: System Administration and Monitoring</h3>
+                    <p>You will practice:</p>
+                    <ul style="text-align: left;">
+                        <li>Creating and managing indexes</li>
+                        <li>Configuring retention policies</li>
+                        <li>Monitoring system health</li>
+                        <li>Performing capacity planning</li>
+                        <li>Troubleshooting performance issues</li>
+                        <li>Implementing backup strategies</li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- Summary -->
+            <section>
+                <div class="session-header">
+                    <h2>Course Summary</h2>
+                </div>
+                <h3>Key Takeaways</h3>
+                <ul>
+                    <li><strong>Machine Learning:</strong> MLTK enables advanced analytics without coding</li>
+                    <li><strong>Anomaly Detection:</strong> Multiple algorithms for different use cases - choose based on data characteristics</li>
+                    <li><strong>Forecasting:</strong> Essential for capacity planning and proactive monitoring</li>
+                    <li><strong>User Management:</strong> RBAC is critical for security and compliance</li>
+                    <li><strong>Authentication:</strong> Integrate with enterprise auth (LDAP/SAML) for better security</li>
+                    <li><strong>Index Management:</strong> Proper lifecycle management balances cost and accessibility</li>
+                    <li><strong>Monitoring:</strong> Use internal indexes and MC for proactive health monitoring</li>
+                    <li><strong>Capacity Planning:</strong> Plan for growth using forecasting and trending</li>
+                </ul>
+
+                <div class="highlight-box">
+                    <strong>Congratulations!</strong> You've completed the Advanced Splunk course. You now have the skills to:
+                    <ul>
+                        <li>Build complex searches and correlations</li>
+                        <li>Create interactive dashboards and visualizations</li>
+                        <li>Optimize search performance</li>
+                        <li>Transform and enrich data</li>
+                        <li>Apply machine learning for insights</li>
+                        <li>Administer enterprise Splunk deployments</li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- Next Steps -->
+            <section>
+                <div class="session-header">
+                    <h2>Next Steps and Resources</h2>
+                </div>
+                <h3>Continue Your Splunk Journey</h3>
+                <ul>
+                    <li><strong>Splunk Certifications:</strong>
+                        <ul>
+                            <li>Splunk Core Certified Power User</li>
+                            <li>Splunk Enterprise Certified Admin</li>
+                            <li>Splunk Enterprise Certified Architect</li>
+                        </ul>
+                    </li>
+                    <li><strong>Splunk Community:</strong>
+                        <ul>
+                            <li>Splunk Answers (community.splunk.com)</li>
+                            <li>Splunk .conf Presentations</li>
+                            <li>Local Splunk User Groups</li>
+                        </ul>
+                    </li>
+                    <li><strong>Advanced Topics:</strong>
+                        <ul>
+                            <li>Splunk Enterprise Security (ES)</li>
+                            <li>Splunk IT Service Intelligence (ITSI)</li>
+                            <li>Custom App Development</li>
+                            <li>Advanced Clustering and Distributed Search</li>
+                        </ul>
+                    </li>
+                </ul>
+
+                <h3>Resources</h3>
+                <ul>
+                    <li>docs.splunk.com - Official documentation</li>
+                    <li>dev.splunk.com - Developer resources</li>
+                    <li>splunkbase.splunk.com - Apps and add-ons</li>
+                    <li>education.splunk.com - Training and certification</li>
+                </ul>
+            </section>
+
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/reveal.min.js"></script>
+    <script>
+        Reveal.initialize({
+            hash: true,
+            slideNumber: true,
+            transition: 'slide',
+            width: 1200,
+            height: 900,
+            margin: 0.05
+        });
+    </script>
+</body>
+</html>

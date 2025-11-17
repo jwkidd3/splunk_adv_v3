@@ -1,0 +1,987 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Splunk Advanced - Dashboards, Visualizations & Search Optimization</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/reveal.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/theme/white.min.css">
+    <style>
+        .reveal .slides section {
+            text-align: left;
+            font-size: 0.75em !important;
+            line-height: 1.3;
+            max-height: 90vh !important;
+            overflow-y: auto !important;
+            padding: 0.5em 1em !important;
+        }
+        .reveal h1 {
+            font-size: 1.8em !important;
+            margin: 0.3em 0 !important;
+        }
+        .reveal h2 {
+            font-size: 1.4em !important;
+            margin: 0.3em 0 !important;
+        }
+        .reveal h3 {
+            font-size: 1.2em !important;
+            margin: 0.3em 0 !important;
+        }
+        .reveal h1, .reveal h2, .reveal h3 {
+            color: #2c3e50;
+            text-align: center;
+        }
+        .reveal p {
+            margin: 0.3em 0 !important;
+        }
+        .reveal ul, .reveal ol {
+            margin: 0.5em 0 !important;
+        }
+        .reveal li {
+            margin: 0.2em 0 !important;
+        }
+        .title-block {
+            background: linear-gradient(135deg, #f05e23 0%, #e31c00 100%);
+            color: white !important;
+            padding: 1.5em;
+            border-radius: 10px;
+            text-align: center;
+        }
+        .session-header {
+            background: #f8f9fa;
+            color: #2c3e50 !important;
+            padding: 0.6em;
+            border-left: 5px solid #f05e23;
+            margin-bottom: 0.5em;
+        }
+        .code-block {
+            background: #2c3e50;
+            color: #ecf0f1;
+            border: 2px solid #34495e;
+            border-radius: 5px;
+            padding: 0.5em;
+            font-family: 'Courier New', monospace;
+            font-size: 0.6em;
+            margin: 0.3em 0;
+            line-height: 1.2;
+            overflow-x: auto;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+        .highlight-box {
+            background: #e8f5e8;
+            border-left: 4px solid #27ae60;
+            padding: 0.5em;
+            margin: 0.3em 0;
+        }
+        .lab-callout {
+            background: linear-gradient(45deg, #f05e23, #e31c00);
+            color: white !important;
+            padding: 0.8em;
+            border-radius: 8px;
+            text-align: center;
+            font-size: 0.9em;
+            margin: 0.5em 0;
+        }
+        .warning-box {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            border-radius: 4px;
+            padding: 0.5em;
+            margin: 0.3em 0;
+        }
+        .info {
+            background: #e3f2fd;
+            border: 1px solid #bbdefb;
+            border-radius: 4px;
+            padding: 0.5em;
+            margin: 0.3em 0;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="reveal">
+        <div class="slides">
+
+            <!-- Title Slide -->
+            <section>
+                <div class="title-block">
+                    <h1>Dashboards, Visualizations & Search Optimization</h1>
+                    <h3>Creating Actionable Insights with Speed</h3>
+                    <p><strong>Session 4</strong></p>
+                    <p>Labs 6-7: Building Interactive Dashboards and Accelerating Searches</p>
+                </div>
+            </section>
+
+            <!-- Learning Objectives -->
+            <section>
+                <div class="session-header">
+                    <h2>Learning Objectives</h2>
+                </div>
+                <p>By the end of this session, you will be able to:</p>
+                <ul>
+                    <li><strong>Dashboard Studio:</strong> Create modern, interactive dashboards with advanced features</li>
+                    <li><strong>Visualizations:</strong> Choose and configure appropriate visualization types</li>
+                    <li><strong>Interactivity:</strong> Implement drilldowns, tokens, and dynamic elements</li>
+                    <li><strong>Search Optimization:</strong> Dramatically improve search performance</li>
+                    <li><strong>tstats:</strong> Leverage indexed fields for sub-second searches</li>
+                    <li><strong>Data Models:</strong> Use accelerated data models effectively</li>
+                    <li><strong>Summary Indexing:</strong> Pre-compute expensive searches</li>
+                </ul>
+            </section>
+
+            <!-- Part 1: Dashboard Studio Overview -->
+            <section>
+                <div class="session-header">
+                    <h2>Part 1: Dashboard Studio Overview</h2>
+                </div>
+                <h3>What is Dashboard Studio?</h3>
+                <p>Dashboard Studio is Splunk's modern dashboard framework that provides:</p>
+                <ul>
+                    <li>Modern, responsive design</li>
+                    <li>Advanced visualization capabilities</li>
+                    <li>Powerful interactivity features</li>
+                    <li>JSON-based configuration</li>
+                    <li>Better performance than Classic Dashboards</li>
+                </ul>
+
+                <h3>Dashboard Studio vs Classic Dashboards</h3>
+                <table style="font-size: 0.7em; width: 100%;">
+                    <tr>
+                        <th style="background: #f8f9fa;">Feature</th>
+                        <th style="background: #f8f9fa;">Classic</th>
+                        <th style="background: #f8f9fa;">Studio</th>
+                    </tr>
+                    <tr>
+                        <td>Technology</td>
+                        <td>XML/SimpleXML</td>
+                        <td>JSON</td>
+                    </tr>
+                    <tr>
+                        <td>Layout</td>
+                        <td>Row-based</td>
+                        <td>Grid-based (absolute positioning)</td>
+                    </tr>
+                    <tr>
+                        <td>Visualizations</td>
+                        <td>Standard set</td>
+                        <td>Extended + custom</td>
+                    </tr>
+                    <tr>
+                        <td>Interactivity</td>
+                        <td>Basic drilldown</td>
+                        <td>Advanced interactions</td>
+                    </tr>
+                </table>
+            </section>
+
+            <!-- Creating Dashboards -->
+            <section>
+                <div class="session-header">
+                    <h2>Creating Your First Dashboard Studio Dashboard</h2>
+                </div>
+                <h3>Step-by-Step Process</h3>
+                <ol>
+                    <li><strong>Navigate:</strong> Apps → Dashboards → Create New Dashboard</li>
+                    <li><strong>Select:</strong> Dashboard Studio (recommended)</li>
+                    <li><strong>Configure:</strong> Title, description, permissions</li>
+                    <li><strong>Add Visualizations:</strong> Click "Add Panel"</li>
+                    <li><strong>Configure Search:</strong> Add SPL query</li>
+                    <li><strong>Style:</strong> Adjust colors, fonts, layout</li>
+                    <li><strong>Save:</strong> Save and share with team</li>
+                </ol>
+
+                <h3>Dashboard Permissions</h3>
+                <ul>
+                    <li><strong>Private:</strong> Only you can view/edit</li>
+                    <li><strong>App:</strong> Visible to all app users</li>
+                    <li><strong>Shared in App:</strong> Can be edited by power users</li>
+                    <li><strong>Global:</strong> Available across all apps</li>
+                </ul>
+            </section>
+
+            <!-- Visualization Types -->
+            <section>
+                <div class="session-header">
+                    <h2>Visualization Types</h2>
+                </div>
+                <h3>Core Visualization Types</h3>
+                <ul>
+                    <li><strong>Line Chart:</strong> Trends over time</li>
+                    <li><strong>Column/Bar Chart:</strong> Comparing categories</li>
+                    <li><strong>Pie/Donut Chart:</strong> Part-to-whole relationships</li>
+                    <li><strong>Area Chart:</strong> Cumulative trends</li>
+                    <li><strong>Single Value:</strong> KPI display with sparkline</li>
+                    <li><strong>Table:</strong> Detailed data view</li>
+                    <li><strong>Scatter Chart:</strong> Correlation analysis</li>
+                    <li><strong>Bubble Chart:</strong> Three-dimensional data</li>
+                    <li><strong>Choropleth Map:</strong> Geographic data</li>
+                    <li><strong>Sankey Diagram:</strong> Flow visualization</li>
+                </ul>
+
+                <div class="highlight-box">
+                    <strong>Choosing the Right Visualization:</strong>
+                    <ul>
+                        <li>Time series data → Line or Area chart</li>
+                        <li>Comparisons → Bar or Column chart</li>
+                        <li>Proportions → Pie or Donut chart</li>
+                        <li>KPIs → Single Value with trend indicator</li>
+                        <li>Details → Table with conditional formatting</li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- Single Value Visualizations -->
+            <section>
+                <div class="session-header">
+                    <h2>Single Value Visualizations</h2>
+                </div>
+                <h3>Purpose</h3>
+                <p>Display key metrics prominently with trend indicators</p>
+
+                <h3>Example: Total Revenue Today</h3>
+                <div class="code-block">index=sales earliest=@d
+| stats sum(amount) as total_revenue
+| eval total_revenue="$".tostring(round(total_revenue,2),"commas")</div>
+
+                <h3>With Trend Sparkline</h3>
+                <div class="code-block">index=sales earliest=@d
+| timechart span=1h sum(amount) as revenue
+| stats sum(revenue) as total, sparkline(revenue) as trend</div>
+
+                <h3>With Comparison to Yesterday</h3>
+                <div class="code-block">index=sales earliest=-2d@d latest=now
+| eval period=if(_time>=relative_time(now(),"@d"), "today", "yesterday")
+| stats sum(amount) as revenue by period
+| transpose
+| eval change=round(((today-yesterday)/yesterday)*100,2)
+| eval indicator=if(change>0, "▲", "▼")
+| eval display=indicator." ".change."%"</div>
+
+                <h3>Configuration Options</h3>
+                <ul>
+                    <li><strong>Number Formatting:</strong> Decimal places, thousands separator</li>
+                    <li><strong>Unit:</strong> Prefix/suffix ($, %, ms, etc.)</li>
+                    <li><strong>Trend:</strong> Sparkline showing historical values</li>
+                    <li><strong>Color:</strong> Dynamic based on thresholds</li>
+                </ul>
+            </section>
+
+            <!-- Table Visualizations -->
+            <section>
+                <div class="session-header">
+                    <h2>Table Visualizations</h2>
+                </div>
+                <h3>Basic Table</h3>
+                <div class="code-block">index=web
+| stats count as requests,
+        avg(response_time) as avg_response,
+        max(response_time) as max_response,
+        count(eval(status>=400)) as errors
+        by uri
+| sort -requests
+| head 20</div>
+
+                <h3>Table with Formatting</h3>
+                <div class="code-block">index=web
+| stats count as Requests,
+        round(avg(response_time),2) as "Avg Response (ms)",
+        round(max(response_time),2) as "Max Response (ms)",
+        count(eval(status>=400)) as Errors
+        by uri
+| eval "Error Rate %"=round((Errors/Requests)*100,2)
+| sort -Requests
+| head 20</div>
+
+                <h3>Conditional Formatting</h3>
+                <ul>
+                    <li><strong>Color Scales:</strong> Green to red based on values</li>
+                    <li><strong>Data Bars:</strong> Visual bars in cells</li>
+                    <li><strong>Icons:</strong> Status indicators (✓, ✗, ⚠)</li>
+                    <li><strong>Thresholds:</strong> Custom color rules</li>
+                </ul>
+
+                <h3>Interactive Features</h3>
+                <ul>
+                    <li>Sortable columns</li>
+                    <li>Filterable rows</li>
+                    <li>Pagination</li>
+                    <li>Drilldown on cell click</li>
+                </ul>
+            </section>
+
+            <!-- Time Series Visualizations -->
+            <section>
+                <div class="session-header">
+                    <h2>Time Series Visualizations</h2>
+                </div>
+                <h3>Line Chart - Single Metric</h3>
+                <div class="code-block">index=web
+| timechart span=5m avg(response_time) as avg_response</div>
+
+                <h3>Line Chart - Multiple Metrics</h3>
+                <div class="code-block">index=web
+| timechart span=10m
+    count as requests,
+    avg(response_time) as avg_response,
+    max(response_time) as max_response</div>
+
+                <h3>Stacked Area Chart</h3>
+                <div class="code-block">index=web
+| timechart span=15m count by status limit=10</div>
+
+                <h3>Multiple Series by Category</h3>
+                <div class="code-block">index=web
+| timechart span=5m avg(response_time) by host limit=5</div>
+
+                <div class="info">
+                    <strong>Best Practice:</strong> Limit number of series to 5-10 for readability. Use "OTHER" to group remaining series
+                </div>
+            </section>
+
+            <!-- Comparison Visualizations -->
+            <section>
+                <div class="session-header">
+                    <h2>Comparison Visualizations</h2>
+                </div>
+                <h3>Bar Chart - Top N</h3>
+                <div class="code-block">index=web status>=400
+| stats count by uri
+| sort -count
+| head 10</div>
+
+                <h3>Column Chart - Grouped Comparison</h3>
+                <div class="code-block">index=web
+| stats count by status, host
+| chart count by status host</div>
+
+                <h3>Pie Chart - Proportions</h3>
+                <div class="code-block">index=web
+| stats count by status
+| eval status_category=case(
+    status<300, "Success",
+    status<400, "Redirect",
+    status<500, "Client Error",
+    1==1, "Server Error"
+)
+| stats sum(count) as total by status_category</div>
+
+                <div class="warning-box">
+                    <strong>Warning:</strong> Avoid pie charts with more than 7 slices - use bar charts instead
+                </div>
+            </section>
+
+            <!-- Geographic Visualizations -->
+            <section>
+                <div class="session-header">
+                    <h2>Geographic Visualizations</h2>
+                </div>
+                <h3>Choropleth Map</h3>
+                <p>Displays data by geographic regions with color intensity</p>
+                <div class="code-block">index=web
+| iplocation src_ip
+| stats count by Country
+| geom geo_countries featureIdField=Country</div>
+
+                <h3>Cluster Map</h3>
+                <p>Shows individual events as markers on a map</p>
+                <div class="code-block">index=web
+| iplocation src_ip
+| stats count by City, lat, lon
+| where isnotnull(lat) AND isnotnull(lon)</div>
+
+                <h3>Use Cases</h3>
+                <ul>
+                    <li>Traffic distribution by country/region</li>
+                    <li>Attack origins in security monitoring</li>
+                    <li>Store performance in retail</li>
+                    <li>Service availability by location</li>
+                </ul>
+
+                <div class="info">
+                    <strong>Required:</strong> IP location data (automatically extracted by Splunk) or manual lat/lon fields
+                </div>
+            </section>
+
+            <!-- Drilldown Basics -->
+            <section>
+                <div class="session-header">
+                    <h2>Drilldown Capabilities</h2>
+                </div>
+                <h3>What is Drilldown?</h3>
+                <p>Allows users to click on visualization elements to:</p>
+                <ul>
+                    <li>View detailed events</li>
+                    <li>Navigate to related dashboards</li>
+                    <li>Filter other panels dynamically</li>
+                    <li>Open external URLs</li>
+                </ul>
+
+                <h3>Drilldown Actions</h3>
+                <ol>
+                    <li><strong>Set Token:</strong> Update dashboard variable</li>
+                    <li><strong>Link to Search:</strong> Open search in new window</li>
+                    <li><strong>Link to Dashboard:</strong> Navigate to another dashboard</li>
+                    <li><strong>Link to URL:</strong> Open external link</li>
+                    <li><strong>Custom JavaScript:</strong> Advanced interactions</li>
+                </ol>
+
+                <h3>Example: Drilldown to Details</h3>
+                <div class="code-block">Panel 1: Top URIs
+index=web | stats count by uri | sort -count | head 10
+
+Click on URI → Sets token $selected_uri$
+
+Panel 2: Details for Selected URI
+index=web uri=$selected_uri$
+| stats count by status, host
+| sort -count</div>
+            </section>
+
+            <!-- Dashboard Tokens -->
+            <section>
+                <div class="session-header">
+                    <h2>Dashboard Tokens and Inputs</h2>
+                </div>
+                <h3>What are Tokens?</h3>
+                <p>Variables that make dashboards dynamic and interactive</p>
+
+                <h3>Input Types</h3>
+                <ul>
+                    <li><strong>Text Input:</strong> Free-form text entry</li>
+                    <li><strong>Dropdown:</strong> Select from predefined list</li>
+                    <li><strong>Radio Buttons:</strong> Single selection</li>
+                    <li><strong>Checkbox:</strong> Multiple selections</li>
+                    <li><strong>Time Range Picker:</strong> Select time period</li>
+                    <li><strong>Multiselect:</strong> Select multiple values</li>
+                </ul>
+
+                <h3>Example: Time Range and Index Selector</h3>
+                <div class="code-block">Input 1: Time Range Picker
+Token: time_token (earliest and latest)
+
+Input 2: Dropdown for Index
+Token: index_token
+Choices: web, app, db
+
+Search using tokens:
+index=$index_token$ $time_token.earliest$ $time_token.latest$
+| stats count by status</div>
+
+                <div class="highlight-box">
+                    <strong>Best Practice:</strong> Provide sensible defaults for all input fields
+                </div>
+            </section>
+
+            <!-- Dashboard Best Practices -->
+            <section>
+                <div class="session-header">
+                    <h2>Dashboard Design Best Practices</h2>
+                </div>
+                <h3>1. Layout and Organization</h3>
+                <ul>
+                    <li>Put most important metrics at the top (F-pattern reading)</li>
+                    <li>Group related visualizations together</li>
+                    <li>Use consistent sizing and spacing</li>
+                    <li>Limit dashboard to single scroll or paginate</li>
+                </ul>
+
+                <h3>2. Performance</h3>
+                <ul>
+                    <li>Limit number of panels (ideally 6-12)</li>
+                    <li>Use base searches to share queries</li>
+                    <li>Set appropriate refresh intervals</li>
+                    <li>Leverage summary indexes and data models</li>
+                </ul>
+
+                <h3>3. Visual Design</h3>
+                <ul>
+                    <li>Use color purposefully (red=bad, green=good)</li>
+                    <li>Maintain consistent color schemes</li>
+                    <li>Choose appropriate visualizations for data types</li>
+                    <li>Add descriptions and context</li>
+                </ul>
+
+                <h3>4. User Experience</h3>
+                <ul>
+                    <li>Provide filters and time range selectors</li>
+                    <li>Enable drilldowns for exploration</li>
+                    <li>Include data refresh timestamps</li>
+                    <li>Add help text and documentation</li>
+                </ul>
+            </section>
+
+            <!-- Part 2: Search Optimization Introduction -->
+            <section>
+                <div class="session-header">
+                    <h2>Part 2: Search Optimization</h2>
+                </div>
+                <h3>Why Optimize?</h3>
+                <ul>
+                    <li><strong>Speed:</strong> Faster results for better user experience</li>
+                    <li><strong>Resources:</strong> Reduce load on Splunk infrastructure</li>
+                    <li><strong>Scale:</strong> Handle larger data volumes efficiently</li>
+                    <li><strong>Cost:</strong> Optimize license usage and hardware requirements</li>
+                </ul>
+
+                <h3>Search Performance Factors</h3>
+                <ul>
+                    <li>Time range (smaller = faster)</li>
+                    <li>Number of events searched</li>
+                    <li>Complexity of search commands</li>
+                    <li>Number of transforming commands</li>
+                    <li>Use of indexed vs non-indexed fields</li>
+                </ul>
+
+                <div class="highlight-box">
+                    <strong>Golden Rule:</strong> Filter events as early as possible in your search pipeline
+                </div>
+            </section>
+
+            <!-- Search Optimization Techniques -->
+            <section>
+                <div class="session-header">
+                    <h2>Core Search Optimization Techniques</h2>
+                </div>
+                <h3>1. Filter at Search Time</h3>
+                <div class="code-block">SLOW:  index=web | where status>=400
+FAST:  index=web status>=400
+
+SLOW:  index=web | search host="prod-web-01"
+FAST:  index=web host="prod-web-01"</div>
+
+                <h3>2. Use Indexed Fields</h3>
+                <div class="code-block">SLOW:  index=web | eval hour=strftime(_time,"%H") | where hour>=9 AND hour<17
+FAST:  index=web date_hour>=9 date_hour<17</div>
+
+                <h3>3. Limit Time Range</h3>
+                <div class="code-block">SLOW:  index=web earliest=-30d
+FAST:  index=web earliest=-24h
+
+BEST:  Use summary index for historical analysis</div>
+
+                <h3>4. Use Appropriate Commands</h3>
+                <div class="code-block">SLOW:  index=web | where status=200 | stats count
+FAST:  index=web status=200 | stats count
+
+SLOW:  ... | eval field=if(condition, value1, value2) | table field
+FAST:  ... | fields field | eval field=if(condition, value1, value2)</div>
+            </section>
+
+            <!-- tstats Command -->
+            <section>
+                <div class="session-header">
+                    <h2>The tstats Command</h2>
+                </div>
+                <h3>What is tstats?</h3>
+                <p>Ultra-fast statistical command that operates on indexed fields only</p>
+
+                <h3>Key Features</h3>
+                <ul>
+                    <li>Searches indexed metadata, not raw events</li>
+                    <li>10-100x faster than regular stats</li>
+                    <li>Works with data models and indexed fields</li>
+                    <li>Returns only aggregated data</li>
+                </ul>
+
+                <h3>Basic tstats Syntax</h3>
+                <div class="code-block">| tstats count where index=web by host, status</div>
+
+                <h3>Comparison: stats vs tstats</h3>
+                <div class="code-block">REGULAR STATS (Slower):
+index=web | stats count by host, status
+
+TSTATS (Much Faster):
+| tstats count where index=web by host, status</div>
+
+                <div class="highlight-box">
+                    <strong>Speed Difference:</strong> tstats can be 10-100x faster, especially on large datasets
+                </div>
+            </section>
+
+            <!-- tstats Examples -->
+            <section>
+                <div class="session-header">
+                    <h2>tstats Command Examples</h2>
+                </div>
+                <h3>Example 1: Count Events by Index</h3>
+                <div class="code-block">| tstats count where index=* by index</div>
+
+                <h3>Example 2: Count by Host and Sourcetype</h3>
+                <div class="code-block">| tstats count where index=web by host, sourcetype</div>
+
+                <h3>Example 3: Time-Based Analysis</h3>
+                <div class="code-block">| tstats count where index=web by _time span=5m</div>
+
+                <h3>Example 4: With Data Models</h3>
+                <div class="code-block">| tstats summariesonly=true count from datamodel=Web by Web.status Web.uri</div>
+
+                <h3>Available Functions</h3>
+                <ul>
+                    <li><strong>count:</strong> Count events</li>
+                    <li><strong>sum:</strong> Sum of values</li>
+                    <li><strong>avg:</strong> Average values</li>
+                    <li><strong>min/max:</strong> Minimum/maximum</li>
+                    <li><strong>dc (distinct_count):</strong> Unique count</li>
+                </ul>
+            </section>
+
+            <!-- Data Models -->
+            <section>
+                <div class="session-header">
+                    <h2>Data Models and Acceleration</h2>
+                </div>
+                <h3>What are Data Models?</h3>
+                <p>Hierarchical structures that define how your data is organized:</p>
+                <ul>
+                    <li>Define objects, fields, and relationships</li>
+                    <li>Provide semantic layer over raw data</li>
+                    <li>Enable acceleration for fast searches</li>
+                    <li>Support Pivot (no SPL required)</li>
+                </ul>
+
+                <h3>Data Model Components</h3>
+                <ul>
+                    <li><strong>Objects:</strong> Represent entities (Web, Authentication, etc.)</li>
+                    <li><strong>Attributes:</strong> Fields associated with objects</li>
+                    <li><strong>Constraints:</strong> Filters that define the object</li>
+                    <li><strong>Calculations:</strong> Derived fields using eval</li>
+                </ul>
+
+                <h3>Creating a Data Model</h3>
+                <ol>
+                    <li>Settings → Data models → New Data Model</li>
+                    <li>Define root event object with constraints</li>
+                    <li>Add fields and calculations</li>
+                    <li>Create child objects as needed</li>
+                    <li>Enable acceleration</li>
+                </ol>
+            </section>
+
+            <!-- Data Model Acceleration -->
+            <section>
+                <div class="session-header">
+                    <h2>Data Model Acceleration</h2>
+                </div>
+                <h3>What is Acceleration?</h3>
+                <p>Pre-computes summaries of your data for extremely fast searches</p>
+
+                <h3>How It Works</h3>
+                <ol>
+                    <li>Splunk builds summary files in background</li>
+                    <li>Summaries stored in tsidx format (indexed)</li>
+                    <li>tstats queries use summaries instead of raw data</li>
+                    <li>Dramatically faster query performance</li>
+                </ol>
+
+                <h3>Enabling Acceleration</h3>
+                <ol>
+                    <li>Open Data Model</li>
+                    <li>Edit → Acceleration</li>
+                    <li>Enable acceleration</li>
+                    <li>Set summary range (e.g., 7 days)</li>
+                    <li>Save and build</li>
+                </ol>
+
+                <h3>Using Accelerated Data Models</h3>
+                <div class="code-block">| tstats summariesonly=true count from datamodel=Web
+    where Web.status>=400
+    by Web.host, Web.uri, _time span=5m</div>
+
+                <div class="warning-box">
+                    <strong>Cost:</strong> Acceleration uses disk space and CPU. Only accelerate frequently-used data models
+                </div>
+            </section>
+
+            <!-- Summary Indexing -->
+            <section>
+                <div class="session-header">
+                    <h2>Summary Indexing</h2>
+                </div>
+                <h3>What is Summary Indexing?</h3>
+                <p>Pre-computing and storing results of expensive searches:</p>
+                <ul>
+                    <li>Run aggregation searches on schedule</li>
+                    <li>Store results in special summary index</li>
+                    <li>Query summary index instead of raw data</li>
+                    <li>Dramatically reduces search time for historical analysis</li>
+                </ul>
+
+                <h3>Creating a Summary Index</h3>
+                <ol>
+                    <li>Settings → Indexes → New Index</li>
+                    <li>Name: summary_web (by convention)</li>
+                    <li>Type: Events</li>
+                    <li>Set retention policy</li>
+                </ol>
+
+                <h3>Populating Summary Index</h3>
+                <div class="code-block">Search that generates summary:
+index=web earliest=-1h
+| bucket _time span=5m
+| stats count, avg(response_time) as avg_response by _time, host, status
+| collect index=summary_web
+
+Schedule this search to run every hour</div>
+
+                <h3>Querying Summary Index</h3>
+                <div class="code-block">index=summary_web earliest=-30d
+| stats sum(count) as total_requests, avg(avg_response) as avg_response by host
+| sort -total_requests</div>
+            </section>
+
+            <!-- Summary Indexing Best Practices -->
+            <section>
+                <div class="session-header">
+                    <h2>Summary Indexing Best Practices</h2>
+                </div>
+                <h3>When to Use Summary Indexes</h3>
+                <ul>
+                    <li>Historical reporting over weeks/months</li>
+                    <li>Expensive searches run repeatedly</li>
+                    <li>Dashboard with long time ranges</li>
+                    <li>Scheduled reports with complex aggregations</li>
+                </ul>
+
+                <h3>Best Practices</h3>
+                <ol>
+                    <li><strong>Naming:</strong> Use summary_ prefix (e.g., summary_web_hourly)</li>
+                    <li><strong>Granularity:</strong> Choose appropriate time span (5m, 1h, 1d)</li>
+                    <li><strong>Backfilling:</strong> Fill historical data when creating new summary</li>
+                    <li><strong>Monitoring:</strong> Track summary index size and gaps</li>
+                    <li><strong>Retention:</strong> Set appropriate retention (longer than raw data)</li>
+                </ol>
+
+                <h3>Combining Live and Summary Data</h3>
+                <div class="code-block">Recent data (live):
+index=web earliest=-1h
+| bucket _time span=5m
+| stats count by _time, host
+
+Historical data (summary):
+index=summary_web earliest=-30d latest=-1h
+| fields _time, host, count
+
+Combined:
+(index=summary_web earliest=-30d latest=-1h) OR (index=web earliest=-1h)
+| bucket _time span=5m
+| stats sum(count) as total by _time, host</div>
+            </section>
+
+            <!-- Search Job Inspector -->
+            <section>
+                <div class="session-header">
+                    <h2>Search Job Inspector</h2>
+                </div>
+                <h3>What is the Job Inspector?</h3>
+                <p>Diagnostic tool that shows detailed search performance metrics</p>
+
+                <h3>Accessing Job Inspector</h3>
+                <ol>
+                    <li>Run any search</li>
+                    <li>Click "Job" dropdown in search bar</li>
+                    <li>Select "Inspect Job"</li>
+                </ol>
+
+                <h3>Key Metrics to Monitor</h3>
+                <ul>
+                    <li><strong>Execution Time:</strong> Total time for search</li>
+                    <li><strong>Events Scanned:</strong> Raw events examined</li>
+                    <li><strong>Events Returned:</strong> Final result count</li>
+                    <li><strong>Search Type:</strong> Streaming vs transforming</li>
+                    <li><strong>Index Coverage:</strong> % of indexes searched</li>
+                    <li><strong>Knowledge Objects:</strong> Lookups, macros used</li>
+                </ul>
+
+                <h3>Optimization Indicators</h3>
+                <div class="warning-box">
+                    <strong>Red Flags:</strong>
+                    <ul>
+                        <li>Scanning millions of events for small result set</li>
+                        <li>Long execution time for simple searches</li>
+                        <li>Many transforming commands early in pipeline</li>
+                        <li>Low ratio of returned/scanned events</li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- Search Command Performance -->
+            <section>
+                <div class="session-header">
+                    <h2>Search Command Performance Characteristics</h2>
+                </div>
+                <h3>Streaming vs Transforming Commands</h3>
+                <table style="font-size: 0.7em; width: 100%;">
+                    <tr>
+                        <th style="background: #f8f9fa;">Type</th>
+                        <th style="background: #f8f9fa;">Description</th>
+                        <th style="background: #f8f9fa;">Examples</th>
+                    </tr>
+                    <tr>
+                        <td><strong>Streaming</strong></td>
+                        <td>Process each event independently, can run in parallel</td>
+                        <td>eval, where, rex, fields</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Transforming</strong></td>
+                        <td>Require all events before processing, create statistics</td>
+                        <td>stats, chart, timechart</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Generating</strong></td>
+                        <td>Generate events from external sources</td>
+                        <td>inputlookup, makeresults</td>
+                    </tr>
+                </table>
+
+                <h3>Performance Impact</h3>
+                <ul>
+                    <li><strong>Fast:</strong> Streaming commands (parallel processing)</li>
+                    <li><strong>Medium:</strong> Single transforming command at end</li>
+                    <li><strong>Slow:</strong> Multiple transforming commands</li>
+                    <li><strong>Slowest:</strong> Transforming commands early in pipeline</li>
+                </ul>
+
+                <h3>Optimization Example</h3>
+                <div class="code-block">SLOW (transform early):
+index=web | stats count by status | where status>=400
+
+FAST (filter first, then transform):
+index=web status>=400 | stats count by status</div>
+            </section>
+
+            <!-- Advanced Optimization -->
+            <section>
+                <div class="session-header">
+                    <h2>Advanced Optimization Techniques</h2>
+                </div>
+                <h3>1. Use fields Command Early</h3>
+                <div class="code-block">BETTER: index=web | fields host, status, response_time | stats avg(response_time) by host
+WORSE:  index=web | stats avg(response_time) by host</div>
+
+                <h3>2. Optimize Regular Expressions</h3>
+                <div class="code-block">SLOW:  index=web | rex field=_raw "user=(?<user>\w+)"
+FAST:  index=web | rex field=_raw "user=(?<user>[a-zA-Z0-9_]+)"
+BEST:  Use automatic field extraction (index-time or props.conf)</div>
+
+                <h3>3. Limit Result Sets</h3>
+                <div class="code-block">index=web | stats count by uri | sort -count | head 10</div>
+
+                <h3>4. Use Sampling for Large Datasets</h3>
+                <div class="code-block">index=web | eval random=random()
+| where random%10=0  # 10% sample
+| stats count by status</div>
+
+                <h3>5. Leverage Base Searches in Dashboards</h3>
+                <div class="code-block">Base search runs once:
+index=web earliest=-1h | fields host, status, response_time, uri
+
+Multiple panels use base search results:
+Panel 1: | stats count by status
+Panel 2: | stats avg(response_time) by host
+Panel 3: | stats count by uri | sort -count | head 10</div>
+            </section>
+
+            <!-- Real-World Optimization Example -->
+            <section>
+                <div class="session-header">
+                    <h2>Real-World Optimization Example</h2>
+                </div>
+                <h3>Scenario: Slow Dashboard</h3>
+                <p><strong>Original Search (takes 45 seconds):</strong></p>
+                <div class="code-block">index=web earliest=-30d
+| stats count by uri, status, host
+| where status>=400
+| eval error_rate=(count/total)*100
+| where error_rate>5
+| sort -error_rate</div>
+
+                <h3>Optimization Steps</h3>
+                <ol>
+                    <li><strong>Use Summary Index:</strong></li>
+                </ol>
+                <div class="code-block">index=summary_web_hourly earliest=-30d
+| stats sum(count) as count by uri, status, host
+| where status>=400</div>
+
+                <ol start="2">
+                    <li><strong>Filter Earlier:</strong></li>
+                </ol>
+                <div class="code-block">index=summary_web_hourly earliest=-30d status>=400
+| stats sum(count) as error_count, sum(total) as total_count by uri
+| eval error_rate=(error_count/total_count)*100
+| where error_rate>5
+| sort -error_rate</div>
+
+                <p><strong>Result:</strong> Search now takes 2 seconds (95% improvement!)</p>
+            </section>
+
+            <!-- Lab Preparation -->
+            <section>
+                <div class="session-header">
+                    <h2>Preparing for Labs 6-7</h2>
+                </div>
+                <div class="lab-callout">
+                    <h3>Lab 6: Building Interactive Dashboards</h3>
+                    <p>You will practice:</p>
+                    <ul style="text-align: left;">
+                        <li>Creating Dashboard Studio dashboards</li>
+                        <li>Implementing various visualization types</li>
+                        <li>Adding input controls and tokens</li>
+                        <li>Configuring drilldown actions</li>
+                        <li>Applying dashboard design best practices</li>
+                    </ul>
+                </div>
+
+                <div class="lab-callout">
+                    <h3>Lab 7: Search Optimization</h3>
+                    <p>You will practice:</p>
+                    <ul style="text-align: left;">
+                        <li>Using Job Inspector to identify bottlenecks</li>
+                        <li>Implementing tstats for fast searches</li>
+                        <li>Working with data models and acceleration</li>
+                        <li>Creating and using summary indexes</li>
+                        <li>Optimizing existing slow searches</li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- Summary -->
+            <section>
+                <div class="session-header">
+                    <h2>Session Summary</h2>
+                </div>
+                <h3>Key Takeaways</h3>
+                <ul>
+                    <li><strong>Dashboard Studio:</strong> Modern, flexible framework for creating interactive dashboards</li>
+                    <li><strong>Visualizations:</strong> Choose appropriate viz type for your data and audience</li>
+                    <li><strong>Interactivity:</strong> Use drilldowns and tokens to create dynamic experiences</li>
+                    <li><strong>Search Optimization:</strong> Filter early, use indexed fields, limit time ranges</li>
+                    <li><strong>tstats:</strong> 10-100x faster than regular stats for indexed field searches</li>
+                    <li><strong>Data Models:</strong> Enable acceleration and provide semantic layer</li>
+                    <li><strong>Summary Indexing:</strong> Essential for fast historical reporting</li>
+                    <li><strong>Job Inspector:</strong> Your best friend for identifying performance issues</li>
+                </ul>
+
+                <div class="highlight-box">
+                    <strong>Next Session:</strong> We'll dive into data transformation using eval, rex, and lookups to enrich and manipulate your data
+                </div>
+            </section>
+
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/reveal.min.js"></script>
+    <script>
+        Reveal.initialize({
+            hash: true,
+            slideNumber: true,
+            transition: 'slide',
+            width: 1200,
+            height: 900,
+            margin: 0.05
+        });
+    </script>
+</body>
+</html>

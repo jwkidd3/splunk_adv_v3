@@ -17,7 +17,7 @@ By the end of this lab, you will be able to:
 
 ### Prerequisites
 - Splunk Enterprise running and accessible
-- Completed Day 1 labs
+- Completed Labs 1-7
 - Sample web and application data loaded
 
 ## Exercises

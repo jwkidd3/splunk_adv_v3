@@ -1,0 +1,1094 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Splunk Advanced - Data Transformation with Eval, Rex & Lookups</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/reveal.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/theme/white.min.css">
+    <style>
+        .reveal .slides section {
+            text-align: left;
+            font-size: 0.75em !important;
+            line-height: 1.3;
+            max-height: 90vh !important;
+            overflow-y: auto !important;
+            padding: 0.5em 1em !important;
+        }
+        .reveal h1 {
+            font-size: 1.8em !important;
+            margin: 0.3em 0 !important;
+        }
+        .reveal h2 {
+            font-size: 1.4em !important;
+            margin: 0.3em 0 !important;
+        }
+        .reveal h3 {
+            font-size: 1.2em !important;
+            margin: 0.3em 0 !important;
+        }
+        .reveal h1, .reveal h2, .reveal h3 {
+            color: #2c3e50;
+            text-align: center;
+        }
+        .reveal p {
+            margin: 0.3em 0 !important;
+        }
+        .reveal ul, .reveal ol {
+            margin: 0.5em 0 !important;
+        }
+        .reveal li {
+            margin: 0.2em 0 !important;
+        }
+        .title-block {
+            background: linear-gradient(135deg, #f05e23 0%, #e31c00 100%);
+            color: white !important;
+            padding: 1.5em;
+            border-radius: 10px;
+            text-align: center;
+        }
+        .session-header {
+            background: #f8f9fa;
+            color: #2c3e50 !important;
+            padding: 0.6em;
+            border-left: 5px solid #f05e23;
+            margin-bottom: 0.5em;
+        }
+        .code-block {
+            background: #2c3e50;
+            color: #ecf0f1;
+            border: 2px solid #34495e;
+            border-radius: 5px;
+            padding: 0.5em;
+            font-family: 'Courier New', monospace;
+            font-size: 0.6em;
+            margin: 0.3em 0;
+            line-height: 1.2;
+            overflow-x: auto;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+        .highlight-box {
+            background: #e8f5e8;
+            border-left: 4px solid #27ae60;
+            padding: 0.5em;
+            margin: 0.3em 0;
+        }
+        .lab-callout {
+            background: linear-gradient(45deg, #f05e23, #e31c00);
+            color: white !important;
+            padding: 0.8em;
+            border-radius: 8px;
+            text-align: center;
+            font-size: 0.9em;
+            margin: 0.5em 0;
+        }
+        .warning-box {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            border-radius: 4px;
+            padding: 0.5em;
+            margin: 0.3em 0;
+        }
+        .info {
+            background: #e3f2fd;
+            border: 1px solid #bbdefb;
+            border-radius: 4px;
+            padding: 0.5em;
+            margin: 0.3em 0;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="reveal">
+        <div class="slides">
+
+            <!-- Title Slide -->
+            <section>
+                <div class="title-block">
+                    <h1>Data Transformation with Eval, Rex & Lookups</h1>
+                    <h3>Advanced Field Manipulation and Data Enrichment</h3>
+                    <p><strong>Session 5</strong></p>
+                    <p>Labs 8-10: Transform, Extract, and Enrich Your Data</p>
+                </div>
+            </section>
+
+            <!-- Learning Objectives -->
+            <section>
+                <div class="session-header">
+                    <h2>Learning Objectives</h2>
+                </div>
+                <p>By the end of this session, you will be able to:</p>
+                <ul>
+                    <li><strong>Eval Command:</strong> Perform calculations and create new fields dynamically</li>
+                    <li><strong>Mathematical Operations:</strong> Execute complex arithmetic and statistical operations</li>
+                    <li><strong>String Manipulation:</strong> Transform and format text data</li>
+                    <li><strong>Conditional Logic:</strong> Implement if/case statements for decision-making</li>
+                    <li><strong>Regular Expressions:</strong> Extract patterns using rex command</li>
+                    <li><strong>Lookups:</strong> Enrich data with external reference tables</li>
+                    <li><strong>Data Enrichment:</strong> Build comprehensive data enrichment strategies</li>
+                </ul>
+            </section>
+
+            <!-- Part 1: Eval Command Fundamentals -->
+            <section>
+                <div class="session-header">
+                    <h2>Part 1: Eval Command Fundamentals</h2>
+                </div>
+                <h3>What is the Eval Command?</h3>
+                <p>The eval command creates or modifies fields using expressions:</p>
+                <ul>
+                    <li>Creates new calculated fields</li>
+                    <li>Modifies existing field values</li>
+                    <li>Performs mathematical, string, and logical operations</li>
+                    <li>Essential for data transformation</li>
+                </ul>
+
+                <h3>Basic Syntax</h3>
+                <div class="code-block">... | eval new_field=expression</div>
+
+                <h3>Simple Examples</h3>
+                <div class="code-block">Create a new field:
+| eval total=price*quantity
+
+Modify existing field:
+| eval response_time=response_time/1000
+
+Multiple operations:
+| eval hours=_time/3600, status_code=status</div>
+
+                <div class="highlight-box">
+                    <strong>Key Concept:</strong> Eval is a streaming command - it processes events individually and efficiently
+                </div>
+            </section>
+
+            <!-- Mathematical Operations -->
+            <section>
+                <div class="session-header">
+                    <h2>Mathematical Operations</h2>
+                </div>
+                <h3>Arithmetic Operators</h3>
+                <ul>
+                    <li><strong>+</strong> Addition</li>
+                    <li><strong>-</strong> Subtraction</li>
+                    <li><strong>*</strong> Multiplication</li>
+                    <li><strong>/</strong> Division</li>
+                    <li><strong>%</strong> Modulo (remainder)</li>
+                </ul>
+
+                <h3>Examples</h3>
+                <div class="code-block">Basic arithmetic:
+| eval profit=revenue-cost
+| eval margin=(profit/revenue)*100
+| eval discount_pct=(original_price-sale_price)/original_price*100
+
+Tax calculation:
+| eval tax=subtotal*0.08
+| eval total=subtotal+tax
+
+Time conversions:
+| eval seconds=milliseconds/1000
+| eval hours=seconds/3600
+| eval days=hours/24</div>
+
+                <h3>Mathematical Functions</h3>
+                <div class="code-block">| eval abs_value=abs(-42)              # Absolute value: 42
+| eval ceiling_val=ceil(4.3)           # Round up: 5
+| eval floor_val=floor(4.7)            # Round down: 4
+| eval rounded=round(3.14159, 2)       # Round to 2 decimals: 3.14
+| eval power_val=pow(2, 10)            # 2^10: 1024
+| eval sqrt_val=sqrt(16)               # Square root: 4</div>
+            </section>
+
+            <!-- String Operations -->
+            <section>
+                <div class="session-header">
+                    <h2>String Operations</h2>
+                </div>
+                <h3>String Functions</h3>
+                <ul>
+                    <li><strong>len(str):</strong> String length</li>
+                    <li><strong>lower(str):</strong> Convert to lowercase</li>
+                    <li><strong>upper(str):</strong> Convert to uppercase</li>
+                    <li><strong>substr(str, start, length):</strong> Extract substring</li>
+                    <li><strong>trim(str):</strong> Remove leading/trailing spaces</li>
+                    <li><strong>ltrim/rtrim(str):</strong> Remove left/right spaces</li>
+                </ul>
+
+                <h3>Examples</h3>
+                <div class="code-block">Case conversion:
+| eval username_lower=lower(username)
+| eval error_msg_upper=upper(error_message)
+
+Extract substring:
+| eval year=substr(date, 1, 4)
+| eval area_code=substr(phone, 1, 3)
+| eval first_initial=substr(name, 1, 1)
+
+String length:
+| eval password_length=len(password)
+| eval message_length=len(log_message)
+
+Cleanup:
+| eval clean_field=trim(user_input)
+| eval no_left_space=ltrim(field_name)</div>
+            </section>
+
+            <!-- String Concatenation -->
+            <section>
+                <div class="session-header">
+                    <h2>String Concatenation and Formatting</h2>
+                </div>
+                <h3>Concatenation with + or .</h3>
+                <div class="code-block">Using + operator:
+| eval full_name=first_name+" "+last_name
+| eval url="https://"+domain+"/"+path
+
+Using . operator (better for strings):
+| eval full_name=first_name." ".last_name
+| eval email=username."@".domain
+
+Multiple fields:
+| eval address=street.", ".city.", ".state." ".zip
+| eval log_entry=timestamp." [".severity."] ".message</div>
+
+                <h3>String Formatting Functions</h3>
+                <div class="code-block">tostring - Format numbers:
+| eval formatted_price="$".tostring(price, "commas")
+| eval percentage=tostring(rate*100, "commas")."%"
+
+tonumber - Convert to number:
+| eval numeric_id=tonumber(string_id)
+| eval calculated=tonumber(field1)+tonumber(field2)</div>
+
+                <h3>Real-World Example</h3>
+                <div class="code-block">index=web
+| eval response_time_sec=response_time/1000
+| eval formatted_time=tostring(round(response_time_sec,2))."s"
+| eval log_message=src_ip." - ".username." [".status."] ".formatted_time
+| table _time, log_message</div>
+            </section>
+
+            <!-- Conditional Logic - If -->
+            <section>
+                <div class="session-header">
+                    <h2>Conditional Logic: The if Function</h2>
+                </div>
+                <h3>Syntax</h3>
+                <div class="code-block">if(condition, value_if_true, value_if_false)</div>
+
+                <h3>Simple Conditions</h3>
+                <div class="code-block">Binary classification:
+| eval status_category=if(status>=400, "Error", "Success")
+
+Threshold check:
+| eval performance=if(response_time>1000, "Slow", "Fast")
+
+Null handling:
+| eval safe_value=if(isnull(field), 0, field)</div>
+
+                <h3>Nested if Statements</h3>
+                <div class="code-block">Multiple conditions:
+| eval priority=if(severity="critical", "P1",
+    if(severity="high", "P2",
+    if(severity="medium", "P3", "P4")))
+
+HTTP status categories:
+| eval status_type=if(status<300, "Success",
+    if(status<400, "Redirect",
+    if(status<500, "Client Error", "Server Error")))</div>
+
+                <h3>Complex Conditions</h3>
+                <div class="code-block">Multiple criteria (AND):
+| eval qualified=if(revenue>10000 AND customer_type="premium", "Yes", "No")
+
+Multiple criteria (OR):
+| eval alert=if(cpu>90 OR memory>85 OR disk>95, "Critical", "Normal")
+
+Combining conditions:
+| eval action=if((status>=500 OR response_time>5000) AND environment="production", "Alert", "Monitor")</div>
+            </section>
+
+            <!-- Conditional Logic - Case -->
+            <section>
+                <div class="session-header">
+                    <h2>Conditional Logic: The case Function</h2>
+                </div>
+                <h3>Syntax</h3>
+                <div class="code-block">case(condition1, value1, condition2, value2, ..., default_value)</div>
+
+                <h3>Why Use case Instead of if?</h3>
+                <ul>
+                    <li>More readable with multiple conditions</li>
+                    <li>Easier to maintain</li>
+                    <li>Better performance than nested if statements</li>
+                    <li>Clearer logic flow</li>
+                </ul>
+
+                <h3>Examples</h3>
+                <div class="code-block">Status categorization:
+| eval status_category=case(
+    status<300, "Success",
+    status<400, "Redirect",
+    status<500, "Client Error",
+    status<600, "Server Error",
+    1==1, "Unknown"
+)
+
+Performance tiers:
+| eval perf_tier=case(
+    response_time<100, "Excellent",
+    response_time<500, "Good",
+    response_time<1000, "Fair",
+    response_time<3000, "Poor",
+    1==1, "Unacceptable"
+)
+
+Customer segmentation:
+| eval segment=case(
+    lifetime_value>10000 AND purchases>20, "VIP",
+    lifetime_value>5000 AND purchases>10, "Premium",
+    lifetime_value>1000, "Standard",
+    1==1, "Basic"
+)</div>
+
+                <div class="info">
+                    <strong>Note:</strong> The condition <code>1==1</code> is always true, serving as the default/else case
+                </div>
+            </section>
+
+            <!-- Coalesce Function -->
+            <section>
+                <div class="session-header">
+                    <h2>The coalesce Function</h2>
+                </div>
+                <h3>What is coalesce?</h3>
+                <p>Returns the first non-null value from a list of fields or expressions</p>
+
+                <h3>Syntax</h3>
+                <div class="code-block">coalesce(field1, field2, field3, ..., default_value)</div>
+
+                <h3>Use Cases</h3>
+                <div class="code-block">Fallback to default value:
+| eval user=coalesce(authenticated_user, session_user, "anonymous")
+
+Multiple field names for same data:
+| eval client_ip=coalesce(clientip, client_ip, src_ip, source_ip)
+
+Handle missing data:
+| eval country=coalesce(geo_country, user_country, "Unknown")
+
+Combine with if:
+| eval safe_value=coalesce(field, 0)
+| eval display_name=coalesce(full_name, username, user_id, "N/A")</div>
+
+                <h3>Real-World Example</h3>
+                <div class="code-block">index=web
+| eval user_identifier=coalesce(email, username, session_id, src_ip)
+| eval location=coalesce(city, state, country, "Unknown")
+| eval device=coalesce(device_type, user_agent, "Unidentified")
+| table _time, user_identifier, location, device, uri</div>
+            </section>
+
+            <!-- Null and Boolean Functions -->
+            <section>
+                <div class="session-header">
+                    <h2>Null Handling and Boolean Functions</h2>
+                </div>
+                <h3>Null Checking Functions</h3>
+                <div class="code-block">isnull(field) - Returns true if field is null:
+| eval has_user=if(isnull(username), "No", "Yes")
+
+isnotnull(field) - Returns true if field is not null:
+| eval valid_data=if(isnotnull(transaction_id), 1, 0)
+
+Filtering nulls:
+| where isnotnull(important_field)
+| where isnull(error_field)</div>
+
+                <h3>Boolean Functions</h3>
+                <div class="code-block">like - Pattern matching:
+| eval is_email=if(like(field, "%@%.%"), "Yes", "No")
+| where like(uri, "/api/%")
+
+match - Regex matching:
+| eval contains_error=if(match(message, "(?i)error|fail|exception"), 1, 0)
+| where match(status, "^[45]")
+
+in - Check if value in list:
+| eval is_production=if(in(host, "prod01", "prod02", "prod03"), "Yes", "No")
+| where in(status, 200, 201, 204)</div>
+
+                <h3>Combining Null Checks</h3>
+                <div class="code-block">index=transactions
+| eval has_all_required=if(
+    isnotnull(user_id) AND isnotnull(amount) AND isnotnull(timestamp),
+    "Complete", "Incomplete"
+)
+| eval missing_fields=case(
+    isnull(user_id), "user_id",
+    isnull(amount), "amount",
+    isnull(timestamp), "timestamp",
+    1==1, "None"
+)</div>
+            </section>
+
+            <!-- Time Functions -->
+            <section>
+                <div class="session-header">
+                    <h2>Time Functions with Eval</h2>
+                </div>
+                <h3>Time Extraction Functions</h3>
+                <div class="code-block">strftime - Format time:
+| eval date=strftime(_time, "%Y-%m-%d")
+| eval hour=strftime(_time, "%H")
+| eval day_name=strftime(_time, "%A")
+| eval month_year=strftime(_time, "%B %Y")
+
+strptime - Parse time string:
+| eval epoch_time=strptime(date_string, "%Y-%m-%d %H:%M:%S")
+
+now() - Current time:
+| eval current_time=now()
+| eval age_seconds=now()-event_time</div>
+
+                <h3>Time Calculations</h3>
+                <div class="code-block">Calculate duration:
+| eval duration_seconds=end_time-start_time
+| eval duration_minutes=round(duration_seconds/60, 2)
+| eval duration_hours=round(duration_seconds/3600, 2)
+
+Age of event:
+| eval event_age=now()-_time
+| eval hours_ago=round(event_age/3600, 1)
+
+Business hours:
+| eval hour=tonumber(strftime(_time, "%H"))
+| eval is_business_hours=if(hour>=9 AND hour<17, "Yes", "No")
+| eval day_of_week=strftime(_time, "%w")
+| eval is_weekend=if(day_of_week=0 OR day_of_week=6, "Yes", "No")</div>
+
+                <h3>Relative Time</h3>
+                <div class="code-block">relative_time - Calculate time offsets:
+| eval yesterday=relative_time(now(), "-1d@d")
+| eval last_week=relative_time(_time, "-7d")
+| eval next_hour=relative_time(_time, "+1h")</div>
+            </section>
+
+            <!-- Part 2: Regular Expressions -->
+            <section>
+                <div class="session-header">
+                    <h2>Part 2: Regular Expressions in Splunk</h2>
+                </div>
+                <h3>What are Regular Expressions?</h3>
+                <p>Patterns used to match and extract text:</p>
+                <ul>
+                    <li>Extract specific patterns from text</li>
+                    <li>Validate format (email, phone, IP address)</li>
+                    <li>Split and parse unstructured data</li>
+                    <li>Essential for field extraction</li>
+                </ul>
+
+                <h3>Common Regex Patterns</h3>
+                <ul>
+                    <li><strong>\d</strong> - Any digit (0-9)</li>
+                    <li><strong>\w</strong> - Any word character (a-z, A-Z, 0-9, _)</li>
+                    <li><strong>\s</strong> - Any whitespace</li>
+                    <li><strong>.</strong> - Any character</li>
+                    <li><strong>*</strong> - Zero or more occurrences</li>
+                    <li><strong>+</strong> - One or more occurrences</li>
+                    <li><strong>?</strong> - Zero or one occurrence</li>
+                    <li><strong>[abc]</strong> - Any character in brackets</li>
+                    <li><strong>^</strong> - Start of string</li>
+                    <li><strong>$</strong> - End of string</li>
+                </ul>
+            </section>
+
+            <!-- Rex Command -->
+            <section>
+                <div class="session-header">
+                    <h2>The rex Command</h2>
+                </div>
+                <h3>What is rex?</h3>
+                <p>Extracts fields from text using regular expressions</p>
+
+                <h3>Basic Syntax</h3>
+                <div class="code-block">... | rex field=source_field "pattern with (?<field_name>capture_group)"</div>
+
+                <h3>Simple Examples</h3>
+                <div class="code-block">Extract email:
+| rex field=_raw "(?<email>\w+@\w+\.\w+)"
+
+Extract IP address:
+| rex field=_raw "(?<ip_address>\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})"
+
+Extract between quotes:
+| rex field=message "\"(?<quoted_text>[^\"]+)\""
+
+Extract user from log:
+| rex field=_raw "user=(?<username>\w+)"</div>
+
+                <h3>Multiple Extractions</h3>
+                <div class="code-block">Extract multiple fields in one command:
+| rex field=_raw "user=(?<user>\w+) action=(?<action>\w+) result=(?<result>\w+)"
+
+Multiple rex commands:
+| rex field=_raw "ResponseTime:\s*(?<response_time>\d+)"
+| rex field=_raw "Status:\s*(?<status>\d+)"
+| rex field=_raw "User:\s*(?<user>\w+)"</div>
+            </section>
+
+            <!-- Advanced Rex Patterns -->
+            <section>
+                <div class="session-header">
+                    <h2>Advanced rex Patterns</h2>
+                </div>
+                <h3>Extract URLs</h3>
+                <div class="code-block">| rex field=_raw "(?<url>https?://[^\s]+)"</div>
+
+                <h3>Extract Credit Card (masked)</h3>
+                <div class="code-block">| rex field=_raw "(?<cc_last4>\d{4})(?=\s|$)"
+| rex field=_raw "card ending in (?<cc_last4>\d{4})"</div>
+
+                <h3>Extract Key-Value Pairs</h3>
+                <div class="code-block">| rex field=_raw max_match=0 "(?<key>\w+)=(?<value>[^\s,]+)"</div>
+
+                <h3>Extract from JSON</h3>
+                <div class="code-block">| rex field=_raw "\"userId\":\"(?<user_id>[^\"]+)\""
+| rex field=_raw "\"status\":(?<status>\d+)"
+| rex field=_raw "\"message\":\"(?<message>[^\"]+)\""</div>
+
+                <h3>Extract Windows Event ID</h3>
+                <div class="code-block">| rex field=_raw "EventID:\s*(?<event_id>\d+)"
+| rex field=_raw "EventCode=(?<event_code>\d+)"</div>
+
+                <h3>Extract Error Codes</h3>
+                <div class="code-block">| rex field=_raw "Error:\s*(?<error_code>[A-Z]+\d+)"
+| rex field=_raw "Exception:\s*(?<exception_type>\w+Exception)"</div>
+            </section>
+
+            <!-- Rex Options -->
+            <section>
+                <div class="session-header">
+                    <h2>rex Command Options</h2>
+                </div>
+                <h3>Important Options</h3>
+                <div class="code-block">max_match - Extract multiple occurrences:
+| rex field=_raw max_match=0 "ip=(?<ip_list>\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})"
+
+mode=sed - Find and replace:
+| rex field=message mode=sed "s/password=\w+/password=****/g"
+
+offset_field - Track position:
+| rex field=_raw offset_field=myoffset "(?<myfield>pattern)"</div>
+
+                <h3>Case Insensitive Matching</h3>
+                <div class="code-block">Use (?i) flag in pattern:
+| rex field=_raw "(?i)error:\s*(?<error_msg>.+)"
+
+This matches: Error:, ERROR:, error:, ErRoR:</div>
+
+                <h3>Non-Greedy Matching</h3>
+                <div class="code-block">Use ? after quantifiers:
+Greedy (matches too much):
+| rex field=_raw "start(?<content>.+)end"
+
+Non-greedy (matches minimal):
+| rex field=_raw "start(?<content>.+?)end"</div>
+            </section>
+
+            <!-- Sed Command -->
+            <section>
+                <div class="session-header">
+                    <h2>The sed Command</h2>
+                </div>
+                <h3>What is sed?</h3>
+                <p>Stream editor for find and replace operations on field values</p>
+
+                <h3>Syntax</h3>
+                <div class="code-block">... | rex mode=sed field=fieldname "s/pattern/replacement/flags"</div>
+
+                <h3>Basic Examples</h3>
+                <div class="code-block">Simple replacement:
+| rex mode=sed field=url "s/http:/https:/g"
+
+Remove pattern:
+| rex mode=sed field=message "s/\[DEBUG\]//g"
+
+Mask sensitive data:
+| rex mode=sed field=_raw "s/password=\w+/password=****/g"
+| rex mode=sed field=log "s/\d{3}-\d{2}-\d{4}/XXX-XX-XXXX/g"</div>
+
+                <h3>Advanced Sed Examples</h3>
+                <div class="code-block">Replace with captured group:
+| rex mode=sed field=name "s/(\w+),\s*(\w+)/\2 \1/"
+Result: "Smith, John" becomes "John Smith"
+
+Multiple replacements:
+| rex mode=sed field=status "s/0/Success/g"
+| rex mode=sed field=status "s/1/Failed/g"
+
+Clean up whitespace:
+| rex mode=sed field=message "s/\s+/ /g"</div>
+
+                <div class="warning-box">
+                    <strong>Performance Note:</strong> sed operations can be slow on large datasets. Use sparingly.
+                </div>
+            </section>
+
+            <!-- Part 3: Lookups Introduction -->
+            <section>
+                <div class="session-header">
+                    <h2>Part 3: Lookups</h2>
+                </div>
+                <h3>What are Lookups?</h3>
+                <p>External data sources that enrich your search results:</p>
+                <ul>
+                    <li>CSV files with reference data</li>
+                    <li>KV Store collections (NoSQL)</li>
+                    <li>External scripts/databases</li>
+                    <li>Add context to raw events</li>
+                </ul>
+
+                <h3>Why Use Lookups?</h3>
+                <ul>
+                    <li><strong>Data Enrichment:</strong> Add business context to technical data</li>
+                    <li><strong>Normalization:</strong> Standardize field values</li>
+                    <li><strong>Reference Data:</strong> Map codes to descriptions</li>
+                    <li><strong>Asset Information:</strong> Server ownership, location, etc.</li>
+                    <li><strong>User Data:</strong> Department, manager, contact info</li>
+                </ul>
+
+                <h3>Lookup Types</h3>
+                <table style="font-size: 0.7em; width: 100%;">
+                    <tr>
+                        <th style="background: #f8f9fa;">Type</th>
+                        <th style="background: #f8f9fa;">Use Case</th>
+                        <th style="background: #f8f9fa;">Performance</th>
+                    </tr>
+                    <tr>
+                        <td>CSV Lookup</td>
+                        <td>Static reference data</td>
+                        <td>Fast, file-based</td>
+                    </tr>
+                    <tr>
+                        <td>KV Store</td>
+                        <td>Dynamic, updateable data</td>
+                        <td>Good, NoSQL</td>
+                    </tr>
+                    <tr>
+                        <td>External</td>
+                        <td>Database queries, APIs</td>
+                        <td>Slower, real-time</td>
+                    </tr>
+                </table>
+            </section>
+
+            <!-- Creating CSV Lookups -->
+            <section>
+                <div class="session-header">
+                    <h2>Creating CSV Lookups</h2>
+                </div>
+                <h3>Step 1: Create CSV File</h3>
+                <p>Example: user_info.csv</p>
+                <div class="code-block">user_id,full_name,department,manager,location
+jsmith,John Smith,IT,mjones,New York
+mjones,Mary Jones,IT,rjohnson,New York
+bwilliams,Bob Williams,Sales,sjackson,San Francisco
+sjackson,Sue Jackson,Sales,CEO,Chicago</div>
+
+                <h3>Step 2: Upload to Splunk</h3>
+                <ol>
+                    <li>Settings → Lookups → Lookup table files</li>
+                    <li>Click "New Lookup Table File"</li>
+                    <li>Select destination app</li>
+                    <li>Upload CSV file</li>
+                    <li>Set permissions</li>
+                </ol>
+
+                <h3>Step 3: Define Lookup</h3>
+                <ol>
+                    <li>Settings → Lookups → Lookup definitions</li>
+                    <li>Click "New Lookup Definition"</li>
+                    <li>Name: user_info_lookup</li>
+                    <li>Type: File-based</li>
+                    <li>Lookup file: user_info.csv</li>
+                    <li>Save</li>
+                </ol>
+            </section>
+
+            <!-- Using Lookups -->
+            <section>
+                <div class="session-header">
+                    <h2>Using Lookups in Searches</h2>
+                </div>
+                <h3>The lookup Command</h3>
+                <div class="code-block">Basic syntax:
+| lookup lookup_name input_field OUTPUT output_fields</div>
+
+                <h3>Example: Enrich User Data</h3>
+                <div class="code-block">index=web
+| lookup user_info_lookup user_id OUTPUT full_name, department, location
+| table _time, user_id, full_name, department, uri, status</div>
+
+                <h3>Multiple Output Fields</h3>
+                <div class="code-block">index=auth action=login
+| lookup user_info_lookup user_id OUTPUT full_name, department, manager, location
+| stats count by department, location</div>
+
+                <h3>Renaming Output Fields</h3>
+                <div class="code-block">| lookup user_info_lookup user_id OUTPUT
+    full_name AS user_name,
+    department AS dept,
+    location AS office</div>
+
+                <h3>Multiple Input Fields</h3>
+                <div class="code-block">| lookup asset_lookup host, ip_address OUTPUT
+    asset_owner,
+    asset_type,
+    criticality</div>
+            </section>
+
+            <!-- Inputlookup and Outputlookup -->
+            <section>
+                <div class="session-header">
+                    <h2>inputlookup and outputlookup Commands</h2>
+                </div>
+                <h3>inputlookup - Read Entire Lookup</h3>
+                <p>Generates events from lookup table</p>
+                <div class="code-block">View all lookup data:
+| inputlookup user_info_lookup
+
+Filter lookup data:
+| inputlookup user_info_lookup
+| where department="IT"
+
+Join with search results:
+index=web
+| stats count by user_id
+| join user_id [| inputlookup user_info_lookup]</div>
+
+                <h3>outputlookup - Write to Lookup</h3>
+                <p>Saves search results to a lookup file</p>
+                <div class="code-block">Create new lookup from search:
+index=assets
+| stats latest(last_seen) as last_seen by host, ip_address, os
+| outputlookup asset_inventory.csv
+
+Update existing lookup:
+| inputlookup user_info_lookup
+| append [search index=new_users | table user_id, full_name, department]
+| dedup user_id
+| outputlookup user_info_lookup
+
+Create and define in one step:
+... | outputlookup create_lookup=true my_new_lookup.csv</div>
+            </section>
+
+            <!-- Automatic Lookups -->
+            <section>
+                <div class="session-header">
+                    <h2>Automatic Lookups</h2>
+                </div>
+                <h3>What are Automatic Lookups?</h3>
+                <p>Lookups applied automatically to matching events without explicit lookup command</p>
+
+                <h3>Configuring Automatic Lookups</h3>
+                <ol>
+                    <li>Settings → Lookups → Automatic lookups</li>
+                    <li>Click "New"</li>
+                    <li>Select destination app</li>
+                    <li>Name: auto_user_enrichment</li>
+                    <li>Lookup table: user_info_lookup</li>
+                    <li>Apply to: sourcetype=web_logs</li>
+                    <li>Lookup input fields: user_id = user_id</li>
+                    <li>Lookup output fields: full_name, department, location</li>
+                </ol>
+
+                <h3>Using Automatic Lookups</h3>
+                <div class="code-block">Without automatic lookup:
+index=web | lookup user_info_lookup user_id OUTPUT full_name | table user_id, full_name
+
+With automatic lookup (fields automatically added):
+index=web | table user_id, full_name
+
+Fields are already there!</div>
+
+                <div class="highlight-box">
+                    <strong>Best Practice:</strong> Use automatic lookups for commonly enriched fields to simplify searches
+                </div>
+            </section>
+
+            <!-- KV Store Lookups -->
+            <section>
+                <div class="session-header">
+                    <h2>KV Store Lookups</h2>
+                </div>
+                <h3>What is KV Store?</h3>
+                <p>Built-in NoSQL database for dynamic, updateable lookup data:</p>
+                <ul>
+                    <li>Store large amounts of data (millions of records)</li>
+                    <li>Update data via REST API or outputlookup</li>
+                    <li>Better for frequently changing data</li>
+                    <li>Supports acceleration</li>
+                </ul>
+
+                <h3>Creating KV Store Collection</h3>
+                <ol>
+                    <li>Settings → Lookups → Lookup table files → Add new (KV Store)</li>
+                    <li>Alternatively, use collections.conf:</li>
+                </ol>
+                <div class="code-block">[user_tracking]
+field.user_id = string
+field.last_login = time
+field.login_count = number
+field.status = string</div>
+
+                <h3>Using KV Store</h3>
+                <div class="code-block">Read from KV Store:
+| inputlookup user_tracking
+
+Write to KV Store:
+index=auth action=login
+| stats latest(_time) as last_login, count as login_count by user_id
+| eval status="active"
+| outputlookup user_tracking
+
+Lookup from KV Store:
+index=web
+| lookup user_tracking user_id OUTPUT last_login, login_count, status</div>
+            </section>
+
+            <!-- Advanced Lookup Techniques -->
+            <section>
+                <div class="session-header">
+                    <h2>Advanced Lookup Techniques</h2>
+                </div>
+                <h3>1. CIDR Matching for IP Ranges</h3>
+                <p>Create network_ranges.csv:</p>
+                <div class="code-block">cidr,network_name,location
+10.1.0.0/16,Internal Network,Headquarters
+192.168.1.0/24,Guest WiFi,Office
+172.16.0.0/12,VPN Users,Remote</div>
+
+                <p>Configure as CIDR lookup:</p>
+                <div class="code-block">Settings → Lookups → Lookup definitions
+Type: File-based
+Configure: Advanced options → CIDR match on field "cidr"
+
+Usage:
+index=firewall
+| lookup network_ranges_lookup cidr AS src_ip OUTPUT network_name, location</div>
+
+                <h3>2. Wildcard Matching</h3>
+                <div class="code-block">Configure lookup with wildcard support:
+Settings → Lookup definitions → Advanced → Wildcard matching
+
+Example: domain_categories.csv
+domain,category
+*.google.com,Search
+*.facebook.com,Social Media
+*.bank.com,Financial
+
+Usage:
+| lookup domain_categories domain AS dest_domain OUTPUT category</div>
+            </section>
+
+            <!-- Lookup Performance -->
+            <section>
+                <div class="session-header">
+                    <h2>Lookup Performance Optimization</h2>
+                </div>
+                <h3>Best Practices</h3>
+                <ul>
+                    <li><strong>File Size:</strong> Keep CSV lookups under 10MB for best performance</li>
+                    <li><strong>Indexing:</strong> Use KV Store for large datasets (>100K rows)</li>
+                    <li><strong>Caching:</strong> Lookups are cached - rebuild cache after updates</li>
+                    <li><strong>Filtering:</strong> Apply lookups after reducing event count</li>
+                </ul>
+
+                <h3>Optimization Examples</h3>
+                <div class="code-block">SLOW (lookup before filtering):
+index=web
+| lookup user_info_lookup user_id OUTPUT department
+| where department="IT"
+
+FAST (filter before lookup):
+index=web user_id=*
+| stats count by user_id
+| lookup user_info_lookup user_id OUTPUT department
+| where department="IT"
+
+BEST (filter with lookup data):
+index=web user_id IN (it_users from lookup)
+| lookup user_info_lookup user_id OUTPUT full_name, department</div>
+
+                <h3>Lookup Acceleration</h3>
+                <div class="code-block">For KV Store collections, enable acceleration:
+Settings → Lookups → KV Store Collections → Edit → Accelerate
+
+This creates indexes on lookup fields for faster matching</div>
+            </section>
+
+            <!-- Data Enrichment Strategies -->
+            <section>
+                <div class="session-header">
+                    <h2>Comprehensive Data Enrichment Strategies</h2>
+                </div>
+                <h3>Multi-Layer Enrichment</h3>
+                <div class="code-block">index=web
+| eval user_id=coalesce(authenticated_user, session_user, "anonymous")
+| lookup user_info_lookup user_id OUTPUT full_name, department, location, manager
+| lookup asset_info_lookup host OUTPUT asset_type, criticality, owner
+| eval priority=case(
+    criticality="high" AND department="Finance", "P1",
+    criticality="high", "P2",
+    criticality="medium", "P3",
+    1==1, "P4"
+)
+| rex field=uri "^/(?<app_section>[^/]+)"
+| lookup app_sections_lookup app_section OUTPUT app_owner, sla_tier
+| table _time, user_id, full_name, department, host, asset_type, uri, app_section, priority, sla_tier</div>
+
+                <h3>Calculated Enrichment</h3>
+                <div class="code-block">index=transactions
+| lookup customer_lookup customer_id OUTPUT tier, lifetime_value, join_date
+| eval account_age_days=round((now()-join_date)/86400)
+| eval value_tier=case(
+    lifetime_value>10000, "VIP",
+    lifetime_value>5000, "Premium",
+    lifetime_value>1000, "Standard",
+    1==1, "Basic"
+)
+| eval transaction_risk=case(
+    amount>1000 AND account_age_days<30, "High",
+    amount>5000, "Medium",
+    1==1, "Low"
+)</div>
+            </section>
+
+            <!-- Real-World Use Cases -->
+            <section>
+                <div class="session-header">
+                    <h2>Real-World Data Transformation Examples</h2>
+                </div>
+                <h3>Example 1: Security Alert Enrichment</h3>
+                <div class="code-block">index=firewall action=blocked
+| rex field=src_ip "(?<src_ip>\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})"
+| lookup threat_intel_lookup ip AS src_ip OUTPUT threat_level, threat_type, country
+| lookup asset_lookup dest_ip OUTPUT asset_name, asset_owner, criticality
+| eval risk_score=case(
+    threat_level="critical" AND criticality="high", 100,
+    threat_level="critical" AND criticality="medium", 80,
+    threat_level="high" AND criticality="high", 70,
+    threat_level="high", 50,
+    1==1, 20
+)
+| where risk_score>=70
+| eval alert_message="High-risk blocked connection from ".country." (".threat_type.") to ".asset_name
+| table _time, src_ip, dest_ip, asset_name, asset_owner, threat_level, risk_score, alert_message</div>
+
+                <h3>Example 2: Application Performance Analysis</h3>
+                <div class="code-block">index=app_logs
+| rex field=_raw "duration=(?<duration_ms>\d+)"
+| rex field=_raw "endpoint=(?<endpoint>[^\s]+)"
+| rex field=_raw "user=(?<user_id>\w+)"
+| lookup user_lookup user_id OUTPUT account_type, region
+| lookup endpoint_sla_lookup endpoint OUTPUT sla_threshold_ms, service_owner
+| eval duration_sec=round(duration_ms/1000, 2)
+| eval sla_breach=if(duration_ms>sla_threshold_ms, "Yes", "No")
+| eval performance_rating=case(
+    duration_ms<sla_threshold_ms*0.5, "Excellent",
+    duration_ms<sla_threshold_ms, "Good",
+    duration_ms<sla_threshold_ms*1.5, "Poor",
+    1==1, "Unacceptable"
+)
+| stats avg(duration_ms) as avg_ms,
+        max(duration_ms) as max_ms,
+        count(eval(sla_breach="Yes")) as breaches,
+        count as total
+        by endpoint, service_owner, account_type
+| eval breach_rate=round((breaches/total)*100, 2)</div>
+            </section>
+
+            <!-- Lab Preparation -->
+            <section>
+                <div class="session-header">
+                    <h2>Preparing for Labs 8-10</h2>
+                </div>
+                <div class="lab-callout">
+                    <h3>Lab 8: Eval and Conditional Logic</h3>
+                    <p>You will practice:</p>
+                    <ul style="text-align: left;">
+                        <li>Mathematical and string operations with eval</li>
+                        <li>Implementing if and case statements</li>
+                        <li>Working with time functions</li>
+                        <li>Handling null values with coalesce</li>
+                        <li>Building complex calculated fields</li>
+                    </ul>
+                </div>
+
+                <div class="lab-callout">
+                    <h3>Lab 9: Regular Expressions and Field Extraction</h3>
+                    <p>You will practice:</p>
+                    <ul style="text-align: left;">
+                        <li>Using rex to extract fields from unstructured data</li>
+                        <li>Writing and testing regex patterns</li>
+                        <li>Using sed for find and replace operations</li>
+                        <li>Extracting multiple fields in single commands</li>
+                        <li>Parsing JSON, XML, and custom log formats</li>
+                    </ul>
+                </div>
+
+                <div class="lab-callout">
+                    <h3>Lab 10: Lookups and Data Enrichment</h3>
+                    <p>You will practice:</p>
+                    <ul style="text-align: left;">
+                        <li>Creating and managing CSV lookups</li>
+                        <li>Using inputlookup and outputlookup</li>
+                        <li>Configuring automatic lookups</li>
+                        <li>Working with KV Store collections</li>
+                        <li>Implementing comprehensive enrichment strategies</li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- Summary -->
+            <section>
+                <div class="session-header">
+                    <h2>Session Summary</h2>
+                </div>
+                <h3>Key Takeaways</h3>
+                <ul>
+                    <li><strong>Eval:</strong> Foundation for field creation and transformation - master mathematical, string, and time functions</li>
+                    <li><strong>Conditional Logic:</strong> Use if for simple conditions, case for multiple conditions, coalesce for null handling</li>
+                    <li><strong>Regular Expressions:</strong> Essential skill for extracting fields from unstructured data</li>
+                    <li><strong>Rex Command:</strong> Primary tool for pattern-based field extraction</li>
+                    <li><strong>Lookups:</strong> Critical for enriching machine data with business context</li>
+                    <li><strong>CSV vs KV Store:</strong> Use CSV for static data, KV Store for dynamic/large datasets</li>
+                    <li><strong>Automatic Lookups:</strong> Simplify searches by auto-enriching common fields</li>
+                    <li><strong>Data Enrichment:</strong> Combine eval, rex, and lookups for comprehensive transformation</li>
+                </ul>
+
+                <div class="highlight-box">
+                    <strong>Next Session:</strong> We'll explore machine learning, analytics, and administration topics to complete your advanced Splunk training
+                </div>
+            </section>
+
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/reveal.min.js"></script>
+    <script>
+        Reveal.initialize({
+            hash: true,
+            slideNumber: true,
+            transition: 'slide',
+            width: 1200,
+            height: 900,
+            margin: 0.05
+        });
+    </script>
+</body>
+</html>

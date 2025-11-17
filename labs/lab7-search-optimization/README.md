@@ -37,4 +37,4 @@ Create a summary index for frequently-run searches
 
 ---
 
-**Next:** Day 2 - Lab 8: Eval Command and Data Manipulation
+**Next:** Lab 8: Eval Command and Data Manipulation
