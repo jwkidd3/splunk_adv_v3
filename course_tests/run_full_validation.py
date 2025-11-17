@@ -120,9 +120,9 @@ class ValidationRunner:
         """Load data into Splunk"""
         self.print_step(3, 5, "Loading Data into Splunk")
 
-        # Wait a bit for Splunk to be fully ready
-        print("Waiting for Splunk to initialize...")
-        time.sleep(10)
+        # Wait for Splunk to be fully ready (Splunk takes time to start all services)
+        print("Waiting for Splunk to fully initialize (60 seconds)...")
+        time.sleep(60)
 
         script = "load_data_to_splunk.py"
         success, stdout, stderr = self.run_command([self.python_cmd, script], cwd=self.scripts_dir)
