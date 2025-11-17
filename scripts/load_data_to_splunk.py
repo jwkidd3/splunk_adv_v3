@@ -2,6 +2,8 @@
 """
 Load generated sample data into Splunk
 Creates indexes and loads all data files
+
+Cross-platform compatible (Windows, Mac, Linux)
 """
 
 import requests
@@ -10,6 +12,8 @@ import sys
 import time
 import json
 import urllib3
+import platform
+from pathlib import Path
 
 # Disable SSL warnings
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
@@ -19,7 +23,10 @@ SPLUNK_HOST = "localhost"
 SPLUNK_PORT = 8089
 SPLUNK_USERNAME = "admin"
 SPLUNK_PASSWORD = "password"
-DATA_DIR = "../data"
+
+# Get the script directory and data directory (cross-platform)
+SCRIPT_DIR = Path(__file__).parent.resolve()
+DATA_DIR = SCRIPT_DIR.parent / "data"
 
 # Index configuration
 INDEXES = [
@@ -219,15 +226,18 @@ class SplunkLoader:
         # Use HEC event endpoint for structured data
         hec_url = f"{self.base_url.replace(':8089', ':8088')}/services/collector/event"
 
-        if not os.path.exists(filepath):
+        # Convert to Path object for cross-platform compatibility
+        filepath = Path(filepath)
+
+        if not filepath.exists():
             print(f"  ✗ File not found: {filepath}")
             return False
 
         # Detect log format
-        log_format = self.detect_log_format(filepath)
+        log_format = self.detect_log_format(str(filepath))
 
-        file_size = os.path.getsize(filepath)
-        print(f"  Loading {os.path.basename(filepath)} ({file_size / 1024 / 1024:.2f} MB)...")
+        file_size = filepath.stat().st_size
+        print(f"  Loading {filepath.name} ({file_size / 1024 / 1024:.2f} MB)...")
 
         try:
             headers = {
@@ -241,7 +251,8 @@ class SplunkLoader:
             total_events = 0
             failed_parse = 0
 
-            with open(filepath, 'r', encoding='utf-8') as f:
+            # Use Path.open() for cross-platform file handling
+            with filepath.open('r', encoding='utf-8') as f:
                 for line in f:
                     line = line.strip()
                     if not line:
@@ -300,22 +311,25 @@ class SplunkLoader:
                         print(f"  ✗ Final batch failed: {response.status_code}")
                         return False
 
-            print(f"  ✓ Loaded {total_events} events from {os.path.basename(filepath)} to index {index}")
+            print(f"  ✓ Loaded {total_events} events from {filepath.name} to index {index}")
             if failed_parse > 0:
                 print(f"    (Skipped {failed_parse} unparseable lines)")
             return True
 
         except Exception as e:
-            print(f"  ✗ Error loading {os.path.basename(filepath)}: {e}")
+            print(f"  ✗ Error loading {filepath.name}: {e}")
             import traceback
             traceback.print_exc()
             return False
 
     def upload_lookup(self, filepath, lookup_name):
-        """Upload a lookup file to Splunk via docker cp"""
+        """Upload a lookup file to Splunk via docker cp (cross-platform)"""
         import subprocess
 
-        if not os.path.exists(filepath):
+        # Convert to Path object for cross-platform compatibility
+        filepath = Path(filepath)
+
+        if not filepath.exists():
             print(f"  ✗ Lookup file not found: {filepath}")
             return False
 
@@ -326,8 +340,12 @@ class SplunkLoader:
             container_name = "splunk-course"
             dest_path = f"/opt/splunk/etc/apps/search/lookups/{lookup_name}"
 
+            # Use absolute path and convert to string for docker command
+            source_path = str(filepath.resolve())
+
+            # Docker cp command works on Windows, Mac, and Linux
             result = subprocess.run(
-                ["docker", "cp", filepath, f"{container_name}:{dest_path}"],
+                ["docker", "cp", source_path, f"{container_name}:{dest_path}"],
                 capture_output=True,
                 text=True
             )
@@ -347,6 +365,13 @@ def main():
     print("=" * 70)
     print("Splunk Advanced Course - Data Loader")
     print("=" * 70)
+    print()
+
+    # Display platform information
+    current_platform = platform.system()
+    print(f"Platform: {current_platform}")
+    print(f"Python: {platform.python_version()}")
+    print(f"Data Directory: {DATA_DIR}")
     print()
 
     # Initialize loader
@@ -383,7 +408,8 @@ def main():
     fail_count = 0
 
     for data_file in DATA_FILES:
-        filepath = os.path.join(DATA_DIR, data_file["file"])
+        # Use Path for cross-platform file path handling
+        filepath = DATA_DIR / data_file["file"]
         if loader.load_data_file(filepath, data_file["index"], data_file["sourcetype"], hec_token):
             success_count += 1
         else:
@@ -393,8 +419,8 @@ def main():
 
     # Upload lookup files
     print("Uploading lookup files...")
-    lookup_file = os.path.join(DATA_DIR, "users.csv")
-    if os.path.exists(lookup_file):
+    lookup_file = DATA_DIR / "users.csv"
+    if lookup_file.exists():
         loader.upload_lookup(lookup_file, "users.csv")
     else:
         print(f"  ✗ Lookup file not found: {lookup_file}")
