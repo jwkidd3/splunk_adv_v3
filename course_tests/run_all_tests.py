@@ -222,20 +222,11 @@ class CourseTestRunner:
 
     def save_report(self, filename: str = None):
         """
-        Save test results to JSON file
+        Prepare test results report data
 
         Args:
-            filename: Output filename (default: test_results_TIMESTAMP.json)
+            filename: Unused parameter (kept for compatibility)
         """
-        if filename is None:
-            timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-            filename = f"test_results_{timestamp}.json"
-
-        filepath = os.path.join("reports", filename)
-
-        # Ensure reports directory exists
-        os.makedirs("reports", exist_ok=True)
-
         report = {
             "timestamp": self.start_time.isoformat(),
             "duration_seconds": (self.end_time - self.start_time).total_seconds(),
@@ -247,20 +238,16 @@ class CourseTestRunner:
             "lab_results": self.results
         }
 
-        with open(filepath, 'w') as f:
-            json.dump(report, f, indent=2)
+        return report
 
-        print(f"\n✓ Test report saved to: {filepath}")
-
-        return filepath
-
-    def run(self, lab_number: int = None, skip_validation: bool = False):
+    def run(self, lab_number: int = None, skip_validation: bool = False, json_output: bool = False):
         """
         Run complete test suite
 
         Args:
             lab_number: Specific lab to test, or None for all
             skip_validation: Skip data validation
+            json_output: Output results as JSON to stdout
         """
         # Connect to Splunk
         if not self.connect():
@@ -273,11 +260,16 @@ class CourseTestRunner:
         # Run tests
         self.run_lab_tests(lab_number)
 
-        # Print summary
-        self.print_overall_summary()
-
-        # Save report
-        self.save_report()
+        # Print summary or JSON
+        if json_output:
+            # Output JSON to stdout
+            report = self.save_report()
+            print("\n__JSON_REPORT_START__")
+            print(json.dumps(report, indent=2))
+            print("__JSON_REPORT_END__")
+        else:
+            # Print human-readable summary
+            self.print_overall_summary()
 
         return True
 
@@ -319,6 +311,11 @@ def main():
         action="store_true",
         help="Skip data validation check"
     )
+    parser.add_argument(
+        "--json-output",
+        action="store_true",
+        help="Output results as JSON to stdout (for automation)"
+    )
 
     args = parser.parse_args()
 
@@ -333,7 +330,8 @@ def main():
     try:
         success = runner.run(
             lab_number=args.lab,
-            skip_validation=args.skip_validation
+            skip_validation=args.skip_validation,
+            json_output=args.json_output
         )
         sys.exit(0 if success else 1)
 

@@ -23,7 +23,7 @@ class ValidationRunner:
         self.is_windows = platform.system() == "Windows"
         self.script_ext = ".bat" if self.is_windows else ".sh"
         self.python_cmd = "python" if self.is_windows else "python3"
-        self.scripts_dir = "scripts"
+        self.scripts_dir = "../scripts"
         self.attempt = 0
         self.results = []
 
@@ -99,7 +99,7 @@ class ValidationRunner:
         self.print_step(2, 5, "Generating Sample Data")
 
         # Check if data already exists
-        data_dir = "data"
+        data_dir = "../data"
         if os.path.exists(data_dir) and len(os.listdir(data_dir)) > 0:
             print("ℹ Sample data already exists, skipping generation")
             return True
@@ -145,54 +145,34 @@ class ValidationRunner:
         """Run comprehensive test suite"""
         self.print_step(4, 5, "Running Comprehensive Test Suite")
 
-        test_script = os.path.join("course_tests", "run_all_tests.py")
+        test_script = "run_all_tests.py"
         success, stdout, stderr = self.run_command(
-            [self.python_cmd, test_script, "--password", SPLUNK_PASSWORD, "--skip-validation"]
+            [self.python_cmd, test_script, "--password", SPLUNK_PASSWORD, "--skip-validation", "--json-output"]
         )
 
-        # Parse results from JSON report
-        report_dir = os.path.join("course_tests", "reports")
-        if os.path.exists(report_dir):
-            # Find latest report
-            reports = [f for f in os.listdir(report_dir) if f.startswith("test_results_")]
-            if reports:
-                latest_report = max(reports)
-                report_path = os.path.join(report_dir, latest_report)
-
-                try:
-                    with open(report_path, 'r') as f:
-                        result_data = json.load(f)
-
-                    return {
-                        "success": success,
-                        "data": result_data,
-                        "stdout": stdout
-                    }
-                except:
-                    pass
+        # Parse JSON from stdout
+        result_data = None
+        try:
+            # Extract JSON between markers
+            if "__JSON_REPORT_START__" in stdout and "__JSON_REPORT_END__" in stdout:
+                start_marker = "__JSON_REPORT_START__"
+                end_marker = "__JSON_REPORT_END__"
+                start_idx = stdout.index(start_marker) + len(start_marker)
+                end_idx = stdout.index(end_marker)
+                json_str = stdout[start_idx:end_idx].strip()
+                result_data = json.loads(json_str)
+        except Exception as e:
+            print(f"  ⚠ Failed to parse JSON output: {e}")
 
         return {
             "success": success,
-            "data": None,
+            "data": result_data,
             "stdout": stdout
         }
 
     def generate_final_report(self, final_result):
         """Generate comprehensive final report"""
         self.print_step(5, 5, "Generating Final Report")
-
-        report = {
-            "timestamp": datetime.now().isoformat(),
-            "attempts": self.attempt,
-            "max_attempts": MAX_ATTEMPTS,
-            "final_success": final_result is not None,
-            "results": self.results
-        }
-
-        # Save report
-        report_file = f"validation_report_{datetime.now().strftime('%Y%m%d_%H%M%S')}.json"
-        with open(report_file, 'w') as f:
-            json.dump(report, f, indent=2)
 
         # Print summary
         self.print_header("VALIDATION SUMMARY")
@@ -224,15 +204,9 @@ class ValidationRunner:
                 print(f"{lab_num:<6} {lab_name:<40} {tests:<8} {passed:<8} {rate:.1f}%")
 
             print("-" * 80)
-            print()
-            print(f"Detailed report saved to: {report_file}")
 
         else:
             print(f"✗ VALIDATION FAILED AFTER {MAX_ATTEMPTS} ATTEMPTS")
-            print()
-            print(f"Detailed report saved to: {report_file}")
-
-        return report_file
 
     def run_validation_attempt(self):
         """Run single validation attempt"""
@@ -312,7 +286,7 @@ class ValidationRunner:
                 self.cleanup_splunk()
 
         # Generate final report
-        report_file = self.generate_final_report(final_result)
+        self.generate_final_report(final_result)
 
         self.print_header("VALIDATION COMPLETE")
 
@@ -320,7 +294,7 @@ class ValidationRunner:
             print("✓ All tests passing! Course is ready for delivery.")
             return 0
         else:
-            print("✗ Validation incomplete. Review the report for details.")
+            print("✗ Validation incomplete.")
             return 1
 
 def main():
