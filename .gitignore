@@ -1,0 +1,34 @@
+# Validation logs - terminal output only
+*validation*.log
+validation_*.log
+final_validation.log
+
+# Python cache
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+
+# Virtual environments
+venv/
+ENV/
+env/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Splunk data (temporary)
+*.splunk
+
+# Test reports (terminal only)
+test_report_*.json
+lab_test_report_*.json
