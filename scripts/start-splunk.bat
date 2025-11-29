@@ -25,84 +25,43 @@ if errorlevel 1 (
     exit /b 1
 )
 
-REM Check and install Python dependencies
+REM Check and install Python dependencies (optional - won't block Splunk startup)
 echo Checking Python dependencies...
 echo.
 
 REM Determine Python command
 set PYTHON_CMD=
 set PIP_CMD=
+set PYTHON_AVAILABLE=0
 
 where python >nul 2>&1
 if not errorlevel 1 (
     set PYTHON_CMD=python
     set PIP_CMD=pip
+    set PYTHON_AVAILABLE=1
 ) else (
     where python3 >nul 2>&1
     if not errorlevel 1 (
         set PYTHON_CMD=python3
         set PIP_CMD=pip3
-    ) else (
-        echo.
-        echo ========================================
-        echo Python not found - attempting installation...
-        echo ========================================
-        echo.
-
-        REM Check if winget is available (Windows 10/11)
-        where winget >nul 2>&1
-        if not errorlevel 1 (
-            echo Installing Python 3.13 using Windows Package Manager...
-            echo This may take a few minutes...
-            echo.
-            winget install -e --id Python.Python.3.13 --silent --accept-package-agreements --accept-source-agreements
-
-            if not errorlevel 1 (
-                echo.
-                echo * Python installed successfully
-                echo * Please close this window and run start-splunk.bat again
-                echo * (Restart required for PATH updates to take effect)
-                pause
-                exit /b 0
-            ) else (
-                echo.
-                echo Warning: Automatic installation failed
-                goto :python_manual_install
-            )
-        ) else (
-            echo Windows Package Manager (winget) not found
-            goto :python_manual_install
-        )
+        set PYTHON_AVAILABLE=1
     )
 )
 
-goto :python_found
-
-:python_manual_install
-echo.
-echo ========================================
-echo Manual Python Installation Required
-echo ========================================
-echo.
-echo Please install Python manually:
-echo.
-echo Option 1 - Official Installer (Recommended):
-echo   1. Visit: https://www.python.org/downloads/
-echo   2. Download Python 3.13 or later
-echo   3. Run installer
-echo   4. IMPORTANT: Check "Add Python to PATH"
-echo   5. Run this script again
-echo.
-echo Option 2 - Microsoft Store:
-echo   1. Open Microsoft Store
-echo   2. Search for "Python 3.13"
-echo   3. Click "Get" to install
-echo   4. Run this script again
-echo.
-pause
-exit /b 1
-
-:python_found
+if %PYTHON_AVAILABLE%==0 (
+    echo WARNING: Python not found
+    echo.
+    echo Python is required for data generation and loading scripts.
+    echo Splunk will start, but you'll need Python to load course data.
+    echo.
+    echo To install Python:
+    echo   Option 1: Run "winget install Python.Python.3.13" in PowerShell
+    echo   Option 2: Download from https://www.python.org/downloads/
+    echo.
+    echo Continuing with Splunk startup...
+    echo.
+    goto :skip_python
+)
 
 REM Get Python version
 for /f "tokens=*" %%i in ('%PYTHON_CMD% --version 2^>^&1') do set PYTHON_VERSION=%%i
@@ -113,26 +72,16 @@ where %PIP_CMD% >nul 2>&1
 if errorlevel 1 (
     echo pip not found - attempting to install...
     %PYTHON_CMD% -m ensurepip --upgrade >nul 2>&1
-    if errorlevel 1 (
-        echo.
-        echo Error: Failed to install pip automatically
-        echo.
-        echo Please install pip manually:
-        echo   1. Download get-pip.py from https://bootstrap.pypa.io/get-pip.py
-        echo   2. Run: %PYTHON_CMD% get-pip.py
-        echo.
-        echo Or reinstall Python from https://www.python.org/
-        echo Make sure to check "Add Python to PATH" during installation
-        pause
-        exit /b 1
-    )
-    echo * pip installed successfully
-
-    REM Update PIP_CMD path after installation
-    where %PIP_CMD% >nul 2>&1
-    if errorlevel 1 (
-        REM Try using python -m pip instead
-        set PIP_CMD=%PYTHON_CMD% -m pip
+    if not errorlevel 1 (
+        echo * pip installed successfully
+        where %PIP_CMD% >nul 2>&1
+        if errorlevel 1 (
+            set PIP_CMD=%PYTHON_CMD% -m pip
+        )
+    ) else (
+        echo WARNING: Failed to install pip
+        echo You may need to install packages manually later
+        goto :skip_python
     )
 )
 
@@ -140,22 +89,14 @@ REM Check for requests package
 %PYTHON_CMD% -c "import requests" >nul 2>&1
 if errorlevel 1 (
     echo Installing required package: requests...
-    %PIP_CMD% install requests>=2.31.0 --quiet
-    if errorlevel 1 (
-        echo Warning: Failed to install requests automatically
-        echo Please install manually: %PIP_CMD% install requests
-    )
+    %PIP_CMD% install requests>=2.31.0 --quiet >nul 2>&1
 )
 
 REM Check for urllib3 package
 %PYTHON_CMD% -c "import urllib3" >nul 2>&1
 if errorlevel 1 (
     echo Installing required package: urllib3...
-    %PIP_CMD% install urllib3>=2.0.0 --quiet
-    if errorlevel 1 (
-        echo Warning: Failed to install urllib3 automatically
-        echo Please install manually: %PIP_CMD% install urllib3
-    )
+    %PIP_CMD% install urllib3>=2.0.0 --quiet >nul 2>&1
 )
 
 REM Final verification
@@ -163,12 +104,13 @@ REM Final verification
 if not errorlevel 1 (
     echo * All Python dependencies installed
 ) else (
-    echo Warning: Some dependencies may not be installed
-    echo You can install them manually with:
-    echo   %PIP_CMD% install -r ../requirements.txt
+    echo WARNING: Some Python dependencies missing
+    echo Run: %PIP_CMD% install -r requirements.txt
 )
 
 echo.
+
+:skip_python
 
 REM Check if container already exists
 docker ps -a --format "{{.Names}}" | findstr /x "%SPLUNK_CONTAINER%" >nul 2>&1
