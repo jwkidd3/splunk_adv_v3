@@ -43,12 +43,66 @@ if not errorlevel 1 (
         set PYTHON_CMD=python3
         set PIP_CMD=pip3
     ) else (
-        echo Error: Python not found
-        echo Please install Python 3.7+ from https://www.python.org/
-        pause
-        exit /b 1
+        echo.
+        echo ========================================
+        echo Python not found - attempting installation...
+        echo ========================================
+        echo.
+
+        REM Check if winget is available (Windows 10/11)
+        where winget >nul 2>&1
+        if not errorlevel 1 (
+            echo Installing Python 3.13 using Windows Package Manager...
+            echo This may take a few minutes...
+            echo.
+            winget install -e --id Python.Python.3.13 --silent --accept-package-agreements --accept-source-agreements
+
+            if not errorlevel 1 (
+                echo.
+                echo * Python installed successfully
+                echo * Please close this window and run start-splunk.bat again
+                echo * (Restart required for PATH updates to take effect)
+                pause
+                exit /b 0
+            ) else (
+                echo.
+                echo Warning: Automatic installation failed
+                goto :python_manual_install
+            )
+        ) else (
+            echo Windows Package Manager (winget) not found
+            goto :python_manual_install
+        )
     )
 )
+
+goto :python_found
+
+:python_manual_install
+echo.
+echo ========================================
+echo Manual Python Installation Required
+echo ========================================
+echo.
+echo Please install Python manually:
+echo.
+echo Option 1 - Official Installer (Recommended):
+echo   1. Visit: https://www.python.org/downloads/
+echo   2. Download Python 3.13 or later
+echo   3. Run installer
+echo   4. IMPORTANT: Check "Add Python to PATH"
+echo   5. Run this script again
+echo.
+echo Option 2 - Microsoft Store:
+echo   1. Open Microsoft Store
+echo   2. Search for "Python 3.13"
+echo   3. Click "Get" to install
+echo   4. Run this script again
+echo.
+pause
+exit /b 1
+
+:python_found
 
 REM Get Python version
 for /f "tokens=*" %%i in ('%PYTHON_CMD% --version 2^>^&1') do set PYTHON_VERSION=%%i
