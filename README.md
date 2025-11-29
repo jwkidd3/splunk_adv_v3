@@ -100,22 +100,20 @@ After completing Lab 1, proceed with labs 2-15 in order. All labs are designed t
 
 This section shows the exact order of presentations and labs throughout the course.
 
-### Setup (Before Session 1)
-
-**Lab 1: Setup Data Environment** (30 min)
-   - Directory: `labs/lab1-setup-data-environment/`
-   - Activities: Create indexes, load ~450,000 events, configure field extractions
-   - **MUST BE COMPLETED BEFORE SESSION 1**
-
 ### Part 1: Advanced Searching and Reporting
 
 **Session 1: Introduction & Search Basics**
 
 1. **Presentation 1: Introduction & Search Review**
    - File: `presentations/content1_presentation.html`
-   - Topics: Course overview, search operators, wildcards, field extraction, best practices
+   - Topics: Course overview, data environment setup, search operators, wildcards, field extraction, best practices
 
-2. **Lab 2: Review of Search Basics** (30 min)
+2. **Lab 1: Setup Data Environment** (30 min)
+   - Directory: `labs/lab1-setup-data-environment/`
+   - Activities: Create indexes, load ~450,000 events, configure field extractions
+   - **MUST BE COMPLETED FIRST - Required for all subsequent labs**
+
+3. **Lab 2: Review of Search Basics** (30 min)
    - Directory: `labs/lab2-review-search-basics/`
    - Activities: Practice basic searches, field extraction, filters
 
@@ -123,15 +121,15 @@ This section shows the exact order of presentations and labs throughout the cour
 
 **Session 2: Advanced Search Techniques**
 
-3. **Presentation 2: Subsearches, Macros & Statistical Commands**
+4. **Presentation 2: Subsearches, Macros & Statistical Commands**
    - File: `presentations/content2_presentation.html`
    - Topics: Subsearch syntax and patterns, creating reusable macros, stats/chart/timechart commands
 
-4. **Lab 3: Subsearches and Macros** (45 min)
+5. **Lab 3: Subsearches and Macros** (45 min)
    - Directory: `labs/lab3-subsearches-macros/`
    - Activities: Build complex search pipelines, create reusable macros
 
-5. **Lab 4: Statistical Commands** (30 min)
+6. **Lab 4: Statistical Commands** (30 min)
    - Directory: `labs/lab4-statistical-commands/`
    - Activities: Use stats, chart, timechart commands for analysis
 
@@ -139,15 +137,15 @@ This section shows the exact order of presentations and labs throughout the cour
 
 **Session 3: Data Correlation & Time Analysis**
 
-6. **Presentation 3: Join Command, Multi-Index Searches & Time-Based Analysis**
+7. **Presentation 3: Join Command, Multi-Index Searches & Time-Based Analysis**
    - File: `presentations/content3_presentation.html`
    - Topics: Join/append/union commands, multi-index strategies, time-based analysis, trend detection
 
-7. **Lab 5: Join Command and Multi-Index Searches** (45 min)
+8. **Lab 5: Join Command and Multi-Index Searches** (45 min)
    - Directory: `labs/lab5-join-multi-index/`
    - Activities: Combine data from multiple sources, perform correlations
 
-8. **Lab 6: Time-Based Searches** (40 min)
+9. **Lab 6: Time-Based Searches** (40 min)
    - Directory: `labs/lab6-time-based-searches/`
    - Activities: Analyze trends, create time-based visualizations
 
@@ -155,15 +153,15 @@ This section shows the exact order of presentations and labs throughout the cour
 
 **Session 4: Visualization & Optimization**
 
-9. **Presentation 4: Dashboards, Visualizations & Search Optimization**
-   - File: `presentations/content4_presentation.html`
-   - Topics: Dashboard Studio, visualization types, drilldowns, tstats, summary indexing, performance tuning
+10. **Presentation 4: Dashboards, Visualizations & Search Optimization**
+    - File: `presentations/content4_presentation.html`
+    - Topics: Dashboard Studio, visualization types, drilldowns, tstats, summary indexing, performance tuning
 
-10. **Lab 7: Custom Dashboards and Visualizations** (45 min)
+11. **Lab 7: Custom Dashboards and Visualizations** (45 min)
     - Directory: `labs/lab7-dashboards-visualizations/`
     - Activities: Create interactive dashboards with various chart types
 
-11. **Lab 8: Search Optimization** (40 min)
+12. **Lab 8: Search Optimization** (40 min)
     - Directory: `labs/lab8-search-optimization/`
     - Activities: Optimize searches, implement best practices, use tstats
 
@@ -173,19 +171,19 @@ This section shows the exact order of presentations and labs throughout the cour
 
 **Session 5: Data Transformation**
 
-12. **Presentation 5: Data Transformation with Eval, Rex & Lookups**
+13. **Presentation 5: Data Transformation with Eval, Rex & Lookups**
     - File: `presentations/content5_presentation.html`
     - Topics: Eval functions, conditional logic, regular expressions, rex/sed commands, lookup types, data enrichment
 
-13. **Lab 9: Eval Command and Data Manipulation** (40 min)
+14. **Lab 9: Eval Command and Data Manipulation** (40 min)
     - Directory: `labs/lab9-eval-data-manipulation/`
     - Activities: Create calculated fields, transform data, implement conditional logic
 
-14. **Lab 10: Regular Expressions with Rex** (45 min)
+15. **Lab 10: Regular Expressions with Rex** (45 min)
     - Directory: `labs/lab10-regex-rex/`
     - Activities: Extract fields using regex, advanced parsing techniques
 
-15. **Lab 11: Lookups and Data Enrichment** (45 min)
+16. **Lab 11: Lookups and Data Enrichment** (45 min)
     - Directory: `labs/lab11-lookups-enrichment/`
     - Activities: Create and use lookups, enrich data with external information
 
@@ -193,23 +191,23 @@ This section shows the exact order of presentations and labs throughout the cour
 
 **Session 6: Machine Learning & Administration**
 
-16. **Presentation 6: Machine Learning, Analytics & System Administration**
+17. **Presentation 6: Machine Learning, Analytics & System Administration**
     - File: `presentations/content6_presentation.html`
     - Topics: ML Toolkit algorithms, anomaly detection, clustering, forecasting, user management, authentication, index optimization, monitoring
 
-17. **Lab 12: Machine Learning Toolkit Introduction** (50 min)
+18. **Lab 12: Machine Learning Toolkit Introduction** (50 min)
     - Directory: `labs/lab12-ml-toolkit-intro/`
     - Activities: Anomaly detection, clustering analysis, pattern recognition
 
-18. **Lab 13: Time Series Analysis** (40 min)
+19. **Lab 13: Time Series Analysis** (40 min)
     - Directory: `labs/lab13-time-series-analysis/`
     - Activities: Linear regression, forecasting, trend prediction
 
-19. **Lab 14: User and Role Management** (30 min)
+20. **Lab 14: User and Role Management** (30 min)
     - Directory: `labs/lab14-user-role-management/`
     - Activities: Create users, configure roles, set permissions, implement RBAC
 
-20. **Lab 15: System Administration and Monitoring** (35 min)
+21. **Lab 15: System Administration and Monitoring** (35 min)
     - Directory: `labs/lab15-system-admin-monitoring/`
     - Activities: Monitor Splunk health, optimize indexes, troubleshoot issues
 

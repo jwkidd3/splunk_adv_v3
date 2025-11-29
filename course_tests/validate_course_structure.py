@@ -30,27 +30,27 @@ class CourseValidator:
         presentations = {
             "content1_presentation.html": {
                 "title": "Introduction & Search Review",
-                "labs": [1]
+                "labs": [1, 2]
             },
             "content2_presentation.html": {
                 "title": "Subsearches, Macros & Statistical Commands",
-                "labs": [2, 3]
+                "labs": [3, 4]
             },
             "content3_presentation.html": {
                 "title": "Join Command, Multi-Index Searches & Time-Based Analysis",
-                "labs": [4, 5]
+                "labs": [5, 6]
             },
             "content4_presentation.html": {
                 "title": "Dashboards, Visualizations & Search Optimization",
-                "labs": [6, 7]
+                "labs": [7, 8]
             },
             "content5_presentation.html": {
                 "title": "Data Transformation with Eval, Rex & Lookups",
-                "labs": [8, 9, 10]
+                "labs": [9, 10, 11]
             },
             "content6_presentation.html": {
                 "title": "Machine Learning, Analytics & System Administration",
-                "labs": [11, 12, 13, 14]
+                "labs": [12, 13, 14, 15]
             }
         }
 
@@ -85,20 +85,21 @@ class CourseValidator:
         self.print_section("Validating Labs")
 
         labs = [
-            {"num": 1, "dir": "lab1-review-search-basics", "name": "Review of Search Basics"},
-            {"num": 2, "dir": "lab2-subsearches-macros", "name": "Subsearches and Macros"},
-            {"num": 3, "dir": "lab3-statistical-commands", "name": "Statistical Commands"},
-            {"num": 4, "dir": "lab4-join-multi-index", "name": "Join Command and Multi-Index Searches"},
-            {"num": 5, "dir": "lab5-time-based-searches", "name": "Time-Based Searches"},
-            {"num": 6, "dir": "lab6-dashboards-visualizations", "name": "Custom Dashboards and Visualizations"},
-            {"num": 7, "dir": "lab7-search-optimization", "name": "Search Optimization"},
-            {"num": 8, "dir": "lab8-eval-data-manipulation", "name": "Eval Command and Data Manipulation"},
-            {"num": 9, "dir": "lab9-regex-rex", "name": "Regular Expressions with Rex"},
-            {"num": 10, "dir": "lab10-lookups-enrichment", "name": "Lookups and Data Enrichment"},
-            {"num": 11, "dir": "lab11-ml-toolkit-intro", "name": "Machine Learning Toolkit Introduction"},
-            {"num": 12, "dir": "lab12-time-series-analysis", "name": "Time Series Analysis"},
-            {"num": 13, "dir": "lab13-user-role-management", "name": "User and Role Management"},
-            {"num": 14, "dir": "lab14-system-admin-monitoring", "name": "System Administration and Monitoring"}
+            {"num": 1, "dir": "lab1-setup-data-environment", "name": "Setup Data Environment"},
+            {"num": 2, "dir": "lab2-review-search-basics", "name": "Review of Search Basics"},
+            {"num": 3, "dir": "lab3-subsearches-macros", "name": "Subsearches and Macros"},
+            {"num": 4, "dir": "lab4-statistical-commands", "name": "Statistical Commands"},
+            {"num": 5, "dir": "lab5-join-multi-index", "name": "Join Command and Multi-Index Searches"},
+            {"num": 6, "dir": "lab6-time-based-searches", "name": "Time-Based Searches"},
+            {"num": 7, "dir": "lab7-dashboards-visualizations", "name": "Custom Dashboards and Visualizations"},
+            {"num": 8, "dir": "lab8-search-optimization", "name": "Search Optimization"},
+            {"num": 9, "dir": "lab9-eval-data-manipulation", "name": "Eval Command and Data Manipulation"},
+            {"num": 10, "dir": "lab10-regex-rex", "name": "Regular Expressions with Rex"},
+            {"num": 11, "dir": "lab11-lookups-enrichment", "name": "Lookups and Data Enrichment"},
+            {"num": 12, "dir": "lab12-ml-toolkit-intro", "name": "Machine Learning Toolkit Introduction"},
+            {"num": 13, "dir": "lab13-time-series-analysis", "name": "Time Series Analysis"},
+            {"num": 14, "dir": "lab14-user-role-management", "name": "User and Role Management"},
+            {"num": 15, "dir": "lab15-system-admin-monitoring", "name": "System Administration and Monitoring"}
         ]
 
         labs_dir = self.base_dir / "labs"
@@ -148,12 +149,12 @@ class CourseValidator:
 
         # Expected structure from README
         sessions = [
-            {"session": 1, "presentation": "content1", "labs": [1], "name": "Introduction & Search Basics"},
-            {"session": 2, "presentation": "content2", "labs": [2, 3], "name": "Advanced Search Techniques"},
-            {"session": 3, "presentation": "content3", "labs": [4, 5], "name": "Data Correlation & Time Analysis"},
-            {"session": 4, "presentation": "content4", "labs": [6, 7], "name": "Visualization & Optimization"},
-            {"session": 5, "presentation": "content5", "labs": [8, 9, 10], "name": "Data Transformation"},
-            {"session": 6, "presentation": "content6", "labs": [11, 12, 13, 14], "name": "Machine Learning & Administration"}
+            {"session": 1, "presentation": "content1", "labs": [1, 2], "name": "Introduction & Search Basics"},
+            {"session": 2, "presentation": "content2", "labs": [3, 4], "name": "Advanced Search Techniques"},
+            {"session": 3, "presentation": "content3", "labs": [5, 6], "name": "Data Correlation & Time Analysis"},
+            {"session": 4, "presentation": "content4", "labs": [7, 8], "name": "Visualization & Optimization"},
+            {"session": 5, "presentation": "content5", "labs": [9, 10, 11], "name": "Data Transformation"},
+            {"session": 6, "presentation": "content6", "labs": [12, 13, 14, 15], "name": "Machine Learning & Administration"}
         ]
 
         for session in sessions:
