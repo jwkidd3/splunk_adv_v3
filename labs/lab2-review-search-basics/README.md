@@ -1,8 +1,10 @@
-# Lab 1: Review of Search Basics
+# Lab 2: Review of Search Basics
 
 **Duration:** 30 minutes
 **Difficulty:** Beginner
-**Prerequisites:** Splunk Fundamentals - Level 1
+**Prerequisites:**
+- Splunk Fundamentals - Level 1
+- Lab 1: Setup Data Environment (completed)
 
 ## Lab Objectives
 
@@ -16,8 +18,9 @@ By the end of this lab, you will be able to:
 ## Lab Setup
 
 ### Prerequisites
-- Splunk Enterprise running and accessible at http://localhost:8000
-- Sample data loaded into Splunk
+- Lab 1: Setup Data Environment (must be completed first)
+- All indexes created and data loaded (~450,000 events)
+- Field extractions configured
 - Access to Search & Reporting app
 
 ### Verify Environment
@@ -240,4 +243,4 @@ Check your understanding:
 
 ## Next Steps
 
-Proceed to **Lab 2: Subsearches and Macros** to learn advanced search techniques for building complex search pipelines.
+Proceed to **Lab 3: Subsearches and Macros** to learn advanced search techniques for building complex search pipelines.

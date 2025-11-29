@@ -44,50 +44,68 @@ stop-splunk.bat
 2. Login with credentials provided by instructor
 3. Navigate to Search & Reporting app
 
-### 3. Start Your First Lab
+### 3. Complete Lab 1: Setup Data Environment
 
 1. Access Splunk Web Interface
-2. Open Search & Reporting app
-3. Open `labs/lab1-review-search-basics/README.md`
-4. Follow the instructions and run all searches in Search interface
+2. Open `labs/lab1-setup-data-environment/README.md`
+3. Create indexes and load all course data (~30 minutes)
+4. Configure field extractions
 
-💡 **All labs are designed to be run in Splunk Web Interface**
+💡 **Lab 1 must be completed before starting any other labs**
+
+### 4. Continue with Remaining Labs
+
+After completing Lab 1, proceed with labs 2-15 in order. All labs are designed to be run in the Splunk Web Interface.
 
 ---
 
 ## Course Structure
 
-### Part 1: Advanced Searching and Reporting
-**Labs 1-7:** Advanced search techniques and visualization
+### Setup
+**Lab 1:** Environment setup and data loading (required first)
 
 | Lab | Title | Key Topics |
 |-----|-------|------------|
-| **Lab 1** | Review of Search Basics | Search operators, wildcards, field extraction |
-| **Lab 2** | Subsearches and Macros | Building complex search pipelines, reusable searches |
-| **Lab 3** | Statistical Commands | sum, avg, min, max, count, stats command |
-| **Lab 4** | Join Command and Multi-Index Searches | Combining data from multiple indexes |
-| **Lab 5** | Time-Based Searches | Analyzing trends and patterns over time |
-| **Lab 6** | Custom Dashboards and Visualizations | Creating charts, graphs, and dashboards |
-| **Lab 7** | Search Optimization | Performance optimization, filtering, summary indexing |
+| **Lab 1** | Setup Data Environment | Create indexes, load data, configure field extractions |
+
+### Part 1: Advanced Searching and Reporting
+**Labs 2-8:** Advanced search techniques and visualization
+
+| Lab | Title | Key Topics |
+|-----|-------|------------|
+| **Lab 2** | Review of Search Basics | Search operators, wildcards, field extraction |
+| **Lab 3** | Subsearches and Macros | Building complex search pipelines, reusable searches |
+| **Lab 4** | Statistical Commands | sum, avg, min, max, count, stats command |
+| **Lab 5** | Join Command and Multi-Index Searches | Combining data from multiple indexes |
+| **Lab 6** | Time-Based Searches | Analyzing trends and patterns over time |
+| **Lab 7** | Custom Dashboards and Visualizations | Creating charts, graphs, and dashboards |
+| **Lab 8** | Search Optimization | Performance optimization, filtering, summary indexing |
 
 ### Part 2: Data Transformation, Analytics, and Administration
-**Labs 8-14:** Data manipulation and system administration
+**Labs 9-15:** Data manipulation and system administration
 
 | Lab | Title | Key Topics |
 |-----|-------|------------|
-| **Lab 8** | Eval Command and Data Manipulation | Calculations, data transformation |
-| **Lab 9** | Regular Expressions with Rex | Advanced data parsing, field extraction |
-| **Lab 10** | Lookups and Data Enrichment | Enriching data with external information |
-| **Lab 11** | Machine Learning Toolkit Introduction | Anomaly detection, clustering, forecasting |
-| **Lab 12** | Time Series Analysis | Linear regression, forecasting |
-| **Lab 13** | User and Role Management | Authentication, authorization, RBAC |
-| **Lab 14** | System Administration and Monitoring | Index optimization, health monitoring, troubleshooting |
+| **Lab 9** | Eval Command and Data Manipulation | Calculations, data transformation |
+| **Lab 10** | Regular Expressions with Rex | Advanced data parsing, field extraction |
+| **Lab 11** | Lookups and Data Enrichment | Enriching data with external information |
+| **Lab 12** | Machine Learning Toolkit Introduction | Anomaly detection, clustering, forecasting |
+| **Lab 13** | Time Series Analysis | Linear regression, forecasting |
+| **Lab 14** | User and Role Management | Authentication, authorization, RBAC |
+| **Lab 15** | System Administration and Monitoring | Index optimization, health monitoring, troubleshooting |
 
 ---
 
 ## Detailed Course Flow
 
 This section shows the exact order of presentations and labs throughout the course.
+
+### Setup (Before Session 1)
+
+**Lab 1: Setup Data Environment** (30 min)
+   - Directory: `labs/lab1-setup-data-environment/`
+   - Activities: Create indexes, load ~450,000 events, configure field extractions
+   - **MUST BE COMPLETED BEFORE SESSION 1**
 
 ### Part 1: Advanced Searching and Reporting
 
@@ -97,8 +115,8 @@ This section shows the exact order of presentations and labs throughout the cour
    - File: `presentations/content1_presentation.html`
    - Topics: Course overview, search operators, wildcards, field extraction, best practices
 
-2. **Lab 1: Review of Search Basics** (30 min)
-   - Directory: `labs/lab1-review-search-basics/`
+2. **Lab 2: Review of Search Basics** (30 min)
+   - Directory: `labs/lab2-review-search-basics/`
    - Activities: Practice basic searches, field extraction, filters
 
 ---
@@ -109,12 +127,12 @@ This section shows the exact order of presentations and labs throughout the cour
    - File: `presentations/content2_presentation.html`
    - Topics: Subsearch syntax and patterns, creating reusable macros, stats/chart/timechart commands
 
-4. **Lab 2: Subsearches and Macros** (45 min)
-   - Directory: `labs/lab2-subsearches-macros/`
+4. **Lab 3: Subsearches and Macros** (45 min)
+   - Directory: `labs/lab3-subsearches-macros/`
    - Activities: Build complex search pipelines, create reusable macros
 
-5. **Lab 3: Statistical Commands** (30 min)
-   - Directory: `labs/lab3-statistical-commands/`
+5. **Lab 4: Statistical Commands** (30 min)
+   - Directory: `labs/lab4-statistical-commands/`
    - Activities: Use stats, chart, timechart commands for analysis
 
 ---
@@ -125,12 +143,12 @@ This section shows the exact order of presentations and labs throughout the cour
    - File: `presentations/content3_presentation.html`
    - Topics: Join/append/union commands, multi-index strategies, time-based analysis, trend detection
 
-7. **Lab 4: Join Command and Multi-Index Searches** (45 min)
-   - Directory: `labs/lab4-join-multi-index/`
+7. **Lab 5: Join Command and Multi-Index Searches** (45 min)
+   - Directory: `labs/lab5-join-multi-index/`
    - Activities: Combine data from multiple sources, perform correlations
 
-8. **Lab 5: Time-Based Searches** (40 min)
-   - Directory: `labs/lab5-time-based-searches/`
+8. **Lab 6: Time-Based Searches** (40 min)
+   - Directory: `labs/lab6-time-based-searches/`
    - Activities: Analyze trends, create time-based visualizations
 
 ---
@@ -141,12 +159,12 @@ This section shows the exact order of presentations and labs throughout the cour
    - File: `presentations/content4_presentation.html`
    - Topics: Dashboard Studio, visualization types, drilldowns, tstats, summary indexing, performance tuning
 
-10. **Lab 6: Custom Dashboards and Visualizations** (45 min)
-    - Directory: `labs/lab6-dashboards-visualizations/`
+10. **Lab 7: Custom Dashboards and Visualizations** (45 min)
+    - Directory: `labs/lab7-dashboards-visualizations/`
     - Activities: Create interactive dashboards with various chart types
 
-11. **Lab 7: Search Optimization** (40 min)
-    - Directory: `labs/lab7-search-optimization/`
+11. **Lab 8: Search Optimization** (40 min)
+    - Directory: `labs/lab8-search-optimization/`
     - Activities: Optimize searches, implement best practices, use tstats
 
 ---
@@ -159,16 +177,16 @@ This section shows the exact order of presentations and labs throughout the cour
     - File: `presentations/content5_presentation.html`
     - Topics: Eval functions, conditional logic, regular expressions, rex/sed commands, lookup types, data enrichment
 
-13. **Lab 8: Eval Command and Data Manipulation** (40 min)
-    - Directory: `labs/lab8-eval-data-manipulation/`
+13. **Lab 9: Eval Command and Data Manipulation** (40 min)
+    - Directory: `labs/lab9-eval-data-manipulation/`
     - Activities: Create calculated fields, transform data, implement conditional logic
 
-14. **Lab 9: Regular Expressions with Rex** (45 min)
-    - Directory: `labs/lab9-regex-rex/`
+14. **Lab 10: Regular Expressions with Rex** (45 min)
+    - Directory: `labs/lab10-regex-rex/`
     - Activities: Extract fields using regex, advanced parsing techniques
 
-15. **Lab 10: Lookups and Data Enrichment** (45 min)
-    - Directory: `labs/lab10-lookups-enrichment/`
+15. **Lab 11: Lookups and Data Enrichment** (45 min)
+    - Directory: `labs/lab11-lookups-enrichment/`
     - Activities: Create and use lookups, enrich data with external information
 
 ---
@@ -179,20 +197,20 @@ This section shows the exact order of presentations and labs throughout the cour
     - File: `presentations/content6_presentation.html`
     - Topics: ML Toolkit algorithms, anomaly detection, clustering, forecasting, user management, authentication, index optimization, monitoring
 
-17. **Lab 11: Machine Learning Toolkit Introduction** (50 min)
-    - Directory: `labs/lab11-ml-toolkit-intro/`
+17. **Lab 12: Machine Learning Toolkit Introduction** (50 min)
+    - Directory: `labs/lab12-ml-toolkit-intro/`
     - Activities: Anomaly detection, clustering analysis, pattern recognition
 
-18. **Lab 12: Time Series Analysis** (40 min)
-    - Directory: `labs/lab12-time-series-analysis/`
+18. **Lab 13: Time Series Analysis** (40 min)
+    - Directory: `labs/lab13-time-series-analysis/`
     - Activities: Linear regression, forecasting, trend prediction
 
-19. **Lab 13: User and Role Management** (30 min)
-    - Directory: `labs/lab13-user-role-management/`
+19. **Lab 14: User and Role Management** (30 min)
+    - Directory: `labs/lab14-user-role-management/`
     - Activities: Create users, configure roles, set permissions, implement RBAC
 
-20. **Lab 14: System Administration and Monitoring** (35 min)
-    - Directory: `labs/lab14-system-admin-monitoring/`
+20. **Lab 15: System Administration and Monitoring** (35 min)
+    - Directory: `labs/lab15-system-admin-monitoring/`
     - Activities: Monitor Splunk health, optimize indexes, troubleshoot issues
 
 ---
@@ -267,20 +285,21 @@ Each lab contains:
 
 | Lab | Duration | Difficulty | Key Commands |
 |-----|----------|------------|--------------|
-| Lab 1 | 30 min | Beginner | search, fields, where, stats |
-| Lab 2 | 45 min | Intermediate | subsearch, macro, savedsearch |
-| Lab 3 | 30 min | Intermediate | stats, chart, timechart |
-| Lab 4 | 45 min | Advanced | join, append, union |
-| Lab 5 | 40 min | Intermediate | timechart, bucket, predict |
-| Lab 6 | 45 min | Intermediate | Dashboard Studio, XML |
-| Lab 7 | 40 min | Advanced | tstats, summary indexing |
-| Lab 8 | 40 min | Intermediate | eval, if, case, coalesce |
-| Lab 9 | 45 min | Advanced | rex, regex, sed |
-| Lab 10 | 45 min | Intermediate | lookup, inputlookup, outputlookup |
-| Lab 11 | 50 min | Advanced | fit, apply, anomalies |
-| Lab 12 | 40 min | Advanced | predict, forecast |
-| Lab 13 | 30 min | Intermediate | Settings, Users, Roles |
-| Lab 14 | 35 min | Advanced | index, monitoring console |
+| Lab 1 | 30 min | Beginner | Settings, Add Data, Field Extractions |
+| Lab 2 | 30 min | Beginner | search, fields, where, stats |
+| Lab 3 | 45 min | Intermediate | subsearch, macro, savedsearch |
+| Lab 4 | 30 min | Intermediate | stats, chart, timechart |
+| Lab 5 | 45 min | Advanced | join, append, union |
+| Lab 6 | 40 min | Intermediate | timechart, bucket, predict |
+| Lab 7 | 45 min | Intermediate | Dashboard Studio, XML |
+| Lab 8 | 40 min | Advanced | tstats, summary indexing |
+| Lab 9 | 40 min | Intermediate | eval, if, case, coalesce |
+| Lab 10 | 45 min | Advanced | rex, regex, sed |
+| Lab 11 | 45 min | Intermediate | lookup, inputlookup, outputlookup |
+| Lab 12 | 50 min | Advanced | fit, apply, anomalies |
+| Lab 13 | 40 min | Advanced | predict, forecast |
+| Lab 14 | 30 min | Intermediate | Settings, Users, Roles |
+| Lab 15 | 35 min | Advanced | index, monitoring console |
 
 ---
 
@@ -367,20 +386,21 @@ bash load-sample-data.sh  # Mac/Linux
 ## Course Completion Checklist
 
 ### Labs
-- [ ] Complete Lab 1: Search Basics Review
-- [ ] Complete Lab 2: Subsearches and Macros
-- [ ] Complete Lab 3: Statistical Commands
-- [ ] Complete Lab 4: Join and Multi-Index Searches
-- [ ] Complete Lab 5: Time-Based Searches
-- [ ] Complete Lab 6: Dashboards and Visualizations
-- [ ] Complete Lab 7: Search Optimization
-- [ ] Complete Lab 8: Eval and Data Manipulation
-- [ ] Complete Lab 9: Regular Expressions
-- [ ] Complete Lab 10: Lookups and Enrichment
-- [ ] Complete Lab 11: ML Toolkit Introduction
-- [ ] Complete Lab 12: Time Series Analysis
-- [ ] Complete Lab 13: User and Role Management
-- [ ] Complete Lab 14: System Administration
+- [ ] Complete Lab 1: Setup Data Environment (REQUIRED FIRST)
+- [ ] Complete Lab 2: Search Basics Review
+- [ ] Complete Lab 3: Subsearches and Macros
+- [ ] Complete Lab 4: Statistical Commands
+- [ ] Complete Lab 5: Join and Multi-Index Searches
+- [ ] Complete Lab 6: Time-Based Searches
+- [ ] Complete Lab 7: Dashboards and Visualizations
+- [ ] Complete Lab 8: Search Optimization
+- [ ] Complete Lab 9: Eval and Data Manipulation
+- [ ] Complete Lab 10: Regular Expressions
+- [ ] Complete Lab 11: Lookups and Enrichment
+- [ ] Complete Lab 12: ML Toolkit Introduction
+- [ ] Complete Lab 13: Time Series Analysis
+- [ ] Complete Lab 14: User and Role Management
+- [ ] Complete Lab 15: System Administration
 
 ### Knowledge Validation
 - [ ] Can build complex search pipelines using subsearches
@@ -408,12 +428,12 @@ After completing this course, consider:
 ## Course Materials
 
 ### Included in This Repository
-- 14 hands-on labs with detailed instructions
+- 15 hands-on labs with detailed instructions (including data setup lab)
 - 6 comprehensive Reveal.js presentations (one for each session)
-- Sample data sets (~450,000 events)
+- Pre-generated sample data sets (~450,000 events, ~53MB)
 - SPL query examples
 - Solution guides
-- Utility scripts
+- Utility scripts for Splunk management
 
 ### Additional Resources
 - Splunk Documentation: https://docs.splunk.com

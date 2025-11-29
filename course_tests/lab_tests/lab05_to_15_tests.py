@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Labs 4-14: Comprehensive Test Suite
+Labs 5-15: Comprehensive Test Suite
 Tests all operations from Labs 4 through 14
 """
 
@@ -11,7 +11,7 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from utils.test_base import LabTestBase
 
 
-class Lab04Tests(LabTestBase):
+class Lab15Tests(LabTestBase):
     """Tests for Lab 4: Join Command and Multi-Index Searches"""
 
     def __init__(self, client):
@@ -58,7 +58,7 @@ class Lab04Tests(LabTestBase):
         return self.get_summary()
 
 
-class Lab05Tests(LabTestBase):
+class Lab15Tests(LabTestBase):
     """Tests for Lab 5: Time-Based Searches"""
 
     def __init__(self, client):
@@ -106,7 +106,7 @@ class Lab05Tests(LabTestBase):
         return self.get_summary()
 
 
-class Lab06Tests(LabTestBase):
+class Lab15Tests(LabTestBase):
     """Tests for Lab 6: Custom Dashboards and Visualizations"""
 
     def __init__(self, client):
@@ -153,7 +153,7 @@ class Lab06Tests(LabTestBase):
         return self.get_summary()
 
 
-class Lab07Tests(LabTestBase):
+class Lab15Tests(LabTestBase):
     """Tests for Lab 7: Search Optimization"""
 
     def __init__(self, client):
@@ -191,7 +191,7 @@ class Lab07Tests(LabTestBase):
         return self.get_summary()
 
 
-class Lab08Tests(LabTestBase):
+class Lab15Tests(LabTestBase):
     """Tests for Lab 8: Eval Command and Data Manipulation"""
 
     def __init__(self, client):
@@ -256,7 +256,7 @@ class Lab08Tests(LabTestBase):
         return self.get_summary()
 
 
-class Lab09Tests(LabTestBase):
+class Lab15Tests(LabTestBase):
     """Tests for Lab 9: Regular Expressions with Rex"""
 
     def __init__(self, client):
@@ -294,7 +294,7 @@ class Lab09Tests(LabTestBase):
         return self.get_summary()
 
 
-class Lab10Tests(LabTestBase):
+class Lab15Tests(LabTestBase):
     """Tests for Lab 10: Lookups and Data Enrichment"""
 
     def __init__(self, client):
@@ -331,7 +331,7 @@ class Lab10Tests(LabTestBase):
         return self.get_summary()
 
 
-class Lab11Tests(LabTestBase):
+class Lab15Tests(LabTestBase):
     """Tests for Lab 11: Machine Learning Toolkit Introduction"""
 
     def __init__(self, client):
@@ -362,7 +362,7 @@ class Lab11Tests(LabTestBase):
         return self.get_summary()
 
 
-class Lab12Tests(LabTestBase):
+class Lab15Tests(LabTestBase):
     """Tests for Lab 12: Time Series Analysis"""
 
     def __init__(self, client):
@@ -391,7 +391,7 @@ class Lab12Tests(LabTestBase):
         return self.get_summary()
 
 
-class Lab13Tests(LabTestBase):
+class Lab15Tests(LabTestBase):
     """Tests for Lab 13: User and Role Management"""
 
     def __init__(self, client):
@@ -420,7 +420,7 @@ class Lab13Tests(LabTestBase):
         return self.get_summary()
 
 
-class Lab14Tests(LabTestBase):
+class Lab15Tests(LabTestBase):
     """Tests for Lab 14: System Administration and Monitoring"""
 
     def __init__(self, client):

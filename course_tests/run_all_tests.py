@@ -25,10 +25,10 @@ from utils.test_base import DataValidator
 from lab_tests.lab01_tests import Lab01Tests
 from lab_tests.lab02_tests import Lab02Tests
 from lab_tests.lab03_tests import Lab03Tests
-from lab_tests.lab04_to_14_tests import (
-    Lab04Tests, Lab05Tests, Lab06Tests, Lab07Tests,
-    Lab08Tests, Lab09Tests, Lab10Tests, Lab11Tests,
-    Lab12Tests, Lab13Tests, Lab14Tests
+from lab_tests.lab05_to_15_tests import (
+    Lab05Tests, Lab06Tests, Lab07Tests, Lab08Tests,
+    Lab09Tests, Lab10Tests, Lab11Tests, Lab12Tests,
+    Lab13Tests, Lab14Tests, Lab15Tests
 )
 
 
