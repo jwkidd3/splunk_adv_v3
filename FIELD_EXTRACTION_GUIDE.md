@@ -162,51 +162,6 @@ index=api
 
 ---
 
-## Troubleshooting
-
-### response_time field not appearing
-
-1. **Check sourcetype:** Verify web_access.log is using `access_combined` sourcetype
-   ```spl
-   index=web | stats count by sourcetype
-   ```
-
-2. **Check field extraction:** Settings → Fields → Field extractions → Look for extraction on `access_combined`
-
-3. **Restart Splunk:** If using props.conf, ensure Splunk was restarted after config changes
-
-4. **Check regex:** Test the regex in the field extraction UI with a sample event
-
-5. **Check permissions:** Ensure field extraction is in the Search & Reporting app and visible to your role
-
-### Key-value fields not extracting
-
-1. **Check format:** Ensure data follows `key=value` format with spaces between pairs
-
-2. **Check sourcetype:** Auto-KV works best with auto-detected sourcetypes
-
-3. **Manual KV mode:** If needed, add to props.conf:
-   ```ini
-   [your_sourcetype]
-   KV_MODE = auto
-   ```
-
-### JSON fields not extracting
-
-1. **Verify sourcetype:** Must use `_json` sourcetype
-   ```spl
-   index=api | stats count by sourcetype
-   ```
-
-2. **Check JSON format:** Ensure each line is valid JSON
-   ```spl
-   index=api | head 1
-   ```
-
-3. **Re-upload with correct sourcetype:** If wrong sourcetype was used during upload
-
----
-
 ## Summary
 
 **Action Required:**
