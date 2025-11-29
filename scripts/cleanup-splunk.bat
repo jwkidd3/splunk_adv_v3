@@ -20,23 +20,14 @@ if /i not "%CONFIRM%"=="y" (
 )
 
 echo.
-echo Removing Splunk container...
+echo Stopping and removing Splunk container...
 
-REM Stop container if running
-docker ps --format "{{.Names}}" | findstr /x "%SPLUNK_CONTAINER%" >nul 2>&1
+REM Force stop and remove container (works even if container doesn't exist)
+docker rm -f %SPLUNK_CONTAINER% >nul 2>&1
 if not errorlevel 1 (
-    echo Stopping container...
-    docker stop %SPLUNK_CONTAINER%
-)
-
-REM Remove container
-docker ps -a --format "{{.Names}}" | findstr /x "%SPLUNK_CONTAINER%" >nul 2>&1
-if not errorlevel 1 (
-    echo Removing container...
-    docker rm %SPLUNK_CONTAINER%
-    echo * Container removed
+    echo * Container removed successfully
 ) else (
-    echo Container does not exist
+    echo * Container does not exist or already removed
 )
 
 REM Remove associated volumes

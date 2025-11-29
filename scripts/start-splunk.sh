@@ -40,19 +40,103 @@ elif command -v python >/dev/null 2>&1; then
 fi
 
 if [ $PYTHON_AVAILABLE -eq 0 ]; then
-    echo "WARNING: Python not found"
+    echo "Python not found - attempting automatic installation..."
     echo ""
-    echo "Python is required for data generation and loading scripts."
-    echo "Splunk will start, but you'll need Python to load course data."
-    echo ""
-    echo "To install Python:"
-    echo "  macOS: brew install python3"
-    echo "  Linux: sudo apt-get install python3 python3-pip"
-    echo "  Or visit: https://www.python.org/downloads/"
-    echo ""
+
+    # Detect OS
+    OS_TYPE=$(uname -s)
+
+    if [ "$OS_TYPE" = "Darwin" ]; then
+        # macOS - try Homebrew
+        if command -v brew >/dev/null 2>&1; then
+            echo "Installing Python 3 using Homebrew..."
+            echo "This will take 2-3 minutes..."
+            echo ""
+
+            if brew install python3; then
+                echo ""
+                echo "=========================================="
+                echo "Python 3 installed successfully!"
+                echo "=========================================="
+                echo ""
+
+                # Try to detect Python again
+                if command -v python3 >/dev/null 2>&1; then
+                    PYTHON_CMD="python3"
+                    PIP_CMD="pip3"
+                    PYTHON_AVAILABLE=1
+                fi
+            else
+                echo ""
+                echo "WARNING: Python installation failed"
+                echo "Install manually: brew install python3"
+                echo ""
+            fi
+        else
+            echo ""
+            echo "WARNING: Homebrew not found"
+            echo ""
+            echo "To install Homebrew and Python:"
+            echo "  /bin/bash -c \"\$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)\""
+            echo "  brew install python3"
+            echo ""
+        fi
+    elif [ "$OS_TYPE" = "Linux" ]; then
+        # Linux - try common package managers
+        if command -v apt-get >/dev/null 2>&1; then
+            echo "Installing Python 3 using apt-get..."
+            echo "This will take 2-3 minutes..."
+            echo ""
+
+            if sudo apt-get update && sudo apt-get install -y python3 python3-pip; then
+                echo ""
+                echo "=========================================="
+                echo "Python 3 installed successfully!"
+                echo "=========================================="
+                echo ""
+
+                if command -v python3 >/dev/null 2>&1; then
+                    PYTHON_CMD="python3"
+                    PIP_CMD="pip3"
+                    PYTHON_AVAILABLE=1
+                fi
+            else
+                echo ""
+                echo "WARNING: Python installation failed"
+                echo ""
+            fi
+        elif command -v yum >/dev/null 2>&1; then
+            echo "Installing Python 3 using yum..."
+            echo ""
+
+            if sudo yum install -y python3 python3-pip; then
+                echo ""
+                echo "Python 3 installed successfully!"
+                echo ""
+
+                if command -v python3 >/dev/null 2>&1; then
+                    PYTHON_CMD="python3"
+                    PIP_CMD="pip3"
+                    PYTHON_AVAILABLE=1
+                fi
+            else
+                echo ""
+                echo "WARNING: Python installation failed"
+                echo ""
+            fi
+        else
+            echo ""
+            echo "WARNING: No supported package manager found"
+            echo "Please install Python 3 manually from https://www.python.org/"
+            echo ""
+        fi
+    fi
+
     echo "Continuing with Splunk startup..."
     echo ""
-else
+fi
+
+if [ $PYTHON_AVAILABLE -eq 1 ]; then
     echo "Using Python: $PYTHON_CMD ($($PYTHON_CMD --version 2>&1))"
 
     # Check if pip is available

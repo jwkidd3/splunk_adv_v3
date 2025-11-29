@@ -49,18 +49,56 @@ if not errorlevel 1 (
 )
 
 if %PYTHON_AVAILABLE%==0 (
-    echo WARNING: Python not found
+    echo Python not found - attempting automatic installation...
     echo.
-    echo Python is required for data generation and loading scripts.
-    echo Splunk will start, but you'll need Python to load course data.
-    echo.
-    echo To install Python:
-    echo   Option 1: Run "winget install Python.Python.3.13" in PowerShell
-    echo   Option 2: Download from https://www.python.org/downloads/
-    echo.
+
+    REM Check if winget is available (Windows 10/11)
+    where winget >nul 2>&1
+    if not errorlevel 1 (
+        echo Installing Python 3.13 using Windows Package Manager...
+        echo This will take 2-3 minutes...
+        echo.
+
+        REM Install Python silently
+        winget install -e --id Python.Python.3.13 --silent --accept-package-agreements --accept-source-agreements
+
+        if not errorlevel 1 (
+            echo.
+            echo ==========================================
+            echo Python 3.13 installed successfully!
+            echo ==========================================
+            echo.
+            echo Python has been installed, but Splunk will start now.
+            echo After Splunk starts, you can run the data loading scripts.
+            echo.
+
+            REM Try to detect Python again after installation
+            where python >nul 2>&1
+            if not errorlevel 1 (
+                set PYTHON_CMD=python
+                set PIP_CMD=pip
+                set PYTHON_AVAILABLE=1
+            )
+        ) else (
+            echo.
+            echo WARNING: Python installation failed
+            echo You can install manually from https://www.python.org/downloads/
+            echo.
+        )
+    ) else (
+        echo.
+        echo WARNING: Windows Package Manager not available
+        echo.
+        echo To install Python manually:
+        echo   1. Download from https://www.python.org/downloads/
+        echo   2. Run installer and check "Add Python to PATH"
+        echo.
+    )
+
     echo Continuing with Splunk startup...
     echo.
-    goto :skip_python
+
+    if %PYTHON_AVAILABLE%==0 goto :skip_python
 )
 
 REM Get Python version

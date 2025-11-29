@@ -20,21 +20,13 @@ if [[ ! $REPLY =~ ^[Yy]$ ]]; then
 fi
 
 echo ""
-echo "Removing Splunk container..."
+echo "Stopping and removing Splunk container..."
 
-# Stop container if running
-if docker ps --format '{{.Names}}' | grep -q "^${SPLUNK_CONTAINER}$"; then
-    echo "Stopping container..."
-    docker stop ${SPLUNK_CONTAINER}
-fi
-
-# Remove container
-if docker ps -a --format '{{.Names}}' | grep -q "^${SPLUNK_CONTAINER}$"; then
-    echo "Removing container..."
-    docker rm ${SPLUNK_CONTAINER}
-    echo "✓ Container removed"
+# Force stop and remove container (works even if container doesn't exist)
+if docker rm -f ${SPLUNK_CONTAINER} >/dev/null 2>&1; then
+    echo "✓ Container removed successfully"
 else
-    echo "Container does not exist"
+    echo "✓ Container does not exist or already removed"
 fi
 
 # Remove associated volumes
