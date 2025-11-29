@@ -49,56 +49,78 @@ if not errorlevel 1 (
 )
 
 if %PYTHON_AVAILABLE%==0 (
-    echo Python not found - attempting automatic installation...
+    echo ==========================================
+    echo Python Not Found
+    echo ==========================================
+    echo.
+    echo Python is required for data generation and loading.
+    echo.
+    echo OPTION 1: Install Python now (Recommended)
+    echo   - Automatic installation via Windows Package Manager
+    echo   - Takes 2-3 minutes
+    echo   - Requires Windows 10/11
+    echo.
+    echo OPTION 2: Install manually later
+    echo   - Download from https://www.python.org/downloads/
+    echo   - Make sure to check "Add Python to PATH"
     echo.
 
-    REM Check if winget is available (Windows 10/11)
-    where winget >nul 2>&1
-    if not errorlevel 1 (
-        echo Installing Python 3.13 using Windows Package Manager...
-        echo This will take 2-3 minutes...
+    set /p INSTALL_PYTHON="Install Python now? (y/N): "
+
+    if /i "%INSTALL_PYTHON%"=="y" (
         echo.
-
-        REM Install Python silently
-        winget install -e --id Python.Python.3.13 --silent --accept-package-agreements --accept-source-agreements
-
+        REM Check if winget is available
+        where winget >nul 2>&1
         if not errorlevel 1 (
-            echo.
-            echo ==========================================
-            echo Python 3.13 installed successfully!
-            echo ==========================================
-            echo.
-            echo Python has been installed, but Splunk will start now.
-            echo After Splunk starts, you can run the data loading scripts.
+            echo Installing Python 3.13...
+            echo This will take 2-3 minutes. Please wait...
             echo.
 
-            REM Try to detect Python again after installation
-            where python >nul 2>&1
+            winget install -e --id Python.Python.3.13 --silent --accept-package-agreements --accept-source-agreements
+
             if not errorlevel 1 (
-                set PYTHON_CMD=python
-                set PIP_CMD=pip
-                set PYTHON_AVAILABLE=1
+                echo.
+                echo ==========================================
+                echo Python 3.13 Installed Successfully!
+                echo ==========================================
+                echo.
+                echo NOTE: You must CLOSE THIS WINDOW and run the script again
+                echo for Python to be available in your PATH.
+                echo.
+                echo After closing:
+                echo   1. Open a NEW command prompt
+                echo   2. Run: start-splunk.bat
+                echo.
+                pause
+                exit /b 0
+            ) else (
+                echo.
+                echo ERROR: Python installation failed
+                echo Install manually from https://www.python.org/downloads/
+                echo.
             )
         ) else (
             echo.
-            echo WARNING: Python installation failed
-            echo You can install manually from https://www.python.org/downloads/
+            echo ERROR: Windows Package Manager (winget) not found
             echo.
+            echo Install Python manually:
+            echo   1. Download from https://www.python.org/downloads/
+            echo   2. Run installer - CHECK "Add Python to PATH"
+            echo   3. Run this script again
+            echo.
+            pause
+            exit /b 1
         )
     ) else (
         echo.
-        echo WARNING: Windows Package Manager not available
-        echo.
-        echo To install Python manually:
-        echo   1. Download from https://www.python.org/downloads/
-        echo   2. Run installer and check "Add Python to PATH"
+        echo Skipping Python installation.
+        echo Install manually from https://www.python.org/downloads/
         echo.
     )
 
-    echo Continuing with Splunk startup...
+    echo Continuing with Splunk startup (data loading will require Python)...
     echo.
-
-    if %PYTHON_AVAILABLE%==0 goto :skip_python
+    goto :skip_python
 )
 
 REM Get Python version
