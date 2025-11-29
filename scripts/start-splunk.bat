@@ -57,10 +57,29 @@ echo Using Python: %PYTHON_CMD% (%PYTHON_VERSION%)
 REM Check if pip is available
 where %PIP_CMD% >nul 2>&1
 if errorlevel 1 (
-    echo Error: pip not found
-    echo Please install pip (Python package manager)
-    pause
-    exit /b 1
+    echo pip not found - attempting to install...
+    %PYTHON_CMD% -m ensurepip --upgrade >nul 2>&1
+    if errorlevel 1 (
+        echo.
+        echo Error: Failed to install pip automatically
+        echo.
+        echo Please install pip manually:
+        echo   1. Download get-pip.py from https://bootstrap.pypa.io/get-pip.py
+        echo   2. Run: %PYTHON_CMD% get-pip.py
+        echo.
+        echo Or reinstall Python from https://www.python.org/
+        echo Make sure to check "Add Python to PATH" during installation
+        pause
+        exit /b 1
+    )
+    echo * pip installed successfully
+
+    REM Update PIP_CMD path after installation
+    where %PIP_CMD% >nul 2>&1
+    if errorlevel 1 (
+        REM Try using python -m pip instead
+        set PIP_CMD=%PYTHON_CMD% -m pip
+    )
 )
 
 REM Check for requests package

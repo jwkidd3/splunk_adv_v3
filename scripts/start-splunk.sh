@@ -44,9 +44,27 @@ echo "Using Python: $PYTHON_CMD ($($PYTHON_CMD --version 2>&1))"
 
 # Check if pip is available
 if ! command -v $PIP_CMD >/dev/null 2>&1; then
-    echo "Error: pip not found"
-    echo "Please install pip (Python package manager)"
-    exit 1
+    echo "pip not found - attempting to install..."
+    if $PYTHON_CMD -m ensurepip --upgrade >/dev/null 2>&1; then
+        echo "✓ pip installed successfully"
+
+        # Update PIP_CMD path after installation
+        if ! command -v $PIP_CMD >/dev/null 2>&1; then
+            # Try using python -m pip instead
+            PIP_CMD="$PYTHON_CMD -m pip"
+        fi
+    else
+        echo ""
+        echo "Error: Failed to install pip automatically"
+        echo ""
+        echo "Please install pip manually:"
+        echo "  macOS: curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py && $PYTHON_CMD get-pip.py"
+        echo "  Linux: sudo apt-get install python3-pip  (Debian/Ubuntu)"
+        echo "         sudo yum install python3-pip      (RHEL/CentOS)"
+        echo ""
+        echo "Or reinstall Python from https://www.python.org/"
+        exit 1
+    fi
 fi
 
 # Check for requests package
