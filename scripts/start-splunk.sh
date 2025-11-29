@@ -23,6 +23,61 @@ if ! docker info >/dev/null 2>&1; then
     exit 1
 fi
 
+# Check and install Python dependencies
+echo "Checking Python dependencies..."
+echo ""
+
+# Determine Python command
+if command -v python3 >/dev/null 2>&1; then
+    PYTHON_CMD="python3"
+    PIP_CMD="pip3"
+elif command -v python >/dev/null 2>&1; then
+    PYTHON_CMD="python"
+    PIP_CMD="pip"
+else
+    echo "Error: Python not found"
+    echo "Please install Python 3.7+ from https://www.python.org/"
+    exit 1
+fi
+
+echo "Using Python: $PYTHON_CMD ($($PYTHON_CMD --version 2>&1))"
+
+# Check if pip is available
+if ! command -v $PIP_CMD >/dev/null 2>&1; then
+    echo "Error: pip not found"
+    echo "Please install pip (Python package manager)"
+    exit 1
+fi
+
+# Check for requests package
+if ! $PYTHON_CMD -c "import requests" >/dev/null 2>&1; then
+    echo "Installing required package: requests..."
+    $PIP_CMD install requests>=2.31.0 --quiet || {
+        echo "Warning: Failed to install requests automatically"
+        echo "Please install manually: $PIP_CMD install requests"
+    }
+fi
+
+# Check for urllib3 package
+if ! $PYTHON_CMD -c "import urllib3" >/dev/null 2>&1; then
+    echo "Installing required package: urllib3..."
+    $PIP_CMD install urllib3>=2.0.0 --quiet || {
+        echo "Warning: Failed to install urllib3 automatically"
+        echo "Please install manually: $PIP_CMD install urllib3"
+    }
+fi
+
+# Final verification
+if $PYTHON_CMD -c "import requests, urllib3" >/dev/null 2>&1; then
+    echo "✓ All Python dependencies installed"
+else
+    echo "Warning: Some dependencies may not be installed"
+    echo "You can install them manually with:"
+    echo "  $PIP_CMD install -r ../requirements.txt"
+fi
+
+echo ""
+
 # Check if container already exists
 if docker ps -a --format '{{.Names}}' | grep -q "^${SPLUNK_CONTAINER}$"; then
     echo "Container ${SPLUNK_CONTAINER} already exists"

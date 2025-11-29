@@ -25,6 +25,78 @@ if errorlevel 1 (
     exit /b 1
 )
 
+REM Check and install Python dependencies
+echo Checking Python dependencies...
+echo.
+
+REM Determine Python command
+set PYTHON_CMD=
+set PIP_CMD=
+
+where python >nul 2>&1
+if not errorlevel 1 (
+    set PYTHON_CMD=python
+    set PIP_CMD=pip
+) else (
+    where python3 >nul 2>&1
+    if not errorlevel 1 (
+        set PYTHON_CMD=python3
+        set PIP_CMD=pip3
+    ) else (
+        echo Error: Python not found
+        echo Please install Python 3.7+ from https://www.python.org/
+        pause
+        exit /b 1
+    )
+)
+
+REM Get Python version
+for /f "tokens=*" %%i in ('%PYTHON_CMD% --version 2^>^&1') do set PYTHON_VERSION=%%i
+echo Using Python: %PYTHON_CMD% (%PYTHON_VERSION%)
+
+REM Check if pip is available
+where %PIP_CMD% >nul 2>&1
+if errorlevel 1 (
+    echo Error: pip not found
+    echo Please install pip (Python package manager)
+    pause
+    exit /b 1
+)
+
+REM Check for requests package
+%PYTHON_CMD% -c "import requests" >nul 2>&1
+if errorlevel 1 (
+    echo Installing required package: requests...
+    %PIP_CMD% install requests>=2.31.0 --quiet
+    if errorlevel 1 (
+        echo Warning: Failed to install requests automatically
+        echo Please install manually: %PIP_CMD% install requests
+    )
+)
+
+REM Check for urllib3 package
+%PYTHON_CMD% -c "import urllib3" >nul 2>&1
+if errorlevel 1 (
+    echo Installing required package: urllib3...
+    %PIP_CMD% install urllib3>=2.0.0 --quiet
+    if errorlevel 1 (
+        echo Warning: Failed to install urllib3 automatically
+        echo Please install manually: %PIP_CMD% install urllib3
+    )
+)
+
+REM Final verification
+%PYTHON_CMD% -c "import requests, urllib3" >nul 2>&1
+if not errorlevel 1 (
+    echo * All Python dependencies installed
+) else (
+    echo Warning: Some dependencies may not be installed
+    echo You can install them manually with:
+    echo   %PIP_CMD% install -r ../requirements.txt
+)
+
+echo.
+
 REM Check if container already exists
 docker ps -a --format "{{.Names}}" | findstr /x "%SPLUNK_CONTAINER%" >nul 2>&1
 if not errorlevel 1 (

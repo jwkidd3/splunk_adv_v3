@@ -1,0 +1,12 @@
+# Splunk Advanced Course - Python Dependencies
+#
+# These packages are required for:
+# - Data generation scripts
+# - Data loading scripts
+# - Course validation tests
+#
+# Install with: pip install -r requirements.txt
+# or: pip3 install -r requirements.txt
+
+requests>=2.31.0
+urllib3>=2.0.0
