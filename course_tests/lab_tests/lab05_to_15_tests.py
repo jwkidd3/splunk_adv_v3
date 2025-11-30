@@ -11,11 +11,11 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from utils.test_base import LabTestBase
 
 
-class Lab15Tests(LabTestBase):
-    """Tests for Lab 4: Join Command and Multi-Index Searches"""
+class Lab05Tests(LabTestBase):
+    """Tests for Lab 5: Join Command and Multi-Index Searches"""
 
     def __init__(self, client):
-        super().__init__(client, 4, "Join Command and Multi-Index Searches")
+        super().__init__(client, 5, "Join Command and Multi-Index Searches")
 
     def run_all_tests(self):
         # Test 1: Basic join
@@ -58,11 +58,11 @@ class Lab15Tests(LabTestBase):
         return self.get_summary()
 
 
-class Lab15Tests(LabTestBase):
-    """Tests for Lab 5: Time-Based Searches"""
+class Lab06Tests(LabTestBase):
+    """Tests for Lab 6: Time-Based Searches"""
 
     def __init__(self, client):
-        super().__init__(client, 5, "Time-Based Searches")
+        super().__init__(client, 6, "Time-Based Searches")
 
     def run_all_tests(self):
         # Test 1: Time modifiers
@@ -106,11 +106,11 @@ class Lab15Tests(LabTestBase):
         return self.get_summary()
 
 
-class Lab15Tests(LabTestBase):
-    """Tests for Lab 6: Custom Dashboards and Visualizations"""
+class Lab07Tests(LabTestBase):
+    """Tests for Lab 7: Custom Dashboards and Visualizations"""
 
     def __init__(self, client):
-        super().__init__(client, 6, "Custom Dashboards and Visualizations")
+        super().__init__(client, 7, "Custom Dashboards and Visualizations")
 
     def run_all_tests(self):
         # Test 1: Data for line chart
@@ -153,11 +153,11 @@ class Lab15Tests(LabTestBase):
         return self.get_summary()
 
 
-class Lab15Tests(LabTestBase):
-    """Tests for Lab 7: Search Optimization"""
+class Lab08Tests(LabTestBase):
+    """Tests for Lab 8: Search Optimization"""
 
     def __init__(self, client):
-        super().__init__(client, 7, "Search Optimization")
+        super().__init__(client, 8, "Search Optimization")
 
     def run_all_tests(self):
         # Test 1: Optimized search with index filter
@@ -191,11 +191,11 @@ class Lab15Tests(LabTestBase):
         return self.get_summary()
 
 
-class Lab15Tests(LabTestBase):
-    """Tests for Lab 8: Eval Command and Data Manipulation"""
+class Lab09Tests(LabTestBase):
+    """Tests for Lab 9: Eval Command and Data Manipulation"""
 
     def __init__(self, client):
-        super().__init__(client, 8, "Eval Command and Data Manipulation")
+        super().__init__(client, 9, "Eval Command and Data Manipulation")
 
     def run_all_tests(self):
         # Test 1: Basic eval calculations
@@ -256,11 +256,11 @@ class Lab15Tests(LabTestBase):
         return self.get_summary()
 
 
-class Lab15Tests(LabTestBase):
-    """Tests for Lab 9: Regular Expressions with Rex"""
+class Lab10Tests(LabTestBase):
+    """Tests for Lab 10: Regular Expressions with Rex"""
 
     def __init__(self, client):
-        super().__init__(client, 9, "Regular Expressions with Rex")
+        super().__init__(client, 10, "Regular Expressions with Rex")
 
     def run_all_tests(self):
         # Test 1: Basic rex extraction
@@ -294,11 +294,11 @@ class Lab15Tests(LabTestBase):
         return self.get_summary()
 
 
-class Lab15Tests(LabTestBase):
-    """Tests for Lab 10: Lookups and Data Enrichment"""
+class Lab11Tests(LabTestBase):
+    """Tests for Lab 11: Lookups and Data Enrichment"""
 
     def __init__(self, client):
-        super().__init__(client, 10, "Lookups and Data Enrichment")
+        super().__init__(client, 11, "Lookups and Data Enrichment")
 
     def run_all_tests(self):
         # Test 1: Inputlookup
@@ -331,11 +331,11 @@ class Lab15Tests(LabTestBase):
         return self.get_summary()
 
 
-class Lab15Tests(LabTestBase):
-    """Tests for Lab 11: Machine Learning Toolkit Introduction"""
+class Lab12Tests(LabTestBase):
+    """Tests for Lab 12: Machine Learning Toolkit Introduction"""
 
     def __init__(self, client):
-        super().__init__(client, 11, "Machine Learning Toolkit Introduction")
+        super().__init__(client, 12, "Machine Learning Toolkit Introduction")
 
     def run_all_tests(self):
         # Note: ML Toolkit tests require MLTK to be installed
@@ -362,11 +362,11 @@ class Lab15Tests(LabTestBase):
         return self.get_summary()
 
 
-class Lab15Tests(LabTestBase):
-    """Tests for Lab 12: Time Series Analysis"""
+class Lab13Tests(LabTestBase):
+    """Tests for Lab 13: Time Series Analysis"""
 
     def __init__(self, client):
-        super().__init__(client, 12, "Time Series Analysis")
+        super().__init__(client, 13, "Time Series Analysis")
 
     def run_all_tests(self):
         # Test 1: Time series data preparation
@@ -391,11 +391,11 @@ class Lab15Tests(LabTestBase):
         return self.get_summary()
 
 
-class Lab15Tests(LabTestBase):
-    """Tests for Lab 13: User and Role Management"""
+class Lab14Tests(LabTestBase):
+    """Tests for Lab 14: User and Role Management"""
 
     def __init__(self, client):
-        super().__init__(client, 13, "User and Role Management")
+        super().__init__(client, 14, "User and Role Management")
 
     def run_all_tests(self):
         # Test 1: Check internal logs for user activity
@@ -421,10 +421,10 @@ class Lab15Tests(LabTestBase):
 
 
 class Lab15Tests(LabTestBase):
-    """Tests for Lab 14: System Administration and Monitoring"""
+    """Tests for Lab 15: System Administration and Monitoring"""
 
     def __init__(self, client):
-        super().__init__(client, 14, "System Administration and Monitoring")
+        super().__init__(client, 15, "System Administration and Monitoring")
 
     def run_all_tests(self):
         # Test 1: Index statistics
