@@ -19,7 +19,7 @@ By the end of this lab, you will be able to:
 
 ### Prerequisites
 - Lab 1: Setup Data Environment (must be completed first)
-- All indexes created and data loaded (~450,000 events)
+- All indexes created and data loaded (~350,000 events)
 - Field extractions configured
 - Access to Search & Reporting app
 

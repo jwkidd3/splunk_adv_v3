@@ -40,11 +40,11 @@ INDEXES = [
 
 # Data file mappings
 DATA_FILES = [
-    {"file": "web_access.log", "index": "web", "sourcetype": "access_combined"},
-    {"file": "application.log", "index": "app", "sourcetype": "syslog"},
-    {"file": "auth.log", "index": "auth", "sourcetype": "linux_secure"},
-    {"file": "sales.log", "index": "sales", "sourcetype": "_json"},
-    {"file": "performance.log", "index": "performance", "sourcetype": "_json"},
+    {"file": "web_access.log", "index": "web", "sourcetype": "access_combined_wcookie"},
+    {"file": "application.log", "index": "app", "sourcetype": "application_log"},
+    {"file": "auth.log", "index": "auth", "sourcetype": "auth_log"},
+    {"file": "sales.log", "index": "sales", "sourcetype": "sales_log"},
+    {"file": "performance.log", "index": "performance", "sourcetype": "performance_log"},
     {"file": "api.log", "index": "api", "sourcetype": "_json"}
 ]
 

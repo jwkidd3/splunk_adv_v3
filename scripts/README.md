@@ -1,24 +1,87 @@
 # Scripts Directory
 
-This directory contains utility scripts for managing Splunk environment and course data.
+This directory contains utility scripts for managing the Splunk environment and course data.
 
 ## Overview
 
-The scripts in this directory are **cross-platform compatible** and work on:
-- **Windows** (PowerShell, Command Prompt, or Git Bash)
+All scripts are **cross-platform compatible** and work on:
+- **Windows** (PowerShell or Command Prompt)
 - **macOS** (Terminal)
 - **Linux** (Bash)
 
-## Scripts
+---
 
-### 1. Data Generation Script
+## For Students
+
+Students use only these scripts to manage Splunk:
+
+### Start Splunk
+
+**Windows:**
+```cmd
+start-splunk.bat
+```
+
+**Mac/Linux:**
+```bash
+bash start-splunk.sh
+```
+
+**What it does:**
+- Starts Splunk Enterprise in Docker container
+- Maps ports 8000 (Web), 8088 (HEC), 8089 (Management)
+- Sets admin password to "password"
+- Wait ~60 seconds for Splunk to be ready
+
+**Access Splunk:**
+- URL: http://localhost:8000
+- Username: `admin`
+- Password: `password`
+
+### Stop Splunk
+
+**Windows:**
+```cmd
+stop-splunk.bat
+```
+
+**Mac/Linux:**
+```bash
+bash stop-splunk.sh
+```
+
+**What it does:**
+- Gracefully stops the Splunk Docker container
+- Preserves all data and configurations
+
+### Cleanup Splunk
+
+**Windows:**
+```cmd
+cleanup-splunk.bat
+```
+
+**Mac/Linux:**
+```bash
+bash cleanup-splunk.sh
+```
+
+**What it does:**
+- Stops and removes the Splunk container
+- **WARNING:** Deletes all data and configurations
+- Use this to start fresh if needed
+
+---
+
+## For Instructors
+
+### Data Generation Script
 
 **File:** `generate_sample_data.py`
 
-**Purpose:** Generates sample log data files (~450,000 events) for the course labs.
+**Purpose:** Generates all sample log data files for the course.
 
 **Usage:**
-
 ```bash
 # Mac/Linux
 python3 generate_sample_data.py
@@ -27,33 +90,30 @@ python3 generate_sample_data.py
 python generate_sample_data.py
 ```
 
-**What it does:**
-- Generates 6 log files (~53MB total)
-  - `web_access.log` (16MB) - Apache Combined Log Format
+**What it generates:**
+- 6 log files (~53MB total, ~350,000 events):
+  - `web_access.log` (16MB) - Apache Combined Log Format with Cookie
   - `application.log` (9.3MB) - Key-value format
-  - `auth.log` (4.4MB) - Linux secure log format
-  - `sales.log` (6.5MB) - JSON format
-  - `performance.log` (4.5MB) - JSON format
+  - `auth.log` (4.4MB) - Key-value format
+  - `sales.log` (6.5MB) - Key-value format
+  - `performance.log` (4.5MB) - Key-value format
   - `api.log` (12MB) - JSON format
-- Generates 1 lookup file
+- 1 lookup file:
   - `users.csv` (35KB) - CSV format
-- Saves files to `../data/` directory
-- Can be run multiple times (overwrites existing files)
 
-**Output Location:** `data/` directory (relative to project root)
+**Output Location:** `../data/` directory
 
-**Time Required:** ~30-60 seconds depending on system performance
+**Time Required:** ~30-60 seconds
 
----
+**Note:** Data is already pre-generated and included in the repository. Only regenerate if you need to modify the data.
 
-### 2. Data Loading Script
+### Data Loading Script
 
 **File:** `load_data_to_splunk.py`
 
-**Purpose:** Loads generated sample data into Splunk Enterprise.
+**Purpose:** Automatically loads all sample data into Splunk (alternative to manual upload in Lab 1).
 
 **Usage:**
-
 ```bash
 # Mac/Linux
 python3 load_data_to_splunk.py
@@ -63,294 +123,120 @@ python load_data_to_splunk.py
 ```
 
 **Prerequisites:**
-- Splunk Enterprise must be running
-- Sample data must be generated (run `generate_sample_data.py` first)
-- Docker must be installed and running (for lookup file upload)
+- Splunk must be running (`start-splunk.sh` or `start-splunk.bat`)
+- Sample data exists in `../data/` directory
 
 **What it does:**
 1. Connects to Splunk REST API (localhost:8089)
-2. Creates 6 indexes if they don't exist:
-   - `web` - Web access logs
-   - `app` - Application logs
-   - `auth` - Authentication logs
-   - `sales` - Sales transaction data
-   - `performance` - Performance metrics
-   - `api` - API request logs
-3. Creates HEC (HTTP Event Collector) token
-4. Loads data files into respective indexes
-5. Uploads lookup files to Splunk
+2. Creates 6 indexes: web, app, auth, sales, performance, api
+3. Creates HEC token for data ingestion
+4. Loads all data files into respective indexes using structured JSON
+5. Uploads users.csv lookup file via Docker
 
 **Configuration:**
 - Default credentials: `admin` / `password`
 - Default Splunk URL: `https://localhost:8089`
-- Can be modified in script header
+- Modify in script header if needed
 
-**Cross-Platform Features:**
-- Uses Python `pathlib.Path` for file paths
-- Automatically detects OS (Windows, Darwin, Linux)
-- Docker commands work on all platforms
-- Handles path separators correctly
+**Note:** Students are instructed to manually upload data via Splunk UI (Lab 1). This script is useful for automated testing or instructor setup.
 
 ---
 
-### 3. Splunk Start/Stop Scripts
+## Workflow
 
-**Windows Scripts:**
-- `start-splunk.bat` - Start Splunk in Docker
-- `stop-splunk.bat` - Stop Splunk Docker container
+### For Students (Recommended)
 
-**Mac/Linux Scripts:**
-- `start-splunk.sh` - Start Splunk in Docker
-- `stop-splunk.sh` - Stop Splunk Docker container
+1. **Start Splunk:**
+   ```bash
+   # Mac/Linux: bash start-splunk.sh
+   # Windows: start-splunk.bat
+   ```
 
-**Usage:**
+2. **Complete Lab 1:**
+   - Follow `labs/lab1-setup-data-environment/README.md`
+   - Manually upload data files via Splunk Web UI
+   - Configure field extractions
 
-**Windows:**
-```cmd
-# Start Splunk
-start-splunk.bat
+3. **Stop Splunk when done:**
+   ```bash
+   # Mac/Linux: bash stop-splunk.sh
+   # Windows: stop-splunk.bat
+   ```
 
-# Stop Splunk
-stop-splunk.bat
-```
+### For Instructors/Automation
 
-**Mac/Linux:**
-```bash
-# Start Splunk
-bash start-splunk.sh
+1. **Start Splunk:**
+   ```bash
+   bash start-splunk.sh  # or start-splunk.bat on Windows
+   ```
 
-# Stop Splunk
-bash stop-splunk.sh
-```
+2. **Load data automatically:**
+   ```bash
+   python3 load_data_to_splunk.py  # or python on Windows
+   ```
 
----
-
-## Complete Workflow
-
-### First Time Setup
-
-**Step 1: Generate Sample Data**
-
-```bash
-# Mac/Linux
-cd scripts
-python3 generate_sample_data.py
-
-# Windows
-cd scripts
-python generate_sample_data.py
-```
-
-This creates all sample data files in the `data/` directory.
-
-**Step 2: Start Splunk**
-
-```bash
-# Mac/Linux
-bash start-splunk.sh
-
-# Windows
-start-splunk.bat
-```
-
-Wait for Splunk to fully start (~60 seconds).
-
-**Step 3: Load Data into Splunk**
-
-```bash
-# Mac/Linux
-python3 load_data_to_splunk.py
-
-# Windows
-python load_data_to_splunk.py
-```
-
-This loads all data files into Splunk indexes.
-
-**Step 4: Access Splunk**
-
-Open browser to: http://localhost:8000
-- Username: `admin`
-- Password: `password`
-
----
-
-## Separation of Concerns
-
-The data generation and data loading scripts are **intentionally separate** for the following reasons:
-
-### Why Separate Scripts?
-
-**1. Data Generation (`generate_sample_data.py`)**
-- **Run Once:** Generate data files once, use many times
-- **No Dependencies:** Doesn't require Splunk to be running
-- **Fast Re-runs:** If Splunk crashes, don't regenerate data
-- **Customization:** Students can modify data without affecting Splunk
-- **Portability:** Data files can be shared or backed up
-
-**2. Data Loading (`load_data_to_splunk.py`)**
-- **Requires Splunk:** Only runs when Splunk is available
-- **Repeatable:** Can reload data multiple times
-- **Testing:** Can test different data loading strategies
-- **Recovery:** If indexes are corrupted, reload from saved files
-- **Flexibility:** Can load into different Splunk instances
-
-### Benefits
-
-✅ **Faster Development:** Generate data once, reload many times
-✅ **Better Testing:** Test data loading without regenerating
-✅ **Easier Debugging:** Isolate issues to generation vs loading
-✅ **Data Persistence:** Keep generated data for reference
-✅ **Resource Efficiency:** Don't waste time regenerating same data
-
----
-
-## Troubleshooting
-
-### Issue: "Splunk is not ready"
-
-**Solution:**
-1. Ensure Splunk is running: `docker ps`
-2. Wait 60 seconds after starting Splunk
-3. Check Splunk logs: `docker logs splunk-course`
-
-### Issue: "File not found" errors
-
-**Solution:**
-1. Ensure you're in the `scripts/` directory
-2. Run `generate_sample_data.py` first
-3. Check `data/` directory exists: `ls ../data/`
-
-### Issue: Docker command fails
-
-**Solution:**
-1. Ensure Docker is running
-2. Check container is running: `docker ps | grep splunk`
-3. On Windows, ensure Docker Desktop is started
-
-### Issue: Python command not found
-
-**Windows:**
-- Use `python` instead of `python3`
-- Install Python from python.org
-- Add Python to PATH environment variable
-
-**Mac:**
-- Use `python3` instead of `python`
-- Install Python 3: `brew install python3`
-
-**Linux:**
-- Use `python3` instead of `python`
-- Install Python 3: `sudo apt-get install python3`
-
----
-
-## Platform-Specific Notes
-
-### Windows
-
-**Command Prompt vs PowerShell:**
-- Both work for Python scripts
-- Use `.bat` files for Splunk management
-- Path separators handled automatically by Python
-
-**Python Installation:**
-- Download from python.org
-- Check "Add Python to PATH" during installation
-- Use `python` command (not `python3`)
-
-### macOS
-
-**Python Version:**
-- macOS includes Python 2.7 by default (use `python`)
-- Install Python 3 via Homebrew: `brew install python3`
-- Use `python3` command for scripts
-
-**Permissions:**
-- May need to make scripts executable: `chmod +x *.sh`
-- Run with: `bash start-splunk.sh` or `./start-splunk.sh`
-
-### Linux
-
-**Python Installation:**
-```bash
-# Debian/Ubuntu
-sudo apt-get install python3 python3-pip
-
-# Red Hat/CentOS
-sudo yum install python3 python3-pip
-
-# Arch Linux
-sudo pacman -S python python-pip
-```
-
-**Docker Permissions:**
-- Add user to docker group: `sudo usermod -aG docker $USER`
-- Logout and login again
+3. **Access Splunk:**
+   - http://localhost:8000
+   - Username: `admin`
+   - Password: `password`
 
 ---
 
 ## Requirements
 
-### Python Packages
-
-Install required packages:
-
-```bash
-# Mac/Linux
-pip3 install requests urllib3
-
-# Windows
-pip install requests urllib3
-```
-
-### System Requirements
-
-- **Python:** 3.7 or higher
+### For Students
 - **Docker:** Latest version
-- **Disk Space:** 2GB free (for Splunk + data)
+- **Disk Space:** 2GB free
 - **Memory:** 8GB RAM minimum
 - **Network:** Ports 8000, 8088, 8089 available
 
----
+### For Instructors (Data Generation/Loading)
+- All student requirements, plus:
+- **Python:** 3.7 or higher
+- **Python Packages:**
+  ```bash
+  # Mac/Linux
+  pip3 install requests urllib3
 
-## Advanced Usage
-
-### Custom Splunk Credentials
-
-Edit `load_data_to_splunk.py`:
-
-```python
-SPLUNK_USERNAME = "your_username"
-SPLUNK_PASSWORD = "your_password"
-```
-
-### Custom Data Generation
-
-Edit `generate_sample_data.py` to modify:
-- Number of events per log file
-- Date ranges
-- Field values
-- Log formats
-
-### Remote Splunk Instance
-
-Edit `load_data_to_splunk.py`:
-
-```python
-SPLUNK_HOST = "your-splunk-server.com"
-SPLUNK_PORT = 8089
-```
+  # Windows
+  pip install requests urllib3
+  ```
 
 ---
 
-## Support
+## Troubleshooting
 
-For issues or questions:
-1. Check troubleshooting section above
-2. Review main course `README.md`
+### Splunk won't start
+1. Check Docker is running: `docker ps`
+2. Check port availability: `docker ps | grep 8000`
+3. Kill any conflicting containers: `docker rm -f splunk-course`
+
+### Data loading fails
+1. Ensure Splunk is running and accessible
+2. Wait 60 seconds after starting Splunk
 3. Check Splunk logs: `docker logs splunk-course`
-4. Verify Docker is running: `docker ps`
+
+### Python command not found
+- **Windows:** Use `python` (not `python3`)
+- **Mac/Linux:** Use `python3` (not `python`)
+- Install Python from python.org
+
+---
+
+## File Listing
+
+**Splunk Management Scripts (Students use these):**
+- `start-splunk.bat` / `start-splunk.sh` - Start Splunk
+- `stop-splunk.bat` / `stop-splunk.sh` - Stop Splunk
+- `cleanup-splunk.bat` / `cleanup-splunk.sh` - Remove Splunk completely
+
+**Data Scripts (Instructors only):**
+- `generate_sample_data.py` - Generate sample data files
+- `load_data_to_splunk.py` - Automatically load data to Splunk
+
+**Other:**
+- `README.md` - This file
+- `course_tests/` - Directory for course validation tests
 
 ---
 

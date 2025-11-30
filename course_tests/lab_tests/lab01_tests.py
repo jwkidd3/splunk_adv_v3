@@ -78,7 +78,7 @@ class Lab01Tests(LabTestBase):
         """Verify total event count across all indexes"""
 
         result = self.run_query_test(
-            test_name="Verify total event count (~450k events)",
+            test_name="Verify total event count (~350k events)",
             query="index=* (index=web OR index=app OR index=auth OR index=sales OR index=performance OR index=api) | stats count",
             expected_min_results=1,
             required_fields=["count"],
@@ -89,10 +89,10 @@ class Lab01Tests(LabTestBase):
     def test_sourcetypes(self):
         """Verify correct sourcetypes are configured"""
 
-        # Test web logs have access_combined sourcetype
+        # Test web logs have access_combined_wcookie sourcetype
         result = self.run_query_test(
-            test_name="Verify web logs use access_combined sourcetype",
-            query="index=web sourcetype=access_combined | head 10",
+            test_name="Verify web logs use access_combined_wcookie sourcetype",
+            query="index=web sourcetype=access_combined_wcookie | head 10",
             expected_min_results=1,
             earliest_time="-30d"
         )
@@ -106,6 +106,9 @@ class Lab01Tests(LabTestBase):
             earliest_time="-30d"
         )
         self.add_result(result)
+
+        # Note: application, auth, sales, and performance logs use auto-detected sourcetypes
+        # which may vary, so we don't check specific sourcetypes for those
 
     def test_key_fields_exist(self):
         """Verify key fields are being extracted correctly"""

@@ -110,7 +110,7 @@ This section shows the exact order of presentations and labs throughout the cour
 
 2. **Lab 1: Setup Data Environment** (30 min)
    - Directory: `labs/lab1-setup-data-environment/`
-   - Activities: Create indexes, load ~450,000 events, configure field extractions
+   - Activities: Create indexes, load ~350,000 events, configure field extractions
    - **MUST BE COMPLETED FIRST - Required for all subsequent labs**
 
 3. **Lab 2: Review of Search Basics** (30 min)
@@ -428,7 +428,7 @@ After completing this course, consider:
 ### Included in This Repository
 - 15 hands-on labs with detailed instructions (including data setup lab)
 - 6 comprehensive Reveal.js presentations (one for each session)
-- Pre-generated sample data sets (~450,000 events, ~53MB)
+- Pre-generated sample data sets (~350,000 events, ~53MB)
 - SPL query examples
 - Solution guides
 - Utility scripts for Splunk management

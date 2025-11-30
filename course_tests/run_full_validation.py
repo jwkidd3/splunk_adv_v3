@@ -257,7 +257,7 @@ class ValidationRunner:
 
         print("This script will:")
         print("  1. Start Splunk Enterprise in Docker")
-        print("  2. Generate sample data (~450,000 events)")
+        print("  2. Generate sample data (~350,000 events)")
         print("  3. Load data into Splunk (6 indexes)")
         print("  4. Run comprehensive test suite (72+ tests)")
         print("  5. Retry until 100% pass rate or max attempts")
