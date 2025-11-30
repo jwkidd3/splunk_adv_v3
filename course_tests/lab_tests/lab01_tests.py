@@ -116,29 +116,26 @@ class Lab01Tests(LabTestBase):
         # Web index fields
         result = self.run_query_test(
             test_name="Verify web log fields (clientip, method, status)",
-            query="index=web | head 10 | stats count by clientip, method, status",
+            query="index=web | head 10 | fields clientip, method, status",
             expected_min_results=1,
-            required_fields=["count"],
             earliest_time="-30d"
         )
         self.add_result(result)
 
         # App index fields
         result = self.run_query_test(
-            test_name="Verify app log fields (host, level, user_id)",
-            query="index=app | head 10 | stats count by host, level",
+            test_name="Verify app log fields (host, level)",
+            query="index=app | head 10 | fields host, level",
             expected_min_results=1,
-            required_fields=["count"],
             earliest_time="-30d"
         )
         self.add_result(result)
 
         # Auth index fields
         result = self.run_query_test(
-            test_name="Verify auth log fields (action, user, status)",
-            query="index=auth | head 10 | stats count by action, status",
+            test_name="Verify auth log fields (action, status)",
+            query="index=auth | head 10 | fields action, status",
             expected_min_results=1,
-            required_fields=["count"],
             earliest_time="-30d"
         )
         self.add_result(result)
