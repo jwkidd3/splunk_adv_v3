@@ -6,6 +6,9 @@ A comprehensive intensive Splunk training course covering advanced search techni
 **Prerequisites:** Splunk Fundamentals - Level 1 or equivalent practical experience
 **Platform:** Splunk Enterprise
 
+**Viewing Labs:** For the best experience viewing lab instructions, presentations, and course materials, visit the GitHub repository:
+https://github.com/jwkidd3/splunk_adv_v3
+
 ## Table of Contents
 
 - [Quick Start](#quick-start)
