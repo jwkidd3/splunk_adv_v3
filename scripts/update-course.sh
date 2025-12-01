@@ -3,7 +3,7 @@
 # Splunk Advanced Course - Update Script
 ################################################################################
 # This script pulls the latest changes from the GitHub repository
-# Run this script from any location - it will automatically find the repo
+# Run from scripts directory or execute directly
 ################################################################################
 
 # Colors for output
@@ -17,9 +17,6 @@ echo "==========================================================================
 echo "          SPLUNK ADVANCED COURSE - UPDATE FROM GITHUB"
 echo "================================================================================"
 echo ""
-
-# Save current directory
-ORIGINAL_DIR=$(pwd)
 
 # Change to the script's directory
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
@@ -35,33 +32,11 @@ echo ""
 # Check if this is a git repository
 if [ ! -d ".git" ]; then
     echo -e "${RED}ERROR: This does not appear to be a git repository!${NC}"
-    echo "Please run this script from within the splunk_adv_v3 repository."
+    echo "Please run this script from the splunk_adv_v3 repository."
     echo ""
-    cd "$ORIGINAL_DIR"
     exit 1
 fi
 
-# Check git status first
-echo -e "${YELLOW}Checking repository status...${NC}"
-echo ""
-git status
-echo ""
-
-# Ask for confirmation
-echo "================================================================================"
-read -p "Do you want to pull the latest changes from GitHub? (y/n): " -n 1 -r
-echo ""
-
-if [[ ! $REPLY =~ ^[Yy]$ ]]; then
-    echo ""
-    echo -e "${YELLOW}Update cancelled.${NC}"
-    echo ""
-    cd "$ORIGINAL_DIR"
-    exit 0
-fi
-
-echo ""
-echo "================================================================================"
 echo "Pulling latest changes from GitHub..."
 echo "================================================================================"
 echo ""
@@ -92,9 +67,5 @@ else
     echo "  - Resolve merge conflicts"
     echo "  - Check your git configuration"
     echo ""
-    cd "$ORIGINAL_DIR"
     exit 1
 fi
-
-# Return to original directory
-cd "$ORIGINAL_DIR"
