@@ -332,42 +332,10 @@ class Lab11Tests(LabTestBase):
 
 
 class Lab12Tests(LabTestBase):
-    """Tests for Lab 12: Splunk AI Toolkit Introduction"""
+    """Tests for Lab 12: Time Series Analysis"""
 
     def __init__(self, client):
-        super().__init__(client, 12, "Splunk AI Toolkit Introduction")
-
-    def run_all_tests(self):
-        # Note: AI Toolkit tests require Splunk AI Toolkit to be installed
-        # These tests focus on data preparation queries that work without the toolkit
-
-        # Test 1: Data preparation for ML
-        result = self.run_query_test(
-            test_name="Prepare data for ML (timechart)",
-            query="index=web | timechart span=1h avg(response_time) as avg_time",
-            expected_min_results=1,
-            earliest_time="-30d"
-        )
-        self.add_result(result)
-
-        # Test 2: Statistical baseline
-        result = self.run_query_test(
-            test_name="Statistical baseline calculation",
-            query="index=web | stats avg(response_time) as avg_response, stdev(response_time) as stdev_response by host",
-            expected_min_results=1,
-            earliest_time="-30d"
-        )
-        self.add_result(result)
-
-        self.print_summary()
-        return self.get_summary()
-
-
-class Lab13Tests(LabTestBase):
-    """Tests for Lab 13: Time Series Analysis"""
-
-    def __init__(self, client):
-        super().__init__(client, 13, "Time Series Analysis")
+        super().__init__(client, 12, "Time Series Analysis")
 
     def run_all_tests(self):
         # Test 1: Time series data preparation
@@ -392,11 +360,11 @@ class Lab13Tests(LabTestBase):
         return self.get_summary()
 
 
-class Lab14Tests(LabTestBase):
-    """Tests for Lab 14: User and Role Management"""
+class Lab13Tests(LabTestBase):
+    """Tests for Lab 13: User and Role Management"""
 
     def __init__(self, client):
-        super().__init__(client, 14, "User and Role Management")
+        super().__init__(client, 13, "User and Role Management")
 
     def run_all_tests(self):
         # Test 1: Check internal logs for user activity
@@ -421,11 +389,11 @@ class Lab14Tests(LabTestBase):
         return self.get_summary()
 
 
-class Lab15Tests(LabTestBase):
-    """Tests for Lab 15: System Administration and Monitoring"""
+class Lab14Tests(LabTestBase):
+    """Tests for Lab 14: System Administration and Monitoring"""
 
     def __init__(self, client):
-        super().__init__(client, 15, "System Administration and Monitoring")
+        super().__init__(client, 14, "System Administration and Monitoring")
 
     def run_all_tests(self):
         # Test 1: Index statistics
@@ -461,6 +429,38 @@ class Lab15Tests(LabTestBase):
             query='index=_internal source=*license_usage.log | stats sum(b) as bytes_indexed by idx',
             expected_min_results=0,
             earliest_time="-24h"
+        )
+        self.add_result(result)
+
+        self.print_summary()
+        return self.get_summary()
+
+
+class Lab15Tests(LabTestBase):
+    """Tests for Lab 15: Splunk AI Toolkit Introduction"""
+
+    def __init__(self, client):
+        super().__init__(client, 15, "Splunk AI Toolkit Introduction")
+
+    def run_all_tests(self):
+        # Note: AI Toolkit tests require Splunk AI Toolkit to be installed
+        # These tests focus on data preparation queries that work without the toolkit
+
+        # Test 1: Data preparation for AI/ML
+        result = self.run_query_test(
+            test_name="Prepare data for AI/ML (timechart)",
+            query="index=web | timechart span=1h avg(response_time) as avg_time",
+            expected_min_results=1,
+            earliest_time="-30d"
+        )
+        self.add_result(result)
+
+        # Test 2: Statistical baseline
+        result = self.run_query_test(
+            test_name="Statistical baseline calculation",
+            query="index=web | stats avg(response_time) as avg_response, stdev(response_time) as stdev_response by host",
+            expected_min_results=1,
+            earliest_time="-30d"
         )
         self.add_result(result)
 

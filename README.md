@@ -89,10 +89,10 @@ After completing Lab 1, proceed with labs 2-15 in order. All labs are designed t
 | **Lab 9** | Eval Command and Data Manipulation | Calculations, data transformation |
 | **Lab 10** | Regular Expressions with Rex | Advanced data parsing, field extraction |
 | **Lab 11** | Lookups and Data Enrichment | Enriching data with external information |
-| **Lab 12** | Splunk AI Toolkit Introduction | Anomaly detection, clustering, forecasting (requires Splunk account) |
-| **Lab 13** | Time Series Analysis | Linear regression, forecasting |
-| **Lab 14** | User and Role Management | Authentication, authorization, RBAC |
-| **Lab 15** | System Administration and Monitoring | Index optimization, health monitoring, troubleshooting |
+| **Lab 12** | Time Series Analysis | Linear regression, forecasting, trend analysis |
+| **Lab 13** | User and Role Management | Authentication, authorization, RBAC |
+| **Lab 14** | System Administration and Monitoring | Index optimization, health monitoring, troubleshooting |
+| **Lab 15** | Splunk AI Toolkit Introduction (Optional) | Anomaly detection, clustering, forecasting (requires Splunk account) |
 
 ---
 

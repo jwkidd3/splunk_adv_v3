@@ -49,4 +49,4 @@ Review logs: index=_internal
 
 ---
 
-**Course Complete!** Congratulations on completing the Splunk Advanced Course!
+**Next:** Lab 15 - Splunk AI Toolkit Introduction (Optional/Advanced)

@@ -1,8 +1,10 @@
-# Lab 12: Splunk AI Toolkit Introduction
+# Lab 15: Splunk AI Toolkit Introduction
 
 **Duration:** 50 minutes
 **Difficulty:** Advanced
-**Prerequisites:** Labs 1-11 completed
+**Prerequisites:** All previous labs completed (Labs 1-14)
+
+**Note:** This is an optional/advanced lab that requires a Splunk account to install the AI Toolkit.
 
 ## Lab Objectives
 
@@ -70,4 +72,6 @@ Explore AI Toolkit examples and built-in assistants
 
 ---
 
-**Next:** Lab 13 - Time Series Analysis
+**Course Complete!** Congratulations on completing the Splunk Advanced Course!
+
+This optional lab demonstrated advanced AI/ML capabilities in Splunk. Continue exploring Splunk's powerful analytics features on your own.

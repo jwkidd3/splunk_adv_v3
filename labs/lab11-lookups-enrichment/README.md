@@ -37,4 +37,4 @@ Create and use a KV store collection
 
 ---
 
-**Next:** Lab 11 - Machine Learning Toolkit Introduction
+**Next:** Lab 12 - Time Series Analysis
