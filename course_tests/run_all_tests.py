@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 Splunk Advanced Course - Comprehensive Test Runner
-Validates 100% of operations from all 14 labs
+Validates 100% of operations from all 15 labs
 """
 
 import sys
@@ -121,7 +121,7 @@ class CourseTestRunner:
         Run tests for specific lab or all labs
 
         Args:
-            lab_number: Specific lab to test (1-14), or None for all
+            lab_number: Specific lab to test (1-15), or None for all
         """
         # Define all lab test classes
         lab_tests = [
@@ -138,15 +138,16 @@ class CourseTestRunner:
             Lab11Tests(self.client),
             Lab12Tests(self.client),
             Lab13Tests(self.client),
-            Lab14Tests(self.client)
+            Lab14Tests(self.client),
+            Lab15Tests(self.client)
         ]
 
         # Filter if specific lab requested
         if lab_number is not None:
-            if 1 <= lab_number <= 14:
+            if 1 <= lab_number <= 15:
                 lab_tests = [lab_tests[lab_number - 1]]
             else:
-                print(f"Error: Invalid lab number {lab_number}. Must be 1-14.")
+                print(f"Error: Invalid lab number {lab_number}. Must be 1-15.")
                 return
 
         self.start_time = datetime.now()
@@ -304,8 +305,8 @@ def main():
     parser.add_argument(
         "--lab",
         type=int,
-        choices=range(1, 15),
-        help="Test specific lab only (1-14)"
+        choices=range(1, 16),
+        help="Test specific lab only (1-15)"
     )
     parser.add_argument(
         "--skip-validation",

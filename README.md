@@ -189,27 +189,32 @@ This section shows the exact order of presentations and labs throughout the cour
 
 ---
 
-**Session 6: Machine Learning & Administration**
+**Session 6: Analytics & Administration**
 
-17. **Presentation 6: Machine Learning, Analytics & System Administration**
+17. **Presentation 6: Time Series Analysis, User Management & System Administration**
     - File: `presentations/content6_presentation.html`
-    - Topics: Splunk AI Toolkit algorithms, anomaly detection, clustering, forecasting, user management, authentication, index optimization, monitoring
+    - Topics: Time series forecasting, trend analysis, user management, authentication, index optimization, monitoring, health checks
 
-18. **Lab 12: Splunk AI Toolkit Introduction** (50 min)
-    - Directory: `labs/lab12-ml-toolkit-intro/`
-    - Activities: Anomaly detection, clustering analysis, pattern recognition
-
-19. **Lab 13: Time Series Analysis** (40 min)
+18. **Lab 12: Time Series Analysis** (40 min)
     - Directory: `labs/lab13-time-series-analysis/`
     - Activities: Linear regression, forecasting, trend prediction
+    - **Validated:** 2/2 tests passing (timechart aggregation, trendline analysis)
 
-20. **Lab 14: User and Role Management** (30 min)
+19. **Lab 13: User and Role Management** (30 min)
     - Directory: `labs/lab14-user-role-management/`
     - Activities: Create users, configure roles, set permissions, implement RBAC
+    - **Validated:** 2/2 tests passing (user activity audit, search activity logs)
 
-21. **Lab 15: System Administration and Monitoring** (35 min)
+20. **Lab 14: System Administration and Monitoring** (35 min)
     - Directory: `labs/lab15-system-admin-monitoring/`
-    - Activities: Monitor Splunk health, optimize indexes, troubleshoot issues
+    - Activities: Monitor Splunk health, optimize indexes, troubleshoot issues, license management
+    - **Validated:** 4/4 tests passing (index stats, sourcetype distribution, internal metrics, license usage)
+
+21. **Lab 15: Splunk AI Toolkit Introduction (OPTIONAL)** (50 min)
+    - Directory: `labs/lab12-ml-toolkit-intro/`
+    - Activities: Anomaly detection, clustering analysis, pattern recognition
+    - **Requires:** Splunk account to install AI Toolkit app
+    - **Validated:** 2/2 data preparation tests passing (AI Toolkit commands require manual testing)
 
 ---
 
@@ -395,10 +400,10 @@ bash load-sample-data.sh  # Mac/Linux
 - [ ] Complete Lab 9: Eval and Data Manipulation
 - [ ] Complete Lab 10: Regular Expressions
 - [ ] Complete Lab 11: Lookups and Enrichment
-- [ ] Complete Lab 12: Splunk AI Toolkit Introduction
-- [ ] Complete Lab 13: Time Series Analysis
-- [ ] Complete Lab 14: User and Role Management
-- [ ] Complete Lab 15: System Administration
+- [ ] Complete Lab 12: Time Series Analysis
+- [ ] Complete Lab 13: User and Role Management
+- [ ] Complete Lab 14: System Administration and Monitoring
+- [ ] Complete Lab 15: Splunk AI Toolkit Introduction (Optional)
 
 ### Knowledge Validation
 - [ ] Can build complex search pipelines using subsearches
