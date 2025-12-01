@@ -3,7 +3,7 @@
 # Splunk Advanced Course - Update Script
 ################################################################################
 # This script pulls the latest changes from the GitHub repository
-# Run from scripts directory or execute directly
+# IMPORTANT: Update the path below to match your local installation
 ################################################################################
 
 # Colors for output
@@ -18,12 +18,8 @@ echo "          SPLUNK ADVANCED COURSE - UPDATE FROM GITHUB"
 echo "================================================================================"
 echo ""
 
-# Change to the script's directory
-SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-cd "$SCRIPT_DIR"
-
-# Go up one level to the repository root
-cd ..
+# Change to the repository directory
+cd "/Users/jwkidd3/classes_in_development/splunk_adv_v3"
 
 # Display current location
 echo -e "${GREEN}Repository Location:${NC} $(pwd)"

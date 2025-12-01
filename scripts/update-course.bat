@@ -3,7 +3,7 @@ REM ============================================================================
 REM Splunk Advanced Course - Update Script
 REM =============================================================================
 REM This script pulls the latest changes from the GitHub repository
-REM Run from scripts directory or double-click the file
+REM IMPORTANT: Update the path below to match your local installation
 REM =============================================================================
 
 echo.
@@ -12,11 +12,8 @@ echo            SPLUNK ADVANCED COURSE - UPDATE FROM GITHUB
 echo ================================================================================
 echo.
 
-REM Change to the script's directory
-cd /d "%~dp0"
-
-REM Go up one level to the repository root
-cd ..
+REM Change to the repository directory
+cd /d "C:\Users\Administrator\Desktop\splunk_adv_v3"
 
 REM Display current location
 echo Repository Location: %CD%
