@@ -299,10 +299,10 @@ Each lab contains:
 | Lab 9 | 40 min | Intermediate | eval, if, case, coalesce |
 | Lab 10 | 45 min | Advanced | rex, regex, sed |
 | Lab 11 | 45 min | Intermediate | lookup, inputlookup, outputlookup |
-| Lab 12 | 50 min | Advanced | fit, apply, anomalies |
-| Lab 13 | 40 min | Advanced | predict, forecast |
-| Lab 14 | 30 min | Intermediate | Settings, Users, Roles |
-| Lab 15 | 35 min | Advanced | index, monitoring console |
+| Lab 12 | 40 min | Advanced | predict, forecast, trendline |
+| Lab 13 | 30 min | Intermediate | Settings, Users, Roles, RBAC |
+| Lab 14 | 35 min | Advanced | index, monitoring console, health |
+| Lab 15 | 50 min | Advanced | fit, apply, anomalies (Optional) |
 
 ---
 
