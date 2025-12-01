@@ -135,9 +135,9 @@
             <!-- Part 1: Splunk AI Toolkit -->
             <section>
                 <div class="session-header">
-                    <h2>Part 1: Splunk AI Toolkit (MLTK)</h2>
+                    <h2>Part 1: Splunk AI Toolkit (AI Toolkit)</h2>
                 </div>
-                <h3>What is MLTK?</h3>
+                <h3>What is AI Toolkit?</h3>
                 <p>Splunk's Splunk AI Toolkit provides:</p>
                 <ul>
                     <li>Pre-built algorithms for common use cases</li>
@@ -147,7 +147,7 @@
                     <li>No coding required for basic use</li>
                 </ul>
 
-                <h3>Installing MLTK</h3>
+                <h3>Installing AI Toolkit</h3>
                 <ol>
                     <li>Apps → Find More Apps</li>
                     <li>Search for "Splunk AI Toolkit"</li>
@@ -156,7 +156,7 @@
                     <li>Verify: Apps → Splunk AI Toolkit</li>
                 </ol>
 
-                <h3>MLTK Components</h3>
+                <h3>AI Toolkit Components</h3>
                 <ul>
                     <li><strong>Showcase:</strong> Pre-built examples and use cases</li>
                     <li><strong>Assistants:</strong> Guided ML model creation</li>
@@ -165,10 +165,10 @@
                 </ul>
             </section>
 
-            <!-- MLTK Algorithms -->
+            <!-- AI Toolkit Algorithms -->
             <section>
                 <div class="session-header">
-                    <h2>MLTK Algorithm Categories</h2>
+                    <h2>AI Toolkit Algorithm Categories</h2>
                 </div>
                 <h3>1. Anomaly Detection</h3>
                 <ul>
@@ -223,17 +223,17 @@ index=web
 | eval is_anomaly=if(count>upper_bound OR count<lower_bound, 1, 0)
 | where is_anomaly=1</div>
 
-                <h3>Using MLTK for Anomaly Detection</h3>
+                <h3>Using AI Toolkit for Anomaly Detection</h3>
                 <div class="code-block">index=web
 | timechart span=5m count
 | fit DensityFunction count threshold=0.01
 | where outlier=1</div>
             </section>
 
-            <!-- MLTK Commands -->
+            <!-- AI Toolkit Commands -->
             <section>
                 <div class="session-header">
-                    <h2>Core MLTK Commands</h2>
+                    <h2>Core AI Toolkit Commands</h2>
                 </div>
                 <h3>1. fit - Train a Model</h3>
                 <div class="code-block">Syntax:
@@ -403,7 +403,7 @@ index=transactions earliest=-90d
             <!-- Advanced Forecasting -->
             <section>
                 <div class="session-header">
-                    <h2>Advanced Forecasting with MLTK</h2>
+                    <h2>Advanced Forecasting with AI Toolkit</h2>
                 </div>
                 <h3>StateSpaceForecast Algorithm</h3>
                 <div class="code-block">index=web earliest=-30d
@@ -965,7 +965,7 @@ sslPassword = <encrypted_password></div>
                     <h3>Lab 11: Machine Learning and Anomaly Detection</h3>
                     <p>You will practice:</p>
                     <ul style="text-align: left;">
-                        <li>Installing and configuring MLTK</li>
+                        <li>Installing and configuring AI Toolkit</li>
                         <li>Implementing anomaly detection algorithms</li>
                         <li>Building clustering models</li>
                         <li>Training and applying ML models</li>
@@ -1018,7 +1018,7 @@ sslPassword = <encrypted_password></div>
                 </div>
                 <h3>Key Takeaways</h3>
                 <ul>
-                    <li><strong>Machine Learning:</strong> MLTK enables advanced analytics without coding</li>
+                    <li><strong>Machine Learning:</strong> AI Toolkit enables advanced analytics without coding</li>
                     <li><strong>Anomaly Detection:</strong> Multiple algorithms for different use cases - choose based on data characteristics</li>
                     <li><strong>Forecasting:</strong> Essential for capacity planning and proactive monitoring</li>
                     <li><strong>User Management:</strong> RBAC is critical for security and compliance</li>
