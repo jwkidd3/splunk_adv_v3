@@ -332,13 +332,14 @@ class Lab11Tests(LabTestBase):
 
 
 class Lab12Tests(LabTestBase):
-    """Tests for Lab 12: Machine Learning Toolkit Introduction"""
+    """Tests for Lab 12: Splunk AI Toolkit Introduction"""
 
     def __init__(self, client):
-        super().__init__(client, 12, "Machine Learning Toolkit Introduction")
+        super().__init__(client, 12, "Splunk AI Toolkit Introduction")
 
     def run_all_tests(self):
-        # Note: ML Toolkit tests require MLTK to be installed
+        # Note: AI Toolkit tests require Splunk AI Toolkit to be installed
+        # These tests focus on data preparation queries that work without the toolkit
 
         # Test 1: Data preparation for ML
         result = self.run_query_test(

@@ -89,7 +89,7 @@ After completing Lab 1, proceed with labs 2-15 in order. All labs are designed t
 | **Lab 9** | Eval Command and Data Manipulation | Calculations, data transformation |
 | **Lab 10** | Regular Expressions with Rex | Advanced data parsing, field extraction |
 | **Lab 11** | Lookups and Data Enrichment | Enriching data with external information |
-| **Lab 12** | Machine Learning Toolkit Introduction | Anomaly detection, clustering, forecasting |
+| **Lab 12** | Splunk AI Toolkit Introduction | Anomaly detection, clustering, forecasting (requires Splunk account) |
 | **Lab 13** | Time Series Analysis | Linear regression, forecasting |
 | **Lab 14** | User and Role Management | Authentication, authorization, RBAC |
 | **Lab 15** | System Administration and Monitoring | Index optimization, health monitoring, troubleshooting |
@@ -193,9 +193,9 @@ This section shows the exact order of presentations and labs throughout the cour
 
 17. **Presentation 6: Machine Learning, Analytics & System Administration**
     - File: `presentations/content6_presentation.html`
-    - Topics: ML Toolkit algorithms, anomaly detection, clustering, forecasting, user management, authentication, index optimization, monitoring
+    - Topics: Splunk AI Toolkit algorithms, anomaly detection, clustering, forecasting, user management, authentication, index optimization, monitoring
 
-18. **Lab 12: Machine Learning Toolkit Introduction** (50 min)
+18. **Lab 12: Splunk AI Toolkit Introduction** (50 min)
     - Directory: `labs/lab12-ml-toolkit-intro/`
     - Activities: Anomaly detection, clustering analysis, pattern recognition
 
@@ -395,7 +395,7 @@ bash load-sample-data.sh  # Mac/Linux
 - [ ] Complete Lab 9: Eval and Data Manipulation
 - [ ] Complete Lab 10: Regular Expressions
 - [ ] Complete Lab 11: Lookups and Enrichment
-- [ ] Complete Lab 12: ML Toolkit Introduction
+- [ ] Complete Lab 12: Splunk AI Toolkit Introduction
 - [ ] Complete Lab 13: Time Series Analysis
 - [ ] Complete Lab 14: User and Role Management
 - [ ] Complete Lab 15: System Administration
@@ -406,7 +406,7 @@ bash load-sample-data.sh  # Mac/Linux
 - [ ] Can create interactive dashboards
 - [ ] Proficient with eval and rex commands
 - [ ] Can implement lookups for data enrichment
-- [ ] Understand ML Toolkit capabilities
+- [ ] Understand Splunk AI Toolkit capabilities
 - [ ] Can manage users and configure security
 - [ ] Know how to monitor and optimize Splunk
 
