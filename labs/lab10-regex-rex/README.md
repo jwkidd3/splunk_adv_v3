@@ -21,7 +21,7 @@ index=web | rex field=url "\/api\/(?<endpoint>[^\/]+)"
 
 ### Exercise 2: Multiple Field Extraction
 ```spl
-index=main | rex "(?<ip>\d+\.\d+\.\d+\.\d+).*user=(?<user>\w+)"
+index=web | rex "(?<ip>\d+\.\d+\.\d+\.\d+).*user=(?<user>\w+)"
 ```
 
 ### Exercise 3: Named Capture Groups

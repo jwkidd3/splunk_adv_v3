@@ -40,7 +40,7 @@ By the end of this lab, you will be able to:
 
 2. **String concatenation:**
    ```spl
-   index=main
+   index=web
    | eval full_name = first_name + " " + last_name
    | table first_name, last_name, full_name
    ```
@@ -139,7 +139,7 @@ By the end of this lab, you will be able to:
 
 1. **Type conversion:**
    ```spl
-   index=main
+   index=web
    | eval count_num = tonumber(count_str)
    | eval timestamp = tostring(_time, "%Y-%m-%d %H:%M:%S")
    | table count_str, count_num, _time, timestamp
@@ -167,7 +167,7 @@ By the end of this lab, you will be able to:
 
 4. **Replace and trim:**
    ```spl
-   index=main
+   index=web
    | eval cleaned_email = lower(trim(email))
    | eval masked_email = replace(cleaned_email, "(\w+)@", "***@")
    | table email, cleaned_email, masked_email
@@ -186,7 +186,7 @@ By the end of this lab, you will be able to:
 
 6. **Date and time functions:**
    ```spl
-   index=main
+   index=web
    | eval hour = strftime(_time, "%H")
    | eval day_of_week = strftime(_time, "%A")
    | eval is_weekend = if(day_of_week="Saturday" OR day_of_week="Sunday", 1, 0)

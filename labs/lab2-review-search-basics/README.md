@@ -38,33 +38,33 @@ By the end of this lab, you will be able to:
 
 1. **Simple keyword search:**
    ```spl
-   error
+   index=web error
    ```
    - Observe the results and timeline
    - Note how many events match
 
 2. **Search with wildcards:**
    ```spl
-   error*
+   index=web error*
    ```
    - Compare results with previous search
    - How are they different?
 
 3. **Boolean operators:**
    ```spl
-   error OR failed
+   index=web error OR failed
    ```
    ```spl
-   error AND failed
+   index=web error AND failed
    ```
    ```spl
-   error NOT warning
+   index=web error NOT warning
    ```
    - Understand how AND, OR, NOT affect results
 
 4. **Case-sensitive search:**
    ```spl
-   ERROR
+   index=web ERROR
    ```
    - Note: Splunk searches are case-insensitive by default for keywords
 
@@ -80,31 +80,31 @@ By the end of this lab, you will be able to:
 
 1. **Display specific fields:**
    ```spl
-   index=main | fields host, source, sourcetype
+   index=web | fields host, source, sourcetype
    ```
    - View only the specified fields
 
 2. **Filter by field values:**
    ```spl
-   index=main status=404
+   index=web status=404
    ```
    ```spl
-   index=main status>=400 status<500
+   index=web status>=400 status<500
    ```
    - Understand field-value filtering
 
 3. **Using the where command:**
    ```spl
-   index=main | where status=404
+   index=web | where status=404
    ```
    ```spl
-   index=main | where status > 400 AND status < 500
+   index=web | where status > 400 AND status < 500
    ```
    - Compare with field=value syntax
 
 4. **Field existence check:**
    ```spl
-   index=main | where isnotnull(user_id)
+   index=web | where isnotnull(user_id)
    ```
    - Find events with specific fields present
 
@@ -120,31 +120,31 @@ By the end of this lab, you will be able to:
 
 1. **Count events:**
    ```spl
-   index=main | stats count
+   index=web | stats count
    ```
    - Get total event count
 
 2. **Count by field:**
    ```spl
-   index=main | stats count by status
+   index=web | stats count by status
    ```
    - Group events by HTTP status code
 
 3. **Multiple statistics:**
    ```spl
-   index=main | stats count, avg(response_time), max(response_time) by host
+   index=web | stats count, avg(response_time), max(response_time) by host
    ```
    - Calculate multiple metrics
 
 4. **Top values:**
    ```spl
-   index=main | top limit=10 user
+   index=web | top limit=10 user
    ```
    - Find most common users
 
 5. **Rare values:**
    ```spl
-   index=main | rare limit=10 source
+   index=web | rare limit=10 source
    ```
    - Find least common sources
 
@@ -161,7 +161,7 @@ Write a search that finds all authentication failures in the last hour, displayi
 <summary>Solution</summary>
 
 ```spl
-index=main earliest=-1h "authentication failed" OR "login failed"
+index=web earliest=-1h "authentication failed" OR "login failed"
 | fields _time, username, src_ip
 | sort -_time
 ```
@@ -174,7 +174,7 @@ Find all ERROR level events, count them by sourcetype, and display results in de
 <summary>Solution</summary>
 
 ```spl
-index=main log_level=ERROR OR level=ERROR
+index=web log_level=ERROR OR level=ERROR
 | stats count by sourcetype
 | sort -count
 ```

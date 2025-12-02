@@ -65,8 +65,8 @@ By the end of this lab, you will be able to:
 
 1. **Find related events:**
    ```spl
-   index=main
-   [search index=main error | head 10 | fields transaction_id]
+   index=web
+   [search index=web error | head 10 | fields transaction_id]
    | stats count by user, action
    ```
    - Finds all events related to transactions that had errors
@@ -88,7 +88,7 @@ By the end of this lab, you will be able to:
 
 4. **Multiple subsearches:**
    ```spl
-   index=main
+   index=web
    [search index=alerts priority=high | fields alert_id]
    OR
    [search index=incidents status=open | fields incident_id]
@@ -129,7 +129,7 @@ By the end of this lab, you will be able to:
 
 4. **Use macro with arguments:**
    ```spl
-   index=main `time_range(24)`
+   index=web `time_range(24)`
    | stats count
    ```
    - Passes 24 as argument to macro
@@ -255,10 +255,10 @@ Check your understanding:
 ### Subsearch Limitations
 ```spl
 # Bad: Too broad, returns too many results
-index=web [search index=main]
+index=web [search index=web]
 
 # Good: Specific and filtered
-index=web [search index=main error | fields user | dedup user | head 100]
+index=web [search index=web error | fields user | dedup user | head 100]
 ```
 
 ### Macro Syntax Errors
