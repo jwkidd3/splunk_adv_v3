@@ -33,7 +33,7 @@ By the end of this lab, you will be able to:
 1. **Basic subsearch:**
    ```spl
    index=web status=200
-   [search index=web status=404 | fields clientip | dedup clientip]
+   [search index=web status=404 | fields src_ip | dedup src_ip]
    ```
    - Finds successful requests from IPs that also had 404 errors
    - Subsearch is enclosed in square brackets []
@@ -90,9 +90,9 @@ By the end of this lab, you will be able to:
 4. **Multiple subsearches:**
    ```spl
    index=web
-   [search index=web status>=500 | fields clientip]
+   [search index=web status>=500 | fields src_ip]
    OR
-   [search index=auth action=login status=failure | fields src_ip | eval clientip=src_ip | fields clientip]
+   [search index=auth action=login status=failure | fields src_ip]
    ```
    - Finds web activity from IPs that had server errors OR failed logins
 

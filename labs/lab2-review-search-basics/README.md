@@ -162,7 +162,7 @@ Write a search that finds all authentication failures in the last hour, displayi
 
 ```spl
 index=web earliest=-1h "authentication failed" OR "login failed"
-| fields _time, username, clientip
+| fields _time, username, src_ip
 | sort -_time
 ```
 </details>

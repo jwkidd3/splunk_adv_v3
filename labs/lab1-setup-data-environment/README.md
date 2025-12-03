@@ -278,7 +278,7 @@ The web access logs include a custom `response_time` field that needs manual ext
 
    Run this search:
    ```spl
-   index=web | head 10 | table clientip method status response_time
+   index=web | head 10 | table src_ip method status response_time
    ```
 
    **Expected:** You should see the `response_time` field populated with numeric values (10-2000)
@@ -296,7 +296,7 @@ The web access logs include a custom `response_time` field that needs manual ext
 Splunk automatically extracts fields based on the data format. Here's what fields are available in each data source:
 
 **web_access.log (access_combined_wcookie sourcetype):**
-- `clientip` - Client IP address
+- `src_ip` - Client IP address
 - `method` - HTTP method (GET, POST, etc.)
 - `uri` - Requested URL
 - `status` - HTTP status code
@@ -415,27 +415,16 @@ Check that you have completed all setup tasks:
 
 ---
 
-## Optional: Field Alias for src_ip
+## Note: IP Address Field
 
-**Note:** All labs in this course use `clientip` for IP addresses, which is the field name extracted by the Apache Combined Log format.
+The web access logs extract the IP address field as `src_ip`. This is used consistently across all labs in the course.
 
-**Option 1: Use clientip directly (Recommended)**
-- Simply use `clientip` in searches as shown in all lab instructions
-- Example: `index=web | stats count by clientip`
+**Usage Example:**
+```spl
+index=web | stats count by src_ip
+```
 
-**Option 2: Create a field alias (Optional)**
-
-If you prefer to use `src_ip` instead of `clientip`:
-
-1. Go to **Settings** → **Fields** → **Field aliases**
-2. Click **New Field Alias**
-3. **Destination app:** Search & Reporting
-4. **Source type:** `access_combined_wcookie`
-5. **Name:** `src_ip_alias`
-6. **Field alias:** `src_ip` AS `clientip`
-7. Click **Save**
-
-After creating the alias, both `clientip` and `src_ip` will work in searches.
+Both `web` and `auth` indexes use `src_ip` for IP addresses.
 
 ---
 
