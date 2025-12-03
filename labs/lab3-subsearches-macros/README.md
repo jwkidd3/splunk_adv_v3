@@ -33,24 +33,25 @@ By the end of this lab, you will be able to:
 1. **Basic subsearch:**
    ```spl
    index=web status=200
-   [search index=web status=404 | fields src_ip | dedup src_ip]
+   [search index=web status=404 | fields clientip | dedup clientip]
    ```
    - Finds successful requests from IPs that also had 404 errors
    - Subsearch is enclosed in square brackets []
 
 2. **Subsearch with return command:**
    ```spl
-   index=web
-   [search index=users premium=true | fields user_id | return 1000 $user_id]
+   index=app
+   [search index=app level=ERROR | fields transaction_id | return 100 $transaction_id]
    ```
-   - Returns only premium users from web logs
+   - Finds all app events related to transactions that had errors
    - return command specifies max results
 
 3. **Format command in subsearch:**
    ```spl
-   index=web
-   [search index=alerts severity=critical | fields host | format]
+   index=app
+   [search index=app level=ERROR earliest=-1h | fields host | format]
    ```
+   - Finds app events on hosts that had errors in the last hour
    - format command creates proper field=value pairs
 
 **Expected Outcome:** Understanding of subsearch mechanics and syntax
@@ -65,11 +66,11 @@ By the end of this lab, you will be able to:
 
 1. **Find related events:**
    ```spl
-   index=web
-   [search index=web error | head 10 | fields transaction_id]
-   | stats count by user, action
+   index=app
+   [search index=app level=ERROR | head 10 | fields transaction_id]
+   | stats count by host, level
    ```
-   - Finds all events related to transactions that had errors
+   - Finds all app events related to transactions that had errors
 
 2. **Time-based subsearch:**
    ```spl
@@ -77,23 +78,23 @@ By the end of this lab, you will be able to:
    [search index=web earliest=-1h status>=500 | stats max(_time) as latest_error]
    | where _time > latest_error
    ```
-   - Finds events after the last server error
+   - Finds web events after the last server error
 
 3. **NOT with subsearch:**
    ```spl
-   index=web NOT
-   [search index=web status=200 | fields session_id]
+   index=auth action=login
+   NOT [search index=auth action=login status=success | fields user]
    ```
-   - Finds sessions that never had a successful request
+   - Finds users who only have failed login attempts
 
 4. **Multiple subsearches:**
    ```spl
    index=web
-   [search index=alerts priority=high | fields alert_id]
+   [search index=web status>=500 | fields clientip]
    OR
-   [search index=incidents status=open | fields incident_id]
+   [search index=auth action=login status=failure | fields src_ip | eval clientip=src_ip | fields clientip]
    ```
-   - Combines results from multiple subsearches
+   - Finds web activity from IPs that had server errors OR failed logins
 
 **Expected Outcome:** Ability to build complex multi-level searches
 
@@ -142,9 +143,9 @@ By the end of this lab, you will be able to:
 
 6. **Use complex macro:**
    ```spl
-   index=web `top_users(user_id, 10)`
+   index=app `top_users(user_id, 10)`
    ```
-   - Finds top 10 users by activity
+   - Finds top 10 users by activity in application logs
 
 **Expected Outcome:** Ability to create and use search macros for code reuse
 
@@ -184,15 +185,15 @@ Create a macro called `error_summary(2)` that takes an index name and time range
 </details>
 
 ### Challenge 3: Complex Pipeline
-Build a search that finds the top 10 most active users, then use that result in a subsearch to analyze their error rates.
+Build a search that finds the top 10 most active users in app logs, then use that result in a subsearch to analyze their error rates.
 
 <details>
 <summary>Solution</summary>
 
 ```spl
-index=web user_id IN
-[search index=web earliest=-24h | stats count by user_id | sort -count | head 10 | fields user_id]
-| eval is_error=if(status>=400, 1, 0)
+index=app user_id IN
+[search index=app earliest=-24h | stats count by user_id | sort -count | head 10 | fields user_id]
+| eval is_error=if(level="ERROR", 1, 0)
 | stats count as total, sum(is_error) as errors by user_id
 | eval error_rate=round((errors/total)*100, 2)
 | sort -error_rate

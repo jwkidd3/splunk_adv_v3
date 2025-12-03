@@ -417,15 +417,15 @@ Check that you have completed all setup tasks:
 
 ## Optional: Field Alias for src_ip
 
-Some labs may reference `src_ip`, but the Apache Combined Log format extracts the IP address as `clientip`.
+**Note:** All labs in this course use `clientip` for IP addresses, which is the field name extracted by the Apache Combined Log format.
 
 **Option 1: Use clientip directly (Recommended)**
-- Simply use `clientip` in searches instead of `src_ip`
+- Simply use `clientip` in searches as shown in all lab instructions
 - Example: `index=web | stats count by clientip`
 
-**Option 2: Create a field alias**
+**Option 2: Create a field alias (Optional)**
 
-If you prefer to use `src_ip`:
+If you prefer to use `src_ip` instead of `clientip`:
 
 1. Go to **Settings** → **Fields** → **Field aliases**
 2. Click **New Field Alias**
