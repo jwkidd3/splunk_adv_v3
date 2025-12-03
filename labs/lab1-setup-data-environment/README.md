@@ -415,19 +415,6 @@ Check that you have completed all setup tasks:
 
 ---
 
-## Note: IP Address Field
-
-The web access logs extract the IP address field as `src_ip`. This is used consistently across all labs in the course.
-
-**Usage Example:**
-```spl
-index=web | stats count by src_ip
-```
-
-Both `web` and `auth` indexes use `src_ip` for IP addresses.
-
----
-
 ## Key Concepts
 
 ### Indexes

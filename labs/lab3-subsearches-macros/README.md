@@ -32,11 +32,12 @@ By the end of this lab, you will be able to:
 
 1. **Basic subsearch:**
    ```spl
-   index=web status=200
-   [search index=web status=404 | fields src_ip | dedup src_ip]
+   index=web status>=200 status<300
+   [search index=web status>=400 | fields user | dedup user]
    ```
-   - Finds successful requests from IPs that also had 404 errors
+   - Finds successful requests (2xx) from users who also had client/server errors (4xx/5xx)
    - Subsearch is enclosed in square brackets []
+   - This helps identify users experiencing mixed success/error patterns
 
 2. **Subsearch with return command:**
    ```spl
@@ -90,11 +91,11 @@ By the end of this lab, you will be able to:
 4. **Multiple subsearches:**
    ```spl
    index=web
-   [search index=web status>=500 | fields src_ip]
+   [search index=web status>=500 | fields user]
    OR
-   [search index=auth action=login status=failure | fields src_ip]
+   [search index=auth action=login status=failure | fields user]
    ```
-   - Finds web activity from IPs that had server errors OR failed logins
+   - Finds web activity from users who had server errors OR failed logins
 
 **Expected Outcome:** Ability to build complex multi-level searches
 
