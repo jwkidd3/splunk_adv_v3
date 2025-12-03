@@ -1,8 +1,8 @@
-# Lab 2: Subsearches and Macros
+# Lab 3: Subsearches and Macros
 
 **Duration:** 45 minutes
 **Difficulty:** Intermediate
-**Prerequisites:** Lab 1 completed
+**Prerequisites:** Labs 1-2 completed
 
 ## Lab Objectives
 

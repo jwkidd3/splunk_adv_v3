@@ -1,8 +1,8 @@
-# Lab 5: Time-Based Searches
+# Lab 6: Time-Based Searches
 
 **Duration:** 40 minutes
 **Difficulty:** Intermediate
-**Prerequisites:** Labs 1-4 completed
+**Prerequisites:** Labs 1-5 completed
 
 ## Lab Objectives
 

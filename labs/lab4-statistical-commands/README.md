@@ -1,8 +1,8 @@
-# Lab 3: Statistical Commands
+# Lab 4: Statistical Commands
 
 **Duration:** 30 minutes
 **Difficulty:** Intermediate
-**Prerequisites:** Labs 1-2 completed
+**Prerequisites:** Labs 1-3 completed
 
 ## Lab Objectives
 

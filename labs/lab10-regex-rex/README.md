@@ -1,8 +1,8 @@
-# Lab 9: Regular Expressions with Rex
+# Lab 10: Regular Expressions with Rex
 
 **Duration:** 45 minutes
 **Difficulty:** Advanced
-**Prerequisites:** Lab 8 completed
+**Prerequisites:** Labs 1-9 completed
 
 ## Lab Objectives
 

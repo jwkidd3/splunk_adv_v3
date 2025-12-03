@@ -1,8 +1,8 @@
-# Lab 7: Search Optimization
+# Lab 8: Search Optimization
 
 **Duration:** 40 minutes
 **Difficulty:** Advanced
-**Prerequisites:** Labs 1-6 completed
+**Prerequisites:** Labs 1-7 completed
 
 ## Lab Objectives
 

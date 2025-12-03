@@ -1,8 +1,8 @@
-# Lab 8: Eval Command and Data Manipulation
+# Lab 9: Eval Command and Data Manipulation
 
 **Duration:** 40 minutes
 **Difficulty:** Intermediate
-**Prerequisites:** Labs 1-7 completed
+**Prerequisites:** Labs 1-8 completed
 
 ## Lab Objectives
 

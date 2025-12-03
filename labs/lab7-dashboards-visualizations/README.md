@@ -1,8 +1,8 @@
-# Lab 6: Custom Dashboards and Visualizations
+# Lab 7: Custom Dashboards and Visualizations
 
 **Duration:** 45 minutes
 **Difficulty:** Intermediate
-**Prerequisites:** Labs 1-5 completed
+**Prerequisites:** Labs 1-6 completed
 
 ## Lab Objectives
 

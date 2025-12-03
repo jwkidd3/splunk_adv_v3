@@ -1,8 +1,8 @@
-# Lab 10: Lookups and Data Enrichment
+# Lab 11: Lookups and Data Enrichment
 
 **Duration:** 45 minutes
 **Difficulty:** Intermediate
-**Prerequisites:** Labs 8-9 completed
+**Prerequisites:** Labs 1-10 completed
 
 ## Lab Objectives
 

@@ -1,8 +1,8 @@
-# Lab 4: Join Command and Multi-Index Searches
+# Lab 5: Join Command and Multi-Index Searches
 
 **Duration:** 45 minutes
 **Difficulty:** Advanced
-**Prerequisites:** Labs 1-3 completed
+**Prerequisites:** Labs 1-4 completed
 
 ## Lab Objectives
 
